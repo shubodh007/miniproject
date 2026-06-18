@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          const stored = localStorage.getItem('schemeconnect-theme');
+          const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          const resolvedTheme = stored || preferred;
+          document.documentElement.setAttribute('data-theme', resolvedTheme);
+          document.documentElement.classList.add('no-transitions');
+          document.documentElement.style.cssText = 'visibility: hidden';
+          window.addEventListener('DOMContentLoaded', function() {
+            document.documentElement.style.cssText = '';
+            setTimeout(function() {
+              document.documentElement.classList.remove('no-transitions');
+            }, 50);
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <title>SchemeConnect AP — Welfare Scheme Portal</title>
+    <meta name="theme-color" content="#0a0a0f" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body class="bg-[var(--bg-base)] text-[var(--text-primary)] transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

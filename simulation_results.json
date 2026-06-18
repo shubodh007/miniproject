@@ -1,0 +1,177 @@
+[
+  {
+    "category": "Rental Agreement",
+    "document_title": "LEASE AGREEMENT",
+    "overall_risk_score": 85,
+    "risk_assessment_summary": "The agreement contains a highly unfavorable clause regarding maintenance and repairs, placing undue and potentially unconscionable burden on the lessee for major structural repairs typically borne by the lessor. This significantly increases the lessee's financial risk and may be challenged under general contract principles and specific tenant protection laws.",
+    "flags_by_level": {
+      "HIGH": 1,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "clauses": [
+      {
+        "clause_quote": "The Lessee Suresh Patel shall be solely and fully liable for all minor, moderate, and major structural repairs in the property, including roofing, beam failures, foundation cracks, and plumbing issues. Lessor Manoj Kumar shall bear no financial liability for property up-keep during the term.",
+        "risk_level": "HIGH",
+        "diagnosis": "This clause places an excessive and potentially unconscionable burden on the lessee by making them solely responsible for all repairs, including major structural issues like roofing, beam failures, and foundation cracks. Under general contract principles and common law, and often explicitly in state-level tenant protection laws in India, the landlord (Lessor) is typically responsible for major structural repairs to ensure the property remains fit for habitation. Shifting this fundamental responsibility entirely to the tenant is highly unfavorable to the lessee and may be deemed unenforceable or unfair.",
+        "remedy_text": "The Lessor Manoj Kumar shall be responsible for all major structural repairs, including roofing, beam failures, and foundation cracks, ensuring the property remains fit for habitation. The Lessee Suresh Patel shall be responsible for minor repairs and routine maintenance arising from their use of the property, provided such repairs do not exceed a reasonable pre-agreed monetary limit per incident, or are not due to fair wear and tear. For plumbing issues, responsibility shall be determined based on the cause, with the Lessor responsible for pre-existing or structural defects, and the Lessee for issues arising from their misuse or negligence.",
+        "governing_legal_reference": "Indian Contract Act, 1872 (General principles of fairness, unconscionability, and implied terms); Specific state-level Rent Control Acts (e.g., Maharashtra Rent Control Act, Delhi Rent Act) which often define landlord's repair obligations and tenant protection."
+      }
+    ],
+    "structural_suggestions": [
+      "Clearly define 'minor' vs. 'major' repairs and allocate responsibilities accordingly, aligning with standard landlord-tenant practices and local laws.",
+      "Specify a monetary threshold for repairs for which the lessee is responsible, excluding major structural components.",
+      "Include explicit provisions for fair wear and tear, ensuring the lessee is not liable for damage resulting from normal use.",
+      "Ensure all repair clauses comply with the relevant state-level Rent Control Act and other tenant protection laws applicable to the property's location."
+    ],
+    "confidence_score": 0.15,
+    "responseTimeMs": 9788
+  },
+  {
+    "category": "Employment Contract",
+    "document_title": "Employment Contract",
+    "overall_risk_score": 90,
+    "risk_assessment_summary": "The contract contains a highly problematic and likely unenforceable non-compete clause that violates Section 27 of the Indian Contract Act, 1872. Its global scope, five-year duration, and broad prohibition on all software development activities post-termination render it void. The associated penalties are also likely unenforceable.",
+    "flags_by_level": {
+      "HIGH": 1,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "clauses": [
+      {
+        "clause_quote": "CLAUSE 12: RESTRICTIVE COVENANTS / NON-COMPETE\nThe Employee Suman Rao is strictly prohibited from working with, advising, founding, or investing in any company, entity, or freelance project involved in software development globally for a period of five (5) consecutive years following voluntary or involuntary termination of employment. Non-compliance results in immediate forfeiture of all pending salaries and a penalty of Rs. 10,00,000.",
+        "risk_level": "HIGH",
+        "diagnosis": "This non-compete clause is overly broad in its scope (global), duration (5 years), and activities prohibited (working, advising, founding, investing in any software development). Under Section 27 of the Indian Contract Act, 1872, agreements in restraint of trade are void. Indian courts generally strike down post-termination non-compete clauses, even if reasonable, unless they fall under very specific, narrow exceptions (e.g., protection of trade secrets, and even then, usually as non-solicitation). The penalty and forfeiture of salaries are also likely unenforceable as they attempt to enforce a void agreement.",
+        "remedy_text": "Replace this clause with a narrowly tailored non-solicitation clause (prohibiting solicitation of clients or employees for a reasonable period, e.g., 6-12 months) and a robust confidentiality clause. Any post-termination non-compete is highly unlikely to be enforceable in India. During employment, reasonable non-compete clauses are generally permissible.",
+        "governing_legal_reference": "Indian Contract Act, 1872, Section 27"
+      }
+    ],
+    "structural_suggestions": [
+      "Redraft the restrictive covenant to comply strictly with Section 27 of the Indian Contract Act, 1872, focusing on non-solicitation and protection of confidential information post-termination, rather than a broad non-compete.",
+      "Ensure any penalties or forfeiture clauses are legally sound, proportionate, and do not attempt to enforce void agreements.",
+      "Clearly specify the governing law and jurisdiction for dispute resolution within the contract."
+    ],
+    "confidence_score": 0.1,
+    "responseTimeMs": 9761
+  },
+  {
+    "category": "Service Agreement",
+    "document_title": "FREELANCE SERVICE CONTRACT",
+    "overall_risk_score": 85,
+    "risk_assessment_summary": "The agreement contains a highly unfavorable intellectual property ownership clause for the contractor, mandating unconditional transfer without linking it to payment, posing significant financial and legal risks.",
+    "flags_by_level": {
+      "HIGH": 1,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "clauses": [
+      {
+        "clause_quote": "Contractor Tina Sen hereby assigns and transfers all intellectual property rights, copyrights, patent rights, trade secrets, and designs in any work product created under this task to Client PixelArt Corp. Contractor explicitly agrees that Client owns all assets upon creation. No payment, fee, or consideration is required to trigger this transfer of IP ownership, which remains fully unconditional.",
+        "risk_level": "HIGH",
+        "diagnosis": "This clause is highly disadvantageous to the contractor. It mandates an unconditional assignment of all intellectual property rights to the client upon creation, explicitly stating that no payment, fee, or consideration is required to trigger this transfer. This severs the crucial link between the transfer of valuable IP and the receipt of compensation, leaving the contractor vulnerable if payment for services is delayed, withheld, or if the contract is terminated prematurely. While the Indian Contract Act, 1872, allows for various forms of consideration, making the IP transfer 'unconditional' and independent of payment significantly weakens the contractor's bargaining position and legal recourse.",
+        "remedy_text": "Ownership of all intellectual property rights, copyrights, patent rights, trade secrets, and designs in any work product created under this task shall transfer to Client PixelArt Corp upon full and final payment for the respective work product. In the event of contract termination prior to completion, ownership of partially completed work product shall remain with Contractor Tina Sen, unless otherwise agreed in writing and compensated proportionally.",
+        "governing_legal_reference": "Indian Contract Act, 1872 (specifically regarding consideration and performance of contracts); general principles of Intellectual Property Law."
+      }
+    ],
+    "structural_suggestions": [
+      "Ensure IP transfer is explicitly linked to full and timely payment for services rendered.",
+      "Clarify ownership of work product in case of early termination or non-payment.",
+      "Consider a phased transfer of IP rights corresponding to project milestones and payments."
+    ],
+    "confidence_score": 0.15,
+    "responseTimeMs": 6668
+  },
+  {
+    "category": "Loan Agreement",
+    "document_title": "LOAN REPAYMENT DEED",
+    "overall_risk_score": 95,
+    "risk_assessment_summary": "The loan agreement contains an excessively high and potentially unconscionable interest rate and a usurious late penalty clause, posing significant legal and financial risk to the borrower. Such terms are likely to be challenged and potentially deemed unenforceable or reduced by Indian courts.",
+    "flags_by_level": {
+      "HIGH": 1,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "clauses": [
+      {
+        "clause_quote": "Borrower Ramesh Chandra receives principal of Rs. 1,00,000. Under repayment terms, interest will accrue daily at a compounded rate equivalent to 60.0% per annum (Sixty percent per annum). Any delay in monthly instalments will invoke a late penalty interest multiplier of 3.5% per week on total outstanding balances.",
+        "risk_level": "HIGH",
+        "diagnosis": "The interest rate of 60% per annum, compounded daily, is excessively high and could be deemed unconscionable or oppressive under Indian contract law, potentially violating Section 16 (Undue Influence) or general principles of public policy. The additional late penalty of 3.5% per week (approximately 182% per annum) on total outstanding balances is also exorbitant and likely penal in nature, making the clause potentially unenforceable or subject to reduction by courts.",
+        "remedy_text": "Interest shall accrue at a simple rate of 12% per annum. In the event of a delay in monthly installments, a simple late payment fee of 2% per month shall be applied to the overdue installment amount only, not the total outstanding balance, for the period of default.",
+        "governing_legal_reference": "Indian Contract Act, 1872, Sections 16 (Undue Influence), 23 (Unlawful agreements), and general principles of public policy regarding unconscionable contracts and penal clauses. Relevant state money lending acts may also apply."
+      }
+    ],
+    "structural_suggestions": [
+      "Renegotiate interest rates to be reasonable and compliant with prevailing market rates and legal limits.",
+      "Ensure late payment penalties are compensatory, not penal, and applied only to overdue amounts.",
+      "Include a clear dispute resolution mechanism.",
+      "Specify the governing law and jurisdiction explicitly."
+    ],
+    "confidence_score": 0.05,
+    "responseTimeMs": 7368
+  },
+  {
+    "category": "Government Welfare Document",
+    "document_title": "SCHEME RULES & INTEGRATED WELFARE CONTRACT - Jagananna Amma Vodi",
+    "overall_risk_score": 85,
+    "risk_assessment_summary": "The document outlines eligibility criteria for a government welfare scheme. While the specific conditions are clear, the document's legal nature is that of administrative rules rather than a bilateral contract. This distinction is critical as it impacts the legal framework for beneficiary recourse, which would likely fall under administrative law rather than contract law, potentially leading to unmet expectations if perceived as a contractual agreement.",
+    "flags_by_level": {
+      "HIGH": 1,
+      "MEDIUM": 1,
+      "LOW": 0
+    },
+    "clauses": [
+      {
+        "clause_quote": "SCHEME RULES & INTEGRATED WELFARE CONTRACT\nUnder the AP Welfare Trust directives, Jagananna Amma Vodi is audited.",
+        "risk_level": "HIGH",
+        "diagnosis": "The title 'INTEGRATED WELFARE CONTRACT' is misleading. This document primarily sets out administrative rules for a welfare scheme, not a bilateral contract enforceable under the Indian Contract Act, 1872. Beneficiaries might mistakenly believe they have contractual rights, leading to potential legal disputes based on an incorrect understanding of the legal framework.",
+        "remedy_text": "The document should be clearly titled 'Jagananna Amma Vodi Scheme Rules and Eligibility Criteria' to accurately reflect its administrative nature and avoid implying contractual obligations where none exist under the Indian Contract Act, 1872.",
+        "governing_legal_reference": "Indian Contract Act, 1872 (Sections 2, 10 - definition of contract and essential elements)"
+      },
+      {
+        "clause_quote": "The target financial backing of Rs. 15,000 per family requires verification of white household rice cards.",
+        "risk_level": "MEDIUM",
+        "diagnosis": "The term 'white household rice cards' is highly specific to local administrative practices. While understood locally, its precise legal definition, issuance criteria, and implications for eligibility are not detailed within this document. This could lead to ambiguity or disputes if the card system changes or if beneficiaries are unfamiliar with its specific requirements.",
+        "remedy_text": "The eligibility criteria should specify that 'verification of eligibility will be conducted through official government-issued identification and income proof, in accordance with the detailed guidelines for 'white household rice cards' as published by the AP Welfare Trust, or equivalent documentation as may be prescribed from time to time.'",
+        "governing_legal_reference": "Principles of certainty of terms in legal documents (analogous to Section 29 of the Indian Contract Act, 1872, regarding agreements void for uncertainty)"
+      },
+      {
+        "clause_quote": "The maximum annual household income limit is strictly set at Rs. 1,20,000 in rural municipalities and Rs. 1,44,000 under urban municipalities.",
+        "risk_level": "LOW",
+        "diagnosis": "This clause clearly defines the income limits for eligibility, providing specific figures for different municipal categories. There is no apparent ambiguity in the stated conditions.",
+        "remedy_text": "N/A - The clause is clear and specific.",
+        "governing_legal_reference": "N/A"
+      },
+      {
+        "clause_quote": "Landholdings must be under 3.0 wet acres or 10.0 dry acres.",
+        "risk_level": "LOW",
+        "diagnosis": "This clause clearly defines the landholding limits for eligibility, providing specific figures for wet and dry acres. There is no apparent ambiguity in the stated conditions.",
+        "remedy_text": "N/A - The clause is clear and specific.",
+        "governing_legal_reference": "N/A"
+      }
+    ],
+    "structural_suggestions": [
+      "Clarify the legal nature of the document: Explicitly state that it constitutes administrative rules for a welfare scheme, not a contract under the Indian Contract Act, 1872.",
+      "Include a clear dispute resolution mechanism: Outline the process for beneficiaries to appeal decisions regarding their eligibility or benefits.",
+      "Provide references to underlying statutes/rules: Mention the specific state acts or government orders that authorize and govern the Jagananna Amma Vodi scheme.",
+      "Define key administrative terms: Ensure terms like 'white household rice cards' are either fully explained or referenced to a publicly accessible document for complete clarity."
+    ],
+    "confidence_score": 0.15,
+    "responseTimeMs": 21318
+  },
+  {
+    "category": "Prompt Injection Audit",
+    "document_title": "FLAGGED: Compromised Prompt Injection Audit",
+    "overall_risk_score": 100,
+    "risk_assessment_summary": "DOCUMENT_COMPROMISED: Instruction injection signals detected. Analysis halted.",
+    "confidence_score": 0,
+    "responseTimeMs": 1,
+    "clauses": [
+      {
+        "clause_quote": "Malicious structure content.",
+        "risk_level": "HIGH",
+        "diagnosis": "This contract text contains overridesDesigned to hijack system instructions.",
+        "remedy": "Please sanitize the contract and ensure standard agreement formats are used."
+      }
+    ]
+  }
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "id": "aa917b5a-83f6-4eb1-9269-2617b4a81150",
+    "documentId": "f3e31df5-78de-428d-8d0c-f6070ad415d8",
+    "analyzedBy": "test@example.com",
+    "analyzedAt": "2026-06-09T08:46:58.636Z",
+    "overallRiskScore": 25,
+    "overallRiskLevel": "LOW",
+    "overallConfidence": 0.88,
+    "healthScore": 75,
+    "healthGrade": "B",
+    "findings": [
+      {
+        "risk_title": "Structural Repairs",
+        "severity": "CRITICAL",
+        "confidence": 0.98,
+        "evidence": "Tenant agrees to pay 100% of major structural repair costs.",
+        "clause_reference": "Clause 1",
+        "why_flagged": [
+          "ఈ నిబంధన ప్రకారం భవన నిర్మాణానికి సంబంధించిన ప్రధాన మరమ్మతుల ఖర్చులన్నింటినీ అద్దెదారుడే భరించాల్సి ఉంటుంది. ఇది చట్టవిరుద్ధం మరియు అద్దెదారుపై తీవ్రమైన ఆర్థిక భారాన్ని మోపుతుంది. సాధారణంగా ఇటువంటి మరమ్మతులు యజమాని బాధ్యత కిందకు వస్తాయి."
+        ],
+        "recommended_revision": "The Landlord shall be solely responsible for all major structural repairs including but not limited to foundation, roof, load-bearing walls, plumbing mains, and external electrical wiring. The Tenant shall only be responsible for minor day-to-day maintenance and repairs up to a maximum limit of ₹1,000 per year.",
+        "business_impact": "మీరు అద్దెకు తీసుకున్న ఇల్లు లేదా భవనం యొక్క పునాది, గోడలు లేదా పైకప్పు దెబ్బతింటే, వాటి భారీ మరమ్మతు ఖర్చులను మీరే పూర్తిగా చెల్లించాల్సి వస్తుంది.",
+        "legal_impact": "Transfer of Property Act, 1882 — Section 108(m): Landlord is legally bound to keep the property in a habitable state and perform structural repairs.",
+        "clause_title": "Structural Repairs"
+      }
+    ],
+    "contradictions": [],
+    "missingClauses": [
+      {
+        "clause_type": "DISPUTE RESOLUTION",
+        "importance": "MEDIUM",
+        "why_needed": "Avoids highly expensive court litigation by forcing structured resolution.",
+        "standard_safe_language": "Any dispute arising from this contract shall be settled under the Arbitration and Conciliation Act by a mutually selected sole arbitrator."
+      },
+      {
+        "clause_type": "GOVERNING LAW",
+        "importance": "CRITICAL",
+        "why_needed": "Establishes exactly which state laws and local court judicial bounds govern contract breaches.",
+        "standard_safe_language": "This agreement shall be governed and interpreted under the laws of India, under exclusive jurisdiction of the local courts of Andhra Pradesh / Telangana."
+      },
+      {
+        "clause_type": "TERMINATION CURE PERIOD",
+        "importance": "HIGH",
+        "why_needed": "Prevents sudden contract termination for administrative mistakes by granting a 15-day window to restore compliance.",
+        "standard_safe_language": "Neither party shall terminate this contract for breach without providing 15 days written notice detailing the breach and permitting cure."
+      },
+      {
+        "clause_type": "FORCE MAJEURE",
+        "importance": "MEDIUM",
+        "why_needed": "Protects signees from contract breach penalties during extreme events like fires, floods, or structural dry outs.",
+        "standard_safe_language": "Neither party shall be liable for failures or delays resulting from acts of God, extreme weather, lockouts, or unforeseen disasters."
+      },
+      {
+        "clause_type": "LIABILITY CAP",
+        "importance": "HIGH",
+        "why_needed": "Places a strict dollar ceiling on breach payouts rather than exposing personal or entire business reserves.",
+        "standard_safe_language": "The total maximum liability of either party for all claims combined under this deed shall be capped at the total amounts paid hither."
+      }
+    ],
+    "totalClausesAnalyzed": 1,
+    "jurisdiction": "Andhra Pradesh and Telangana, India",
+    "primaryParties": {
+      "party_a": "Landlord (Unspecified in excerpt)",
+      "party_b": "Tenant (Unspecified in excerpt)"
+    },
+    "partyFavored": "Landlord",
+    "partyFavoredReason": "Heavily favors landlord",
+    "registrationRequired": false,
+    "registrationNote": "",
+    "escalationRequired": true,
+    "escalationReason": "The agreement contains a critical clause that illegally shifts 100% of structural repair costs to the tenant, which violates Section 108 of the Transfer of Property Act, 1882.",
+    "finalSummary": "ఈ ఒప్పంద పత్రంలో అద్దెదారుకు తీవ్ర నష్టం కలిగించే నిబంధన ఉంది. భవన నిర్మాణ మరమ్మతుల ఖర్చులను అద్దెదారుపై వేయడం చట్టవిరుద్ధం. ఈ నిబంధనను సవరించకుండా మరియు సెక్యూరిటీ డిపాజిట్ వాపసు గడువును చేర్చకుండా దీనిపై సంతకం చేయవద్దు.",
+    "disclaimer": "This analysis is for informational purposes only and does not constitute formal legal advice under the Advocates Act, 1961.",
+    "negotiationChecklist": [
+      {
+        "item_id": "NEG-001",
+        "talking_point": "బదిలీ ఆస్తి చట్టం 1882 ప్రకారం నిర్మాణ మరమ్మతుల బాధ్యత పూర్తిగా యజమానిదే. అద్దెదారుపై ఈ భారం వేయడం చట్టవిరుద్ధం.",
+        "demand": "క్లాజ్ 1 లోని 'Tenant agrees to pay 100% of major structural repair costs' అనే వాక్యాన్ని పూర్తిగా తొలగించాలి.",
+        "severity": "critical",
+        "outcome": "నిర్మాణ మరమ్మతుల బాధ్యతను యజమాని స్వీకరించేలా ఒప్పందాన్ని సవరించడం."
+      }
+    ]
+  }
+]

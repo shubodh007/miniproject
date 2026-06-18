@@ -1,0 +1,6 @@
+{
+  "name": "SchemeConnect AP",
+  "description": "A bilingual welfare scheme discovery and legal document advisor with RAG performance diagnostics for citizens of Andhra Pradesh and Telangana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

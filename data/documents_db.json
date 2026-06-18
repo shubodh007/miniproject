@@ -1,0 +1,11 @@
+[
+  {
+    "id": "f3e31df5-78de-428d-8d0c-f6070ad415d8",
+    "fileName": "test.pdf",
+    "uploadedBy": "test@example.com",
+    "uploadedAt": "2026-06-09T08:46:58.636Z",
+    "sanitizedContent": "Tenant agrees to pay 100% of major structural repair costs.",
+    "hash": "2d1388302165805ac6d226151e67e6cf23b50fd7b0be18a46c0dcedbf93c5a28",
+    "documentType": "rental_agreement"
+  }
+]

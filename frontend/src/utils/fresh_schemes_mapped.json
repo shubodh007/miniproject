@@ -1,0 +1,2642 @@
+[
+  {
+    "scheme_id": "pm-kisan-pradhan-mantri-kisan-samman-nidhi-001",
+    "name_en": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+    "name_te": "పీఎం-కిసాన్ (ప్రధాన మంత్రి కిసాన్ సమ్మాన్ నిధి)",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://pmkisan.gov.in",
+    "benefit_amount": "₹6,000 per year per family in three equal installments of ₹2,000 each, deposited every 4 months via Direct Benefit Transfer (DBT). 100% Central Government funding. Maximum landholding: up to 2 hectares cultivable land.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-fasal-bima-yojana-pmfby-002",
+    "name_en": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+    "name_te": "ప్రధాన మంత్రి ఫసల్ బీమా యోజన (PMFBY)",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://pmfby.gov.in",
+    "benefit_amount": "Claim covers difference between threshold yield and actual yield. Premium: Kharif max 2%, Rabi max 1.5%, commercial/horticultural max 5%. Claims via DBT based on Scale of Finance notified by States.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Bank Account Passbook",
+      "Sowing Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-krishi-sinchai-yojana-pmksy-003",
+    "name_en": "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+    "name_te": "ప్రధాన మంత్రి కృషి సించాయీ యోజన (PMKSY)",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://pmksy.gov.in",
+    "benefit_amount": "Subsidy of 55% for small/marginal farmers, 45% for others on drip/sprinkler systems. Per acre subsidy varies by crop and equipment.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Bank Account Passbook",
+      "Farmer Registration Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "kisan-credit-card-kcc-004",
+    "name_en": "Kisan Credit Card (KCC)",
+    "name_te": "కిసాన్ క్రెడిట్ కార్డ్ (KCC)",
+    "ministry": "Ministry of Agriculture and Farmers Welfare / Department of Financial Services",
+    "department": "Ministry of Agriculture and Farmers Welfare / Department of Financial Services",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://www.jansamarth.in",
+    "benefit_amount": "Credit limit up to ₹3 lakh at 7% per annum. Prompt repayment brings effective rate to 4%. No collateral required up to ₹1.6 lakh. Revolving credit for 5 years.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Passport Size Photograph",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "soil-health-card-scheme-005",
+    "name_en": "Soil Health Card Scheme",
+    "name_te": "మృత్తిక ఆరోగ్య కార్డు పథకం",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://soilhealth.dac.gov.in",
+    "benefit_amount": "Free soil testing and Soil Health Card every two years. Card contains 12-parameter nutrient status and crop-specific fertilizer guidance. No direct cash benefit.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Survey Number",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "e-nam-national-agriculture-market-006",
+    "name_en": "e-NAM (National Agriculture Market)",
+    "name_te": "e-NAM (జాతీయ వ్యవసాయ మార్కెట్)",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "source": "Central",
+    "apply_link": "https://www.enam.gov.in",
+    "benefit_amount": "Free online trading platform across 1,000+ registered mandis. Transparent online bidding, direct payments to farmers, zero trading fee.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "Mobile Number",
+      "Farmer Registration at APMC"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-awaas-yojana-gramin-pmay-g-007",
+    "name_en": "Pradhan Mantri Awaas Yojana — Gramin (PMAY-G)",
+    "name_te": "ప్రధాన మంత్రి ఆవాస్ యోజన — గ్రామీణ (PMAY-G)",
+    "ministry": "Ministry of Rural Development",
+    "department": "Ministry of Rural Development",
+    "category": "Housing",
+    "source": "Central",
+    "apply_link": "https://pmayg.nic.in",
+    "benefit_amount": "₹1.20 lakh in plain areas; ₹1.30 lakh in hilly states. Additional ₹12,000 for toilet under Swachh Bharat. Up to 90 days MGNREGA wages (~₹20,000-₹25,000). DBT in 3-4 installments.",
+    "documents_required": [
+      "Aadhaar Card",
+      "SECC 2011 / Awaas+ Survey Data",
+      "Bank Account Passbook",
+      "Job Card (MGNREGS)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 180000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-awaas-yojana-urban-pmay-u-008",
+    "name_en": "Pradhan Mantri Awaas Yojana — Urban (PMAY-U)",
+    "name_te": "Pradhan Mantri Awaas Yojana — Urban (PMAY-U)",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "department": "Ministry of Housing and Urban Affairs",
+    "category": "Housing",
+    "source": "Central",
+    "apply_link": "https://pmay-urban.gov.in",
+    "benefit_amount": "Central assistance up to ₹2.5 lakh per EWS beneficiary. EWS income ≤ ₹3 lakh/year; LIG ₹3-6 lakh/year.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Property Documents / Survey Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 600000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ayushman-bharat-pm-jan-arogya-yojana-pmjay-009",
+    "name_en": "Ayushman Bharat — PM Jan Arogya Yojana (PMJAY)",
+    "name_te": "Ayushman Bharat — PM Jan Arogya Yojana (PMJAY)",
+    "ministry": "Ministry of Health and Family Welfare / National Health Authority",
+    "department": "Ministry of Health and Family Welfare / National Health Authority",
+    "category": "Health",
+    "source": "Central",
+    "apply_link": "https://pmjay.gov.in",
+    "benefit_amount": "₹5 lakh/family/year cashless hospitalization at 27,000+ empanelled hospitals. Seniors 70+ get additional ₹5 lakh. No enrollment needed; auto-identified via SECC 2011.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Ration Card (White / SECC 2011 listed)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-matru-vandana-yojana-pmmvy-010",
+    "name_en": "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+    "name_te": "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+    "ministry": "Ministry of Women and Child Development",
+    "department": "Ministry of Women and Child Development",
+    "category": "Women & Child",
+    "source": "Central",
+    "apply_link": "https://pmmvy.wcd.gov.in",
+    "benefit_amount": "First child: ₹5,000 in two installments. Second child (girl only): ₹6,000 in one installment post-delivery. DBT to Aadhaar-linked bank account.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "Mother and Child Protection (MCP) Card"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 19,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "janani-suraksha-yojana-jsy-011",
+    "name_en": "Janani Suraksha Yojana (JSY)",
+    "name_te": "Janani Suraksha Yojana (JSY)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "department": "Ministry of Health and Family Welfare",
+    "category": "Health",
+    "source": "Central",
+    "apply_link": "https://nhm.gov.in",
+    "benefit_amount": "Rural BPL (LPS): ₹1,400; Urban BPL (LPS): ₹1,000. High Performing States: Rural ₹700, Urban ₹600. Paid at time of delivery in government facility.",
+    "documents_required": [
+      "Aadhaar Card",
+      "BPL Card / Ration Card",
+      "Bank Account Passbook",
+      "ANC Record"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "sukanya-samriddhi-yojana-ssy-012",
+    "name_en": "Sukanya Samriddhi Yojana (SSY)",
+    "name_te": "Sukanya Samriddhi Yojana (SSY)",
+    "ministry": "Ministry of Finance / Department of Posts",
+    "department": "Ministry of Finance / Department of Posts",
+    "category": "Women & Child",
+    "source": "Central",
+    "apply_link": "https://www.indiapost.gov.in/Financial/Pages/Content/Sukanya-Samridhi-Account.aspx",
+    "benefit_amount": "8.2% per annum interest compounded annually. Min ₹250/year, max ₹1.5 lakh/year. 50% partial withdrawal after girl turns 18 for education. Tax free under Sec 80C.",
+    "documents_required": [
+      "Girl Child's Birth Certificate",
+      "Parent/Guardian Aadhaar Card",
+      "Parent/Guardian PAN Card"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "beti-bachao-beti-padhao-bbbp-013",
+    "name_en": "Beti Bachao Beti Padhao (BBBP)",
+    "name_te": "Beti Bachao Beti Padhao (BBBP)",
+    "ministry": "Ministry of Women and Child Development",
+    "department": "Ministry of Women and Child Development",
+    "category": "Women & Child",
+    "source": "Central",
+    "apply_link": "https://wcd.nic.in/bbbp-schemes",
+    "benefit_amount": "Awareness, community mobilization, and financial literacy programme. Financial benefit through convergence with Sukanya Samriddhi Yojana.",
+    "documents_required": [],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "pradhan-mantri-ujjwala-yojana-pmuy-014",
+    "name_en": "Pradhan Mantri Ujjwala Yojana (PMUY)",
+    "name_te": "Pradhan Mantri Ujjwala Yojana (PMUY)",
+    "ministry": "Ministry of Petroleum and Natural Gas",
+    "department": "Ministry of Petroleum and Natural Gas",
+    "category": "Women & Child",
+    "source": "Central",
+    "apply_link": "https://pmuy.gov.in",
+    "benefit_amount": "Deposit-free LPG connection including regulator, hose, consumer card, installation. First refill and stove free. ₹300/cylinder subsidy, up to 9 refills/year (max ₹2,700 annually) via DBT.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "BPL / Ration Card"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "mission-shakti-015",
+    "name_en": "Mission Shakti",
+    "name_te": "Mission Shakti",
+    "ministry": "Ministry of Women and Child Development",
+    "department": "Ministry of Women and Child Development",
+    "category": "Women & Child",
+    "source": "Central",
+    "apply_link": "https://wcd.nic.in/mission-shakti",
+    "benefit_amount": "One Stop Centres (Sakhi): shelter, legal aid, medical aid, counselling. SHG formation and linkage. Services free of charge to women in distress.",
+    "documents_required": [
+      "Aadhaar Card (if available)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "mahatma-gandhi-national-rural-employment-guarantee-scheme-mgnregs-016",
+    "name_en": "Mahatma Gandhi National Rural Employment Guarantee Scheme (MGNREGS)",
+    "name_te": "Mahatma Gandhi National Rural Employment Guarantee Scheme (MGNREGS)",
+    "ministry": "Ministry of Rural Development",
+    "department": "Ministry of Rural Development",
+    "category": "Employment",
+    "source": "Central",
+    "apply_link": "https://nrega.nic.in",
+    "benefit_amount": "100 days guaranteed wage employment per household per year. AP/Telangana rate: ₹300/day. Unemployment allowance if work not provided within 15 days. Weekly/fortnightly wages via bank accounts.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Job Card (MGNREGA)",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-vishwakarma-yojana-017",
+    "name_en": "PM Vishwakarma Yojana",
+    "name_te": "PM Vishwakarma Yojana",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Ministry of Micro, Small and Medium Enterprises",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://pmvishwakarma.gov.in",
+    "benefit_amount": "Certificate + ID card. Basic training (₹500/day stipend). ₹15,000 toolkit via e-voucher. Loan Tranche 1: ₹1 lakh at 5%; Tranche 2: ₹2 lakh at 5%. Digital transaction incentive ₹1/transaction.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Mobile Number Linked to Aadhaar",
+      "Ration Card / Family Membership Proof",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-svanidhi-pm-street-vendor-s-atmanirbhar-nidhi-018",
+    "name_en": "PM SVANidhi (PM Street Vendor's AtmaNirbhar Nidhi)",
+    "name_te": "PM SVANidhi (PM Street Vendor's AtmaNirbhar Nidhi)",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "department": "Ministry of Housing and Urban Affairs",
+    "category": "Employment",
+    "source": "Central",
+    "apply_link": "https://pmsvanidhi.mohua.gov.in",
+    "benefit_amount": "Tranche 1: ₹10,000; Tranche 2: ₹20,000; Tranche 3: ₹50,000. 7% interest subvention quarterly. Digital cashback ₹50-₹100/month.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Vendor ID / Certificate of Vending or ULB Recommendation",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "stand-up-india-scheme-019",
+    "name_en": "Stand Up India Scheme",
+    "name_te": "Stand Up India Scheme",
+    "ministry": "Ministry of Finance",
+    "department": "Ministry of Finance",
+    "category": "Employment",
+    "source": "Central",
+    "apply_link": "https://www.standupmitra.in",
+    "benefit_amount": "Composite loan ₹10 lakh to ₹1 crore. 7-year repayment, 18-month moratorium. One SC/ST and one woman beneficiary minimum per bank branch per year.",
+    "documents_required": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Caste Certificate (SC/ST)",
+      "Business Plan / Project Report",
+      "Bank Account Statement"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-mudra-yojana-pmmy-020",
+    "name_en": "Pradhan Mantri MUDRA Yojana (PMMY)",
+    "name_te": "Pradhan Mantri MUDRA Yojana (PMMY)",
+    "ministry": "Ministry of Finance",
+    "department": "Ministry of Finance",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://www.mudra.org.in",
+    "benefit_amount": "Shishu: ₹50,000, zero processing fee. Kishor: ₹5 lakh. Tarun: ₹10 lakh. TarunPlus: ₹20 lakh. MUDRA card for revolving credit.",
+    "documents_required": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Business Address Proof",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "national-means-cum-merit-scholarship-nmms-021",
+    "name_en": "National Means-cum-Merit Scholarship (NMMS)",
+    "name_te": "National Means-cum-Merit Scholarship (NMMS)",
+    "ministry": "Ministry of Education / Department of School Education and Literacy",
+    "department": "Ministry of Education / Department of School Education and Literacy",
+    "category": "Education",
+    "source": "Central",
+    "apply_link": "https://scholarships.gov.in",
+    "benefit_amount": "₹12,000/year (₹1,000/month) via NSP to Aadhaar-linked accounts. Family income ≤ ₹3.5 lakh. 1 lakh scholarships nationally per year.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Class 7 or 8 Marksheet",
+      "Income Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 350000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "prime-minister-s-scholarship-scheme-capf-ar-wards-022",
+    "name_en": "Prime Minister's Scholarship Scheme — CAPF & AR Wards",
+    "name_te": "Prime Minister's Scholarship Scheme — CAPF & AR Wards",
+    "ministry": "Ministry of Home Affairs",
+    "department": "Ministry of Home Affairs",
+    "category": "Education",
+    "source": "Central",
+    "apply_link": "https://scholarships.gov.in",
+    "benefit_amount": "₹3,000/month for wards in professional courses. Min 60% marks in Class 12 required. Up to 5 years duration. 2,000 fresh scholarships per year.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Class 12 Marksheet",
+      "CAPF / ICG Personnel Service Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 25,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "post-matric-scholarship-for-sc-st-obc-students-023",
+    "name_en": "Post-Matric Scholarship for SC/ST/OBC Students",
+    "name_te": "Post-Matric Scholarship for SC/ST/OBC Students",
+    "ministry": "Ministry of Social Justice and Empowerment / Ministry of Tribal Affairs",
+    "department": "Ministry of Social Justice and Empowerment / Ministry of Tribal Affairs",
+    "category": "Education",
+    "source": "Central",
+    "apply_link": "https://scholarships.gov.in",
+    "benefit_amount": "SC: Tuition fee ₹2,000–₹3,000/year + maintenance ₹550–₹1,200/month. OBC: Maintenance ₹300–₹570/month + tuition as applicable.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Income Certificate",
+      "Previous Year Marksheet",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 250000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pre-matric-scholarship-for-minorities-sc-st-024",
+    "name_en": "Pre-Matric Scholarship for Minorities/SC/ST",
+    "name_te": "Pre-Matric Scholarship for Minorities/SC/ST",
+    "ministry": "Ministry of Social Justice and Empowerment / Ministry of Minority Affairs",
+    "department": "Ministry of Social Justice and Empowerment / Ministry of Minority Affairs",
+    "category": "Education",
+    "source": "Central",
+    "apply_link": "https://scholarships.gov.in",
+    "benefit_amount": "Minority (day scholar): ₹1,000–₹1,100/year; Hosteller: ₹2,600–₹3,500/year. SC (Classes 9-10): ₹225–₹525/month maintenance.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate / Minority Community Certificate",
+      "Income Certificate",
+      "Previous Year Marksheet",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-poshan-shakti-nirman-pm-poshan-025",
+    "name_en": "Pradhan Mantri Poshan Shakti Nirman (PM POSHAN)",
+    "name_te": "Pradhan Mantri Poshan Shakti Nirman (PM POSHAN)",
+    "ministry": "Ministry of Education / Department of School Education and Literacy",
+    "department": "Ministry of Education / Department of School Education and Literacy",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://pmposhan.education.gov.in",
+    "benefit_amount": "Free hot meal every school day. Primary (1-5): 450 kcal + 12g protein. Upper Primary (6-8): 700 kcal + 20g protein. No cash transfer; direct meal at school.",
+    "documents_required": [],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "national-fellowship-for-sc-students-nfsc-026",
+    "name_en": "National Fellowship for SC Students (NFSC)",
+    "name_te": "National Fellowship for SC Students (NFSC)",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "department": "Ministry of Social Justice and Empowerment",
+    "category": "Education",
+    "source": "Central",
+    "apply_link": "https://socialjustice.gov.in/schemes/51",
+    "benefit_amount": "JRF: ₹31,000/month (years 1-2). SRF: ₹35,000/month (years 3-5). Annual contingency: Science ₹12,000 (JRF)/₹25,000 (SRF); Humanities ₹10,000/₹20,000. HRA as per UGC norms.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC)",
+      "UGC NET / CSIR NET Scorecard",
+      "Post-Graduation Marksheet",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 35,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-jan-dhan-yojana-pmjdy-027",
+    "name_en": "PM Jan Dhan Yojana (PMJDY)",
+    "name_te": "PM Jan Dhan Yojana (PMJDY)",
+    "ministry": "Ministry of Finance / Department of Financial Services",
+    "department": "Ministry of Finance / Department of Financial Services",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://pmjdy.gov.in",
+    "benefit_amount": "Zero-balance account + RuPay Debit Card. Overdraft up to ₹10,000 after 6 months. Accidental insurance ₹2 lakh. Life cover ₹30,000 via PMSBY/PMJJBY linkage. DBT enabled.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 10,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "atal-pension-yojana-apy-028",
+    "name_en": "Atal Pension Yojana (APY)",
+    "name_te": "Atal Pension Yojana (APY)",
+    "ministry": "Ministry of Finance / PFRDA",
+    "department": "Ministry of Finance / PFRDA",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://www.npscra.nsdl.co.in",
+    "benefit_amount": "Guaranteed pension ₹1,000/₹2,000/₹3,000/₹4,000/₹5,000 at age 60. Monthly contribution varies by entry age. Spouse continues pension on subscriber's death.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook (savings account)",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 40,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-jeevan-jyoti-bima-yojana-pmjjby-029",
+    "name_en": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)",
+    "name_te": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)",
+    "ministry": "Ministry of Finance",
+    "department": "Ministry of Finance",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://jansuraksha.gov.in",
+    "benefit_amount": "₹2 lakh life cover on death from any cause. Annual premium ₹436. Auto-debit June 1. Coverage June 1 to May 31. No medical exam required.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account with Auto-Debit Consent",
+      "Enrollment Form"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 50,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pradhan-mantri-suraksha-bima-yojana-pmsby-030",
+    "name_en": "Pradhan Mantri Suraksha Bima Yojana (PMSBY)",
+    "name_te": "Pradhan Mantri Suraksha Bima Yojana (PMSBY)",
+    "ministry": "Ministry of Finance",
+    "department": "Ministry of Finance",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://jansuraksha.gov.in",
+    "benefit_amount": "Accidental death/total disability: ₹2 lakh. Partial disability: ₹1 lakh. Annual premium ₹20. Auto-debit June 1. No medical exam.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account with Auto-Debit Consent",
+      "Enrollment Form"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 70,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-garib-kalyan-anna-yojana-pmgkay-031",
+    "name_en": "PM Garib Kalyan Anna Yojana (PMGKAY)",
+    "name_te": "PM Garib Kalyan Anna Yojana (PMGKAY)",
+    "ministry": "Ministry of Consumer Affairs, Food and Public Distribution",
+    "department": "Ministry of Consumer Affairs, Food and Public Distribution",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://dfpd.gov.in",
+    "benefit_amount": "PHH: 5 kg/person/month free. AAY: 35 kg/household/month free. Distributed via Fair Price Shops under PDS.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Ration Card (PHH or AAY)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-surya-ghar-muft-bijli-yojana-032",
+    "name_en": "PM Surya Ghar: Muft Bijli Yojana",
+    "name_te": "PM Surya Ghar: Muft Bijli Yojana",
+    "ministry": "Ministry of New and Renewable Energy",
+    "department": "Ministry of New and Renewable Energy",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://pmsuryaghar.gov.in",
+    "benefit_amount": "1 kW: ₹30,000; 2 kW: ₹60,000; 3 kW+: ₹78,000. Up to 300 units/month free. Additional ₹17,000–₹18,000/year from surplus power sold to DISCOM. DBT within 30 days.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "Electricity Consumer Number",
+      "Property Ownership Proof",
+      "Recent Electricity Bill"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-wani-pm-wi-fi-access-network-interface-033",
+    "name_en": "PM-WANI (PM Wi-Fi Access Network Interface)",
+    "name_te": "PM-WANI (PM Wi-Fi Access Network Interface)",
+    "ministry": "Ministry of Communications / Department of Telecommunications",
+    "department": "Ministry of Communications / Department of Telecommunications",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://dot.gov.in/schemes/pm-wani",
+    "benefit_amount": "Zero license fees for PDOs. Citizens get affordable broadband via registered hotspots. No fixed subsidy to end users; benefit is accessible low-cost internet.",
+    "documents_required": [
+      "Aadhaar Card (for PDO registration)",
+      "PAN Card (for PDO registration)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "venture-capital-fund-for-scheduled-castes-vcfsc-034",
+    "name_en": "Venture Capital Fund for Scheduled Castes (VCFSC)",
+    "name_te": "Venture Capital Fund for Scheduled Castes (VCFSC)",
+    "ministry": "Ministry of Social Justice and Empowerment / NSFDC",
+    "department": "Ministry of Social Justice and Empowerment / NSFDC",
+    "category": "Social Security",
+    "source": "Central",
+    "apply_link": "https://nsfdc.nic.in",
+    "benefit_amount": "Soft loan up to ₹15 lakh at 4% per annum. 7-year repayment, 18-month moratorium. No collateral up to ₹10 lakh.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC)",
+      "Income Certificate",
+      "Business Plan",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 55,
+    "max_income": 300000,
+    "requires_land": false,
+    "castes": [
+      "SC"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "telangana-rythu-bharosa-scheme-035",
+    "name_en": "Telangana Rythu Bharosa Scheme",
+    "name_te": "Telangana Rythu Bharosa Scheme",
+    "ministry": "Department of Agriculture, Government of Telangana",
+    "department": "Department of Agriculture, Government of Telangana",
+    "category": "Agriculture",
+    "source": "Telangana State",
+    "apply_link": "https://rythubharosa.telangana.gov.in",
+    "benefit_amount": "₹6,000/acre/season (Kharif and Rabi), totalling ₹12,000/acre/year. DBT to farmer bank account. No cap on number of acres.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Pahani / Land Records (Adangal)",
+      "Bank Account Passbook",
+      "Mobile Number linked to Aadhaar"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "rythu-bima-farmers-group-life-insurance-scheme-036",
+    "name_en": "Rythu Bima (Farmers Group Life Insurance Scheme)",
+    "name_te": "Rythu Bima (Farmers Group Life Insurance Scheme)",
+    "ministry": "Department of Agriculture, Government of Telangana / LIC of India",
+    "department": "Department of Agriculture, Government of Telangana / LIC of India",
+    "category": "Agriculture",
+    "source": "Telangana State",
+    "apply_link": "https://rythubandhu.telangana.gov.in",
+    "benefit_amount": "₹5,00,000 lump sum to nominee within 10 days of farmer's death (natural or accidental). Premium fully borne by Telangana government. Zero cost to farmer.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Pahani / Land Records (Adangal)",
+      "Bank Account Passbook",
+      "Nominee Details"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 59,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "kalyana-lakshmi-scheme-037",
+    "name_en": "Kalyana Lakshmi Scheme",
+    "name_te": "Kalyana Lakshmi Scheme",
+    "ministry": "BC/SC/ST Development Departments, Government of Telangana",
+    "department": "BC/SC/ST Development Departments, Government of Telangana",
+    "category": "Women & Child",
+    "source": "Telangana State",
+    "apply_link": "https://telanganaepass.cgg.gov.in",
+    "benefit_amount": "One-time grant of ₹1,00,116 transferred via DBT to bride's bank account at time of marriage.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Income Certificate",
+      "Age Proof",
+      "Bank Account Passbook",
+      "Marriage Invitation / Certificate",
+      "Groom's Age Proof (min 21 years)"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "shaadi-mubarak-scheme-038",
+    "name_en": "Shaadi Mubarak Scheme",
+    "name_te": "Shaadi Mubarak Scheme",
+    "ministry": "Minorities Welfare Department, Government of Telangana",
+    "department": "Minorities Welfare Department, Government of Telangana",
+    "category": "Women & Child",
+    "source": "Telangana State",
+    "apply_link": "https://telanganaepass.cgg.gov.in",
+    "benefit_amount": "One-time grant of ₹1,00,116 transferred directly to bride's bank account via DBT at time of marriage.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Minority Community Certificate",
+      "Income Certificate",
+      "Age Proof",
+      "Bank Account Passbook",
+      "Nikah Nama / Marriage Certificate",
+      "Groom's Age Proof (min 21 years)"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "Minority"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "kcr-kit-scheme-mch-kit-039",
+    "name_en": "KCR Kit Scheme (MCH Kit)",
+    "name_te": "KCR Kit Scheme (MCH Kit)",
+    "ministry": "Health, Medical and Family Welfare Department, Government of Telangana",
+    "department": "Health, Medical and Family Welfare Department, Government of Telangana",
+    "category": "Health",
+    "source": "Telangana State",
+    "apply_link": "https://mchkit.telangana.gov.in",
+    "benefit_amount": "₹4,000 at registration + ₹4,000 at delivery + ₹4,000 at 6-week vaccination = ₹12,000 total. Additional ₹1,000 for girl child (₹13,000 total). Kit of 16 baby/mother care items (worth ~₹15,000).",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "Mobile Number",
+      "Government Hospital Registration"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "stree-nidhi-credit-cooperative-scheme-040",
+    "name_en": "Stree Nidhi Credit Cooperative Scheme",
+    "name_te": "Stree Nidhi Credit Cooperative Scheme",
+    "ministry": "Department of Rural Development, Government of Telangana / SERP",
+    "department": "Department of Rural Development, Government of Telangana / SERP",
+    "category": "Women & Child",
+    "source": "Telangana State",
+    "apply_link": "https://streenidhi.telangana.gov.in",
+    "benefit_amount": "Low/subsidised interest loans for livelihood and micro-enterprise. Loan amount varies by SHG grading. 48-hour disbursement. No processing fee.",
+    "documents_required": [
+      "Aadhaar Card",
+      "SHG Membership Proof",
+      "Bank Account Passbook",
+      "Samrudhi Deposit Records"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "dalit-bandhu-scheme-041",
+    "name_en": "Dalit Bandhu Scheme",
+    "name_te": "Dalit Bandhu Scheme",
+    "ministry": "Scheduled Castes Development Department, Government of Telangana",
+    "department": "Scheduled Castes Development Department, Government of Telangana",
+    "category": "Social Security",
+    "source": "Telangana State",
+    "apply_link": "https://dalitbandhu.telangana.gov.in",
+    "benefit_amount": "₹10,00,000 one-time capital 100% grant/subsidy. No bank loan linkage, no collateral, no repayment. Beneficiary chooses business from approved list.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC)",
+      "Income Certificate",
+      "Ration Card",
+      "Bank Account Passbook",
+      "Business Plan / Activity Proposal"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 21,
+    "max_age": 110,
+    "max_income": 250000,
+    "requires_land": true,
+    "castes": [
+      "SC"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "t-pride-telangana-state-programme-for-rapid-incubation-of-dalit-entrepreneurs-042",
+    "name_en": "T-PRIDE (Telangana State Programme for Rapid Incubation of Dalit Entrepreneurs)",
+    "name_te": "T-PRIDE (Telangana State Programme for Rapid Incubation of Dalit Entrepreneurs)",
+    "ministry": "Department of Industries and Commerce, Government of Telangana",
+    "department": "Department of Industries and Commerce, Government of Telangana",
+    "category": "Social Security",
+    "source": "Telangana State",
+    "apply_link": "https://industries.telangana.gov.in",
+    "benefit_amount": "35% investment subsidy (45% for women). 7% interest subsidy. ₹2/unit power cost reimbursement for 5–7 years. 50% land cost rebate. 100% stamp duty reimbursement. SGST reimbursement 5–7 years.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC/ST)",
+      "Business Registration Documents",
+      "Project Report / Business Plan",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "aasara-pension-scheme-043",
+    "name_en": "Aasara Pension Scheme",
+    "name_te": "Aasara Pension Scheme",
+    "ministry": "Panchayati Raj and Rural Development Department, Government of Telangana",
+    "department": "Panchayati Raj and Rural Development Department, Government of Telangana",
+    "category": "Social Security",
+    "source": "Telangana State",
+    "apply_link": "https://aasara.telangana.gov.in",
+    "benefit_amount": "Old Age (57+)/Widow/Single Women/Weavers/Toddy Tappers/HIV patients: ₹4,000/month. Disabled (60%+ SADAREM): ₹6,000/month. Paid 1st–7th of every month via biometric authentication.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Age Proof",
+      "Ration Card (White/Pink)",
+      "Bank Account Passbook",
+      "Category-specific proof"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 57,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "indiramma-indlu-housing-scheme-044",
+    "name_en": "Indiramma Indlu Housing Scheme",
+    "name_te": "Indiramma Indlu Housing Scheme",
+    "ministry": "Housing Department, Government of Telangana",
+    "department": "Housing Department, Government of Telangana",
+    "category": "Housing",
+    "source": "Telangana State",
+    "apply_link": "https://indirammaindlu.telangana.gov.in",
+    "benefit_amount": "General: ₹5,00,000; SC/ST: ₹6,00,000 via DBT in 4 stages. Landless families also receive free housing site. Minimum 400 sq ft with RCC roof, kitchen, toilet.",
+    "documents_required": [
+      "Aadhaar Card",
+      "White Ration Card",
+      "Income Proof",
+      "Caste Certificate (if SC/ST)",
+      "Bank Account Passbook",
+      "No Property Certificate"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "gruha-jyothi-scheme-045",
+    "name_en": "Gruha Jyothi Scheme",
+    "name_te": "Gruha Jyothi Scheme",
+    "ministry": "Energy Department / State Power DISCOMs, Government of Telangana",
+    "department": "Energy Department / State Power DISCOMs, Government of Telangana",
+    "category": "Social Security",
+    "source": "Telangana State",
+    "apply_link": "https://gruhajyothi.telangana.gov.in",
+    "benefit_amount": "Zero electricity bill for households consuming ≤200 units/month. Government bears full cost. Consumption above 200 units charged at normal tariff. ~5.1 crore households benefited as of early 2025.",
+    "documents_required": [
+      "Aadhaar Card",
+      "White Ration Card",
+      "Electricity Consumer Number (linked to Aadhaar)"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "telangana-epass-fee-reimbursement-scheme-046",
+    "name_en": "Telangana ePASS Fee Reimbursement Scheme",
+    "name_te": "Telangana ePASS Fee Reimbursement Scheme",
+    "ministry": "Welfare Departments (SC/ST/BC/Minorities), Government of Telangana",
+    "department": "Welfare Departments (SC/ST/BC/Minorities), Government of Telangana",
+    "category": "Education",
+    "source": "Telangana State",
+    "apply_link": "https://telanganaepass.cgg.gov.in",
+    "benefit_amount": "Full tuition fee reimbursement (Intermediate to PG/Medical). SC/ST: family income ≤₹2 lakh; BC/EBC/Disabled: ≤₹1 lakh. Personal scholarship ₹4,000–₹5,000/year. ₹929 crore disbursed to 7.2 lakh students in 2024–25.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Income Certificate",
+      "Previous Academic Marks Memos",
+      "Bank Account Passbook",
+      "College Admission Letter",
+      "Attendance Certificate (75% minimum)"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 14,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "telangana-gurukul-residential-schools-047",
+    "name_en": "Telangana Gurukul Residential Schools",
+    "name_te": "Telangana Gurukul Residential Schools",
+    "ministry": "Welfare Residential Educational Institutions Societies, Government of Telangana",
+    "department": "Welfare Residential Educational Institutions Societies, Government of Telangana",
+    "category": "Education",
+    "source": "Telangana State",
+    "apply_link": "https://tswreis.telangana.gov.in",
+    "benefit_amount": "Free residential education Classes 5–12. Free boarding, meals, uniforms, books, coaching. No fees charged.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Previous Class Mark Sheet",
+      "Transfer Certificate (TC)",
+      "Income Certificate",
+      "Passport Size Photo"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 10,
+    "max_age": 18,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ambedkar-overseas-vidya-nidhi-scholarship-telangana-048",
+    "name_en": "Ambedkar Overseas Vidya Nidhi Scholarship (Telangana)",
+    "name_te": "Ambedkar Overseas Vidya Nidhi Scholarship (Telangana)",
+    "ministry": "Scheduled Castes Development / Backward Classes Welfare, Government of Telangana",
+    "department": "Scheduled Castes Development / Backward Classes Welfare, Government of Telangana",
+    "category": "Education",
+    "source": "Telangana State",
+    "apply_link": "https://telanganaepass.cgg.gov.in",
+    "benefit_amount": "Up to ₹20,00,000 for tuition and living expenses (as per admission letter or ₹20 lakh, whichever lower). One-way economy air ticket and visa fees included. One student per family. Selection based on merit.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC/ST)",
+      "Income Certificate",
+      "Graduation Certificate (min 60%)",
+      "GRE/GMAT Score Card",
+      "TOEFL/IELTS Score Card",
+      "Admission Letter from Foreign University",
+      "Bank Account Passbook",
+      "Passport"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 500000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "indiramma-atmiya-bharosa-scheme-049",
+    "name_en": "Indiramma Atmiya Bharosa Scheme",
+    "name_te": "Indiramma Atmiya Bharosa Scheme",
+    "ministry": "Revenue Department, Government of Telangana",
+    "department": "Revenue Department, Government of Telangana",
+    "category": "Social Security",
+    "source": "Telangana State",
+    "apply_link": "https://telangana.gov.in",
+    "benefit_amount": "Direct emergency financial/livelihood support during extreme family crises. Ad-hoc emergency allocations to protect families from destitution.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Ration Card",
+      "Bank Account Passbook",
+      "Relevant distress proof documents"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "annadata-sukhibhava-scheme-050",
+    "name_en": "Annadata Sukhibhava Scheme",
+    "name_te": "Annadata Sukhibhava Scheme",
+    "ministry": "Department of Agriculture, Government of Andhra Pradesh",
+    "department": "Department of Agriculture, Government of Andhra Pradesh",
+    "category": "Agriculture",
+    "source": "AP State",
+    "apply_link": "https://annadathasukhibhava.ap.gov.in",
+    "benefit_amount": "₹20,000 per year per farmer (₹6,000 Central + ₹14,000 State) in three installments via DBT. Additional seeds, fertilizers, and crop disaster compensation. First installment deposited August 2, 2025.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ntr-bharosa-pension-scheme-051",
+    "name_en": "NTR Bharosa Pension Scheme",
+    "name_te": "NTR Bharosa Pension Scheme",
+    "ministry": "Department of Women, Children, Differently Abled and Senior Citizens, Government of Andhra Pradesh",
+    "department": "Department of Women, Children, Differently Abled and Senior Citizens, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://welfare.ap.gov.in",
+    "benefit_amount": "Old Age/Widow/Single Women/Weavers/Toddy Tappers/Fishermen/Cobblers/Transgender: ₹4,000/month. Disabled: ₹15,000/month for severely disabled. Rural income ≤₹10,000/month; Urban income ≤₹12,000/month.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Age Proof",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Ration Card",
+      "Category-specific proof (disability certificate, death certificate for widow, etc.)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 60,
+    "max_age": 110,
+    "max_income": 120000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "thalliki-vandanam-scheme-mother-s-salute-052",
+    "name_en": "Thalliki Vandanam Scheme (Mother's Salute)",
+    "name_te": "Thalliki Vandanam Scheme (Mother's Salute)",
+    "ministry": "School Education Department, Government of Andhra Pradesh",
+    "department": "School Education Department, Government of Andhra Pradesh",
+    "category": "Education",
+    "source": "AP State",
+    "apply_link": "https://tallikiVandanam.ap.gov.in",
+    "benefit_amount": "₹15,000/year per child credited directly to mother's/guardian's bank account. Covers all children Class 1 to Intermediate in government, government-aided, and private unaided schools. Minimum 75% child attendance required. Budget: ₹9,400+ crore annually.",
+    "documents_required": [
+      "Aadhaar Card of mother/guardian",
+      "Bank Account Passbook (mother's)",
+      "Child's School Enrollment Certificate",
+      "Attendance Record (75% minimum)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 250000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "aadabidda-nidhi-scheme-053",
+    "name_en": "Aadabidda Nidhi Scheme",
+    "name_te": "Aadabidda Nidhi Scheme",
+    "ministry": "Department of Women, Children, Differently Abled and Senior Citizens, Government of Andhra Pradesh",
+    "department": "Department of Women, Children, Differently Abled and Senior Citizens, Government of Andhra Pradesh",
+    "category": "Women & Child",
+    "source": "AP State",
+    "apply_link": "https://welfare.ap.gov.in",
+    "benefit_amount": "₹1,500/month transferred directly to beneficiary's bank account. Aimed at reducing women's financial dependency on family members.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bank Account Passbook",
+      "Income Proof",
+      "Ration Card"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 59,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "apsrtc-free-bus-travel-for-women-stree-shakti-054",
+    "name_en": "APSRTC Free Bus Travel for Women (Stree Shakti)",
+    "name_te": "APSRTC Free Bus Travel for Women (Stree Shakti)",
+    "ministry": "Transport Department / APSRTC, Government of Andhra Pradesh",
+    "department": "Transport Department / APSRTC, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://apsrtc.ap.gov.in",
+    "benefit_amount": "Free travel on all APSRTC buses within AP state boundaries for all women and transgender individuals. No income restriction. Covers approximately 90+ lakh women daily.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "ap-free-lpg-cylinders-scheme-3-free-gas-cylinders-055",
+    "name_en": "AP Free LPG Cylinders Scheme (3 Free Gas Cylinders)",
+    "name_te": "AP Free LPG Cylinders Scheme (3 Free Gas Cylinders)",
+    "ministry": "Civil Supplies Department, Government of Andhra Pradesh",
+    "department": "Civil Supplies Department, Government of Andhra Pradesh",
+    "category": "Women & Child",
+    "source": "AP State",
+    "apply_link": "https://civilsupplies.ap.gov.in",
+    "benefit_amount": "3 free LPG cylinders per year per household. Benefit delivered to women-headed households via DBT coordination with oil marketing companies.",
+    "documents_required": [
+      "Aadhaar Card",
+      "LPG Connection / Consumer Number",
+      "Bank Account Passbook",
+      "Ration Card"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "ntr-housing-scheme-056",
+    "name_en": "NTR Housing Scheme",
+    "name_te": "NTR Housing Scheme",
+    "ministry": "Housing Department, Government of Andhra Pradesh",
+    "department": "Housing Department, Government of Andhra Pradesh",
+    "category": "Housing",
+    "source": "AP State",
+    "apply_link": "https://aphousing.apcfss.in",
+    "benefit_amount": "Financial assistance up to ₹2.50 lakh per EWS/BPL beneficiary. Payments via DBT in stages based on construction progress. All transactions monitored via APHMS portal.",
+    "documents_required": [
+      "Aadhaar Card",
+      "BPL / White Ration Card",
+      "Bank Account Passbook",
+      "Land Documents / Site Allotment Letter",
+      "Income Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ntr-suraksha-ap-health-and-life-insurance-scheme-057",
+    "name_en": "NTR Suraksha (AP Health and Life Insurance Scheme)",
+    "name_te": "NTR Suraksha (AP Health and Life Insurance Scheme)",
+    "ministry": "Health, Medical and Family Welfare Department, Government of Andhra Pradesh",
+    "department": "Health, Medical and Family Welfare Department, Government of Andhra Pradesh",
+    "category": "Health",
+    "source": "AP State",
+    "apply_link": "https://aarogyasri.ap.gov.in",
+    "benefit_amount": "₹5 lakh/family/year secondary and tertiary hospitalization. ₹5 lakh accidental death/permanent disability cover. ₹2.5 lakh partial disability cover. Auto-enrolled for AP families with annual income < ₹5 lakh. Cashless treatment at all network hospitals.",
+    "documents_required": [
+      "Aadhaar Card",
+      "AP Ration Card"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 500000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "chandranna-pelli-kanuka-scheme-058",
+    "name_en": "Chandranna Pelli Kanuka Scheme",
+    "name_te": "Chandranna Pelli Kanuka Scheme",
+    "ministry": "Social Welfare Department, Government of Andhra Pradesh",
+    "department": "Social Welfare Department, Government of Andhra Pradesh",
+    "category": "Women & Child",
+    "source": "AP State",
+    "apply_link": "https://socialwelfare.ap.gov.in",
+    "benefit_amount": "₹1,00,000 financial assistance for inter-caste marriage directly to bride's bank account. Bride and groom must be 18+ and 21+ respectively. Both must have passed Class 10.",
+    "documents_required": [
+      "Aadhaar Card of bride and groom",
+      "Caste Certificates",
+      "Marriage Certificate",
+      "Class 10 Certificates",
+      "Bank Account Passbook (bride's)",
+      "Income Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "shaadi-tohfa-scheme-ap-minority-marriage-assistance-059",
+    "name_en": "Shaadi Tohfa Scheme (AP Minority Marriage Assistance)",
+    "name_te": "Shaadi Tohfa Scheme (AP Minority Marriage Assistance)",
+    "ministry": "Department of Minority Welfare, Government of Andhra Pradesh",
+    "department": "Department of Minority Welfare, Government of Andhra Pradesh",
+    "category": "Women & Child",
+    "source": "AP State",
+    "apply_link": "https://minoritywelfare.ap.gov.in",
+    "benefit_amount": "₹75,000 one-time grant to minority community brides at time of marriage via DBT. Bride must be 18+ and groom 21+ years of age.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Minority Community Certificate",
+      "Income Certificate",
+      "Marriage Certificate / Nikah Nama",
+      "Bank Account Passbook (bride's)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "Minority"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "ap-nirudyoga-bruthi-unemployment-allowance-scheme-060",
+    "name_en": "AP Nirudyoga Bruthi (Unemployment Allowance Scheme)",
+    "name_te": "AP Nirudyoga Bruthi (Unemployment Allowance Scheme)",
+    "ministry": "Department of Employment and Training, Government of Andhra Pradesh",
+    "department": "Department of Employment and Training, Government of Andhra Pradesh",
+    "category": "Employment",
+    "source": "AP State",
+    "apply_link": "https://employment.ap.gov.in",
+    "benefit_amount": "₹3,000/month directly to beneficiary bank account. Available while registered as unemployed. Must be actively seeking employment.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Educational Qualification Certificates",
+      "Employment Exchange Registration",
+      "Bank Account Passbook",
+      "Income Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 22,
+    "max_age": 35,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ntr-vidyonnathi-scheme-free-upsc-civil-services-coaching-061",
+    "name_en": "NTR Vidyonnathi Scheme (Free UPSC/Civil Services Coaching)",
+    "name_te": "ఎన్.టి.ఆర్. విద్యోన్నతి పథకం (ఉచిత యు.పి.ఎస్.సి/సివిల్ సర్వీసెస్ కోచింగ్)",
+    "ministry": "Department of Social Welfare / BC Welfare, Government of Andhra Pradesh",
+    "department": "Department of Social Welfare / BC Welfare, Government of Andhra Pradesh",
+    "category": "Education",
+    "source": "AP State",
+    "apply_link": "https://bcstudy.ap.gov.in",
+    "benefit_amount": "₹10,000 in installments for books, stationery, and lodging expenses. Free coaching at empanelled institutes for UPSC/APPSC/Group exams.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Graduation Certificate",
+      "Caste Certificate",
+      "Income Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 21,
+    "max_age": 37,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "nethanna-bharosa-scheme-handloom-weavers-support-062",
+    "name_en": "Nethanna Bharosa Scheme (Handloom Weavers Support)",
+    "name_te": "Nethanna Bharosa Scheme (Handloom Weavers Support)",
+    "ministry": "Department of Handlooms and Textiles, Government of Andhra Pradesh",
+    "department": "Department of Handlooms and Textiles, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://handlooms.ap.gov.in",
+    "benefit_amount": "₹25,000/year per handloom family. Free electricity for handloom operations. GST reimbursement. New handloom clusters and market linkage support.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Weaver ID Card / Cooperative Society Membership",
+      "Bank Account Passbook",
+      "Handloom Registration Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-chandranna-bima-scheme-063",
+    "name_en": "AP Chandranna Bima Scheme",
+    "name_te": "AP Chandranna Bima Scheme",
+    "ministry": "Department of Finance, Government of Andhra Pradesh",
+    "department": "Department of Finance, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://apfinance.gov.in",
+    "benefit_amount": "Accidental death/total disability: ₹5 lakh. Partial disability: ₹2.5 lakh. Premium fully borne by AP state government. Cashless treatment at network hospitals.",
+    "documents_required": [
+      "Aadhaar Card",
+      "AP Ration Card",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 70,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "kanti-velugu-scheme-eye-care-programme-064",
+    "name_en": "Kanti Velugu Scheme (Eye Care Programme)",
+    "name_te": "Kanti Velugu Scheme (Eye Care Programme)",
+    "ministry": "Health, Medical and Family Welfare Department, Government of Andhra Pradesh",
+    "department": "Health, Medical and Family Welfare Department, Government of Andhra Pradesh",
+    "category": "Health",
+    "source": "AP State",
+    "apply_link": "https://hmfw.ap.gov.in",
+    "benefit_amount": "Free comprehensive eye testing. Free spectacles to those with refractive errors. Free eye surgeries (cataract, etc.) at government hospitals. Covers all AP residents regardless of income.",
+    "documents_required": [
+      "Aadhaar Card",
+      "AP Ration Card (for free services priority)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-fee-reimbursement-scheme-jagananna-vidya-deevena-ap-fee-reimbursement-065",
+    "name_en": "AP Fee Reimbursement Scheme (Jagananna Vidya Deevena / AP Fee Reimbursement)",
+    "name_te": "AP Fee Reimbursement Scheme (Jagananna Vidya Deevena / AP Fee Reimbursement)",
+    "ministry": "Department of Higher Education, Government of Andhra Pradesh",
+    "department": "Department of Higher Education, Government of Andhra Pradesh",
+    "category": "Education",
+    "source": "AP State",
+    "apply_link": "https://apepass.cgg.gov.in",
+    "benefit_amount": "Full tuition fee reimbursement for approved courses. SC/ST: family income ≤₹2.5 lakh. BC/EBC/Minority: income ≤₹1.5 lakh. Direct credit to student's bank account.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Income Certificate",
+      "Previous Year Marksheet",
+      "College Admission Letter",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 16,
+    "max_age": 110,
+    "max_income": 250000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-post-matric-hostels-for-sc-st-bc-students-066",
+    "name_en": "AP Post Matric Hostels for SC/ST/BC Students",
+    "name_te": "AP Post Matric Hostels for SC/ST/BC Students",
+    "ministry": "Department of Social Welfare / Tribal Welfare / BC Welfare, Government of Andhra Pradesh",
+    "department": "Department of Social Welfare / Tribal Welfare / BC Welfare, Government of Andhra Pradesh",
+    "category": "Education",
+    "source": "AP State",
+    "apply_link": "https://socialwelfare.ap.gov.in",
+    "benefit_amount": "Free accommodation, meals, study materials, and utilities for SC/ST/BC/Minority students in government welfare hostels during college study.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate",
+      "Income Certificate",
+      "College Admission Letter",
+      "Passport Size Photo"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 16,
+    "max_age": 110,
+    "max_income": 200000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "adarana-3-0-scheme-067",
+    "name_en": "Adarana 3.0 Scheme",
+    "name_te": "Adarana 3.0 Scheme",
+    "ministry": "Department of BC Welfare, Government of Andhra Pradesh",
+    "department": "Department of BC Welfare, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://bcwelfare.ap.gov.in",
+    "benefit_amount": "Free moped two-wheelers to registered toddy tappers. Advanced palm-tree climbing equipment provided. Benefits targeted at BC, SC, ST, Minority, and BPL occupation groups.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Occupation/Trade Certificate",
+      "Caste Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-sc-corporation-loans-ambedkar-loan-scheme-068",
+    "name_en": "AP SC Corporation Loans (Ambedkar Loan Scheme)",
+    "name_te": "AP SC Corporation Loans (Ambedkar Loan Scheme)",
+    "ministry": "AP State Finance Corporation for SCs / Social Welfare Department, Government of Andhra Pradesh",
+    "department": "AP State Finance Corporation for SCs / Social Welfare Department, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://socialwelfare.ap.gov.in",
+    "benefit_amount": "Loans at 3–6% concessional interest for self-employment, education, and housing. Loan amount varies by purpose. No collateral for small loans. Repayment period 3–7 years.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC)",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Business Plan / Loan Purpose Document"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 55,
+    "max_income": 300000,
+    "requires_land": false,
+    "castes": [
+      "SC"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-st-corporation-tribal-welfare-loans-069",
+    "name_en": "AP ST Corporation Tribal Welfare Loans",
+    "name_te": "AP ST Corporation Tribal Welfare Loans",
+    "ministry": "Department of Tribal Welfare / AP Tribal Welfare Residential Educational Institutions Society, Government of Andhra Pradesh",
+    "department": "Department of Tribal Welfare / AP Tribal Welfare Residential Educational Institutions Society, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://aptwreis.ap.gov.in",
+    "benefit_amount": "Concessional loans at 3–5% interest for agriculture, housing, and small business. Skill training and educational grants for tribal youth. ITDA-linked benefits in scheduled areas.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste / Tribe Certificate (ST)",
+      "Income Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 250000,
+    "requires_land": false,
+    "castes": [
+      "ST"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-free-electricity-to-farmers-scheme-070",
+    "name_en": "AP Free Electricity to Farmers Scheme",
+    "name_te": "AP Free Electricity to Farmers Scheme",
+    "ministry": "Energy Department / DISCOMS, Government of Andhra Pradesh",
+    "department": "Energy Department / DISCOMS, Government of Andhra Pradesh",
+    "category": "Agriculture",
+    "source": "AP State",
+    "apply_link": "https://apepdcl.in",
+    "benefit_amount": "Free electricity for agricultural pump sets up to 9 hours per day. Farmer must have valid AP agricultural electricity connection. No misuse for commercial purposes permitted.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Agricultural Electricity Connection Number",
+      "Land Records / Patta Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-msme-restart-capital-subsidy-scheme-071",
+    "name_en": "AP MSME ReSTART Capital Subsidy Scheme",
+    "name_te": "AP MSME ReSTART Capital Subsidy Scheme",
+    "ministry": "Department of Industries and Commerce, Government of Andhra Pradesh",
+    "department": "Department of Industries and Commerce, Government of Andhra Pradesh",
+    "category": "Social Security",
+    "source": "AP State",
+    "apply_link": "https://industries.ap.gov.in",
+    "benefit_amount": "Investment subsidy up to 25% on fixed assets. Interest subsidy up to 5% on term loans for 5 years. Power cost reimbursement ₹1.50/unit for 5 years. 100% SGST reimbursement for 5–7 years.",
+    "documents_required": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Business Registration / Udyam Certificate",
+      "Project Report",
+      "Bank Account Passbook",
+      "Land / Lease Documents"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "sarvepalli-radhakrishnan-vidyarthi-mitra-kits-072",
+    "name_en": "Sarvepalli Radhakrishnan Vidyarthi Mitra Kits",
+    "name_te": "Sarvepalli Radhakrishnan Vidyarthi Mitra Kits",
+    "ministry": "School Education Department, Government of Andhra Pradesh",
+    "department": "School Education Department, Government of Andhra Pradesh",
+    "category": "Education",
+    "source": "AP State",
+    "apply_link": "https://schooledu.ap.gov.in",
+    "benefit_amount": "Free school bag, notebooks, stationery, uniforms, and study materials per student per year. Provided at start of each academic year to all eligible government school students.",
+    "documents_required": [
+      "School Enrollment Certificate",
+      "Aadhaar Card (for older students)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-driver-welfare-scheme-073",
+    "name_en": "AP Driver Welfare Scheme",
+    "name_te": "AP Driver Welfare Scheme",
+    "ministry": "Transport Department, Government of Andhra Pradesh",
+    "department": "Transport Department, Government of Andhra Pradesh",
+    "category": "Employment",
+    "source": "AP State",
+    "apply_link": "https://transport.ap.gov.in",
+    "benefit_amount": "Financial assistance to eligible drivers for insurance premiums, vehicle fitness certificate renewal, and emergency repairs. Exact amount per driver determined by G.O. Ms. No. 33 dated September 13, 2025.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Driving License",
+      "Vehicle Registration Certificate",
+      "Bank Account Passbook"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "jagananna-thodu-interest-free-working-capital-for-street-vendors-074",
+    "name_en": "Jagananna Thodu (Interest-Free Working Capital for Street Vendors)",
+    "name_te": "Jagananna Thodu (Interest-Free Working Capital for Street Vendors)",
+    "ministry": "Department of Municipal Administration, Government of Andhra Pradesh",
+    "department": "Department of Municipal Administration, Government of Andhra Pradesh",
+    "category": "Employment",
+    "source": "AP State",
+    "apply_link": "https://apmunicipalities.ap.gov.in",
+    "benefit_amount": "₹10,000 interest-free working capital loan per year. No collateral. Direct credit to bank account.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Vendor Identity / Trade License",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-micro-irrigation-scheme-apfmis-state-component-075",
+    "name_en": "AP Micro Irrigation Scheme (APFMIS / State Component)",
+    "name_te": "AP Micro Irrigation Scheme (APFMIS / State Component)",
+    "ministry": "Department of Agriculture, Government of Andhra Pradesh",
+    "department": "Department of Agriculture, Government of Andhra Pradesh",
+    "category": "Agriculture",
+    "source": "AP State",
+    "apply_link": "https://apfmis.ap.gov.in",
+    "benefit_amount": "Additional state subsidy on top of PMKSY central subsidy for drip/sprinkler systems. Subsidized borewells and micro-irrigation for small/marginal farmers. Support through Rythu Bharosa Kendras (RBKs).",
+    "documents_required": [
+      "Aadhaar Card",
+      "Land Records / Patta Passbook",
+      "Bank Account Passbook",
+      "Farmer Registration Certificate"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-aarogyasri-community-health-insurance-continued-076",
+    "name_en": "AP Aarogyasri Community Health Insurance (Continued)",
+    "name_te": "AP Aarogyasri Community Health Insurance (Continued)",
+    "ministry": "Health, Medical and Family Welfare Department / Aarogyasri Health Care Trust, Government of Andhra Pradesh",
+    "department": "Health, Medical and Family Welfare Department / Aarogyasri Health Care Trust, Government of Andhra Pradesh",
+    "category": "Health",
+    "source": "AP State",
+    "apply_link": "https://aarogyasri.ap.gov.in",
+    "benefit_amount": "Cashless treatment for 1,057+ medical procedures at 300+ network hospitals. No premium. BPL/White ration card families auto-enrolled. Covers hospitalizations over ₹1,000.",
+    "documents_required": [
+      "Aadhaar Card",
+      "AP White Ration Card / SECC listed"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 500000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "tg-mahalakshmi-guarantee-077",
+    "name_en": "Telangana Maha Lakshmi Guarantees Scheme",
+    "name_te": "తెలంగాణ మహాలక్ష్మి గ్యారెంటీ పథకం",
+    "ministry": "Department of Women Development and Child Welfare, Government of Telangana",
+    "department": "Department of Women Development and Child Welfare, Government of Telangana",
+    "category": "Social Welfare",
+    "source": "TG State",
+    "apply_link": "https://telangana.gov.in",
+    "benefit_amount": "Free travel for girls, women, and transgender persons in TSRTC/TGSRTC Palle Velugu and Express buses; LPG cooking gas cylinder at subsidized price of ₹500; financial assistance of ₹2,500 per month for eligible women heads of families.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Food Security Card (White Ration Card)",
+      "LPG Connection Consumer Number Card",
+      "Voter ID Card"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 150000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  },
+  {
+    "scheme_id": "tg-yuva-vikasam-educational-078",
+    "name_en": "Telangana Yuva Vikasam Scheme (Vidya Bharosa Card)",
+    "name_te": "తెలంగాణ యువ వికాసం విద్యా భరోసా కార్డు",
+    "ministry": "Higher Education Department, Government of Telangana",
+    "department": "Higher Education Department, Government of Telangana",
+    "category": "Education",
+    "source": "TG State",
+    "apply_link": "https://telangana.gov.in",
+    "benefit_amount": "Vidya Bharosa Card worth ₹5,00,000 for students to cover their higher education fees, course fees, hostel accommodation, and study material. Applicable in premier institutes across Telangana and national level centers. Setup of Telangana International Schools in every mandal.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Bonafide Certificate / Admission Receipt",
+      "Income Certificate (< ₹2,50,000 per year)",
+      "Previous Class Marks Sheet"
+    ],
+    "states": [
+      "Telangana"
+    ],
+    "min_age": 15,
+    "max_age": 35,
+    "max_income": 250000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-kisan-maandhan-yojana-079",
+    "name_en": "PM Kisan Maandhan Yojana (PM-KMY)",
+    "name_te": "పీఎం కిసాన్ మాన్‌ధన్ యోజన",
+    "ministry": "Ministry of Agriculture and Farmers Welfare",
+    "department": "Department of Agriculture, Cooperation and Farmers Welfare, Govt of India",
+    "category": "Pensions & Security",
+    "source": "Central",
+    "apply_link": "https://pmkmy.gov.in",
+    "benefit_amount": "Assured monthly pension of ₹3,000 to small and marginal farmers (SMF) upon attaining 60 years of age. A voluntary and contribution-based pension scheme. Monthly contribution ranges between ₹55 to ₹200 based on entry age.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Savings Bank Account details / Jan Dhan Passbook",
+      "Land Records / Patta Passbook (up to 2 hectares cultivable land)"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 40,
+    "max_income": 999999,
+    "requires_land": true,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-shram-yogi-maan-dhan-080",
+    "name_en": "Pradhan Mantri Shram Yogi Maan-dhan (PM-SYM)",
+    "name_te": "ప్రధాన మంత్రి శ్రమ యోగి మాన్-ధన్ (PM-SYM)",
+    "ministry": "Ministry of Labour and Employment, Government of India",
+    "department": "Ministry of Labour and Employment, Government of India",
+    "category": "Pensions & Security",
+    "source": "Central",
+    "apply_link": "https://maandhan.in",
+    "benefit_amount": "Assured monthly pension of ₹3,00,0 for unorganized workers like street vendors, mid-day meal workers, brick kiln workers, rag pickers, domestic workers, etc., after attaining the age of 60 years. 50:50 matching contribution by Central Government.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Savings Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 40,
+    "max_income": 180000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "pm-daksh-scholarship-081",
+    "name_en": "PM-DAKSH (Pradhan Mantri Dakshta Aur Kushalta Sampann Hitgrahi) Yojana",
+    "name_te": "పీఎం-దక్ష్ (ప్రధాన మంత్రి దక్షత మరియు కుశలత సంపన్న హితగ్రాహి) యోజన",
+    "ministry": "Ministry of Social Justice and Empowerment, Government of India",
+    "department": "Department of Social Justice and Empowerment, Government of India",
+    "category": "Skill Development",
+    "source": "Central",
+    "apply_link": "https://pmdaksh.dosje.gov.in",
+    "benefit_amount": "Free skill development training programs (Short Term Training, Up-skilling, Entrepreneurship, Long Term Training) for youth. Stamped stipend of ₹1,000 to ₹1,500 per month for SC, OBC, Safai Karamcharis during training, plus job placement assistance.",
+    "documents_required": [
+      "Aadhaar Card",
+      "Caste Certificate (SC/ST/OBC)",
+      "Income Certificate (< ₹3,00,000 per year for OBC/others)",
+      "Bank Account Details"
+    ],
+    "states": [
+      "Andhra Pradesh",
+      "Telangana"
+    ],
+    "min_age": 18,
+    "max_age": 45,
+    "max_income": 300000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-anna-canteens-082",
+    "name_en": "AP Anna Canteens Scheme",
+    "name_te": "ఏపీ అన్నా క్యాంటీన్లు",
+    "ministry": "Municipal Administration & Urban Development Department, Government of Andhra Pradesh",
+    "department": "Municipal Administration & Urban Development Department, Government of Andhra Pradesh",
+    "category": "Social Welfare",
+    "source": "AP State",
+    "apply_link": "https://maud.ap.gov.in",
+    "benefit_amount": "Highly subsidized healthy hot meals for poor, workers, students, and citizens. Breakfast, lunch, and dinner are served at an incredibly affordable cost of ₹5 per meal in all major municipality locations across Andhra Pradesh.",
+    "documents_required": [
+      "Aadhaar Card (Optional verification for biometric/token system)"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 5,
+    "max_age": 115,
+    "max_income": 999999,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": false
+  },
+  {
+    "scheme_id": "ap-deepam-free-gas-083",
+    "name_en": "AP Deepam 2.0 (3 Free Cooking Gas Cylinders Scheme)",
+    "name_te": "ఏపీ దీపం 2.0 (3 ఉచిత గ్యాస్ సిలిండర్ల పథకం)",
+    "ministry": "Food, Civil Supplies & Consumer Affairs Department, Government of Andhra Pradesh",
+    "department": "Food, Civil Supplies & Consumer Affairs Department, Government of Andhra Pradesh",
+    "category": "Social Welfare",
+    "source": "AP State",
+    "apply_link": "https://ap.gov.in",
+    "benefit_amount": "Provision of 3 Domestic LPG Refill Gas Cylinders completely free of cost every financial year (one every four months cycle) for women heads of households of Andhra Pradesh possessing a domestic gas connection.",
+    "documents_required": [
+      "Aadhaar Card",
+      "State White BPL Ration Card / Food Security Card",
+      "Active Domestic Gas Connection Consumer Passbook",
+      "Mobile Number"
+    ],
+    "states": [
+      "Andhra Pradesh"
+    ],
+    "min_age": 18,
+    "max_age": 110,
+    "max_income": 150000,
+    "requires_land": false,
+    "castes": [
+      "SC",
+      "ST",
+      "BC",
+      "Minority",
+      "General"
+    ],
+    "female_only": true
+  }
+]

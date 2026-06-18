@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Söhne', 'DM Sans', system-ui, sans-serif;
+}
+
+@layer utilities {
+  .bg-card {
+    background-color: var(--bg-card);
+  }
+  .bg-card-hover {
+    background-color: var(--bg-card-hover);
+  }
+  .border-subtle {
+    border-color: var(--border-subtle);
+  }
+  .border-default {
+    border-color: var(--border-default);
+  }
+  .text-muted {
+    color: var(--text-muted);
+  }
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+}
+
+:root {
+  /* Core surfaces */
+  --bg-base:          #0d0d0d;
+  --bg-surface:       #161616;
+  --bg-surface-hover: #1e1e1e;
+  --bg-card:          rgba(255, 255, 255, 0.04);
+  --bg-card-hover:    rgba(255, 255, 255, 0.08);
+
+  /* Borders */
+  --border-subtle:    rgba(255, 255, 255, 0.08);
+  --border-default:   rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --text-primary:     #e8e8e8;
+  --text-secondary:   #a0a0a0;
+  --text-muted:       #606060;
+
+  /* Accent */
+  --accent:           #20b2aa;
+  --accent-dim:       rgba(32, 178, 170, 0.15);
+
+  /* Status */
+  --status-live:      #22c55e;
+  --status-fallback:  #f59e0b;
+
+  /* Typography */
+  --font-answer:      17px;
+  --font-source:      13px;
+  --font-meta:        12px;
+
+  /* Motion */
+  --ease-out:         cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+}
+
+/* Animations */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-cardIn {
+  animation: cardIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes pillMorph {
+  from { opacity: 0.5; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-pillMorph {
+  animation: pillMorph var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes shimmerPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmerPulse {
+  animation: shimmerPulse 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.search-status-transition {
+  transition: all 300ms var(--ease-out);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion) {
+  .animate-cardIn, .animate-pillMorph, .animate-shimmerPulse, .search-status-transition {
+    animation: none !important;
+    transition: none !important;
+  }
+}
