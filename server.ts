@@ -468,7 +468,7 @@ app.use('/api', apiRouter);
 
 // Proxy /api requests to the Python FastAPI backend on Port 8000
 app.use('/api', createProxyMiddleware({
-  target: 'http://127.0.0.1:8000',
+  target: process.env.PYTHON_BACKEND_URL || 'http://127.0.0.1:8000',
   changeOrigin: true,
   ws: true,
   logger: console, // compatible with v3 log configuration

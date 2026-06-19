@@ -81,8 +81,19 @@ allowed_origins_raw = os.getenv("ALLOWED_ORIGINS", "")
 allowed_origins_list = [origin.strip() for origin in allowed_origins_raw.split(",") if origin.strip()]
 
 # Step 2: Determine allowed CORS origins based on settings.environment
-if settings.environment == "development":
-    # Development mode: allow localhost dev URLs
+if settings.environment == "production":
+    # Production mode - only allow origins from the ALLOWED_ORIGINS env variable
+    if not allowed_origins_raw:
+        # Log a warning if ALLOWED_ORIGINS is not set in production
+        logger.warning(
+            "CORS WARNING: ALLOWED_ORIGINS environment variable is not set in production! "
+            "This will block all external client-side calls."
+        )
+        allowed_origins = []
+    else:
+        allowed_origins = allowed_origins_list
+else:
+    # In development, default to localhost origins
     dev_defaults = [
         "http://localhost:5173",
         "https://localhost:5173",
@@ -98,17 +109,6 @@ if settings.environment == "development":
         allowed_origins = allowed_origins_list
     else:
         allowed_origins = dev_defaults
-else:
-    # Step 3: Production mode - only allow origins from the ALLOWED_ORIGINS env variable
-    if not allowed_origins_raw:
-        # If ALLOWED_ORIGINS env var is not set in production, log a CRITICAL warning but don't crash
-        logger.critical(
-            "CORS SEVERITY CRITICAL: ALLOWED_ORIGINS environment variable is not set in production! "
-            "This will block all external client-side calls."
-        )
-        allowed_origins = []
-    else:
-        allowed_origins = allowed_origins_list
 
 # Step 7: Add a startup log that prints allowed origins so devs can verify on deploy
 logger.info(f"CORS allowed origins configured for environment '{settings.environment}': {allowed_origins}")

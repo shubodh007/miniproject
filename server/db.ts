@@ -1,3 +1,9 @@
+// ⚠️ RAILWAY DEPLOYMENT WARNING:
+// This module stores data in local JSON files on disk.
+// Railway's filesystem is ephemeral — all data is wiped on every redeploy.
+// For production use, migrate this storage to Supabase tables or another persistent database.
+// For now, this works for demos and testing but users will be logged out on each redeploy.
+
 import { promises as fs, existsSync, mkdirSync, writeFileSync } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
