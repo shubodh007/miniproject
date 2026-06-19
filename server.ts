@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 import { createServer as createViteServer } from 'vite';
@@ -22,9 +21,6 @@ import apiRouter from './server/routes/v1/router';
 import { generateContentWithRetryAndFallback } from './frontend/src/utils/gemini';
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 app.set('trust proxy', 1);
