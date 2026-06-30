@@ -18,7 +18,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
-import { SearchHistory, SchemeResult } from '../types';
+import { SearchHistory, SchemeResult, AuthUser } from '../types';
 import { SEED_SCHEMES } from '../utils/schemeEngine';
 import { router } from '../utils/router';
 import { DashboardStatsSkeleton } from './skeletons/DashboardStatsSkeleton';
@@ -26,7 +26,7 @@ import { DashboardStatsSkeleton } from './skeletons/DashboardStatsSkeleton';
 // Real-time templates and mock data removed in favor of real telemetry and user database indices.
 
 interface DashboardPageProps {
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
   historyList: SearchHistory[];
   savedSchemeIds: string[];
   onLoadHistoryItem: (item: SearchHistory) => void;

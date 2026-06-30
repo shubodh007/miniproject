@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+00_PROJECT_OVERVIEW.md
+KNOWLEDGE_MIRROR/
+KNOWLEDGE_MIRROR/.env.example
+DOCS/
+

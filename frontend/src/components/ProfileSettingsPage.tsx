@@ -14,9 +14,10 @@ import {
 import { useTranslation } from '../i18n';
 import { LanguageToggle } from './LanguageToggle';
 import { ThemeToggle } from './ThemeToggle';
+import { AuthUser } from '../types';
 
 interface ProfileSettingsPageProps {
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
   onLogout: () => void;
   setView: (v: string) => void;
 }

@@ -98,15 +98,39 @@ export const CitationPopover: React.FC<CitationPopoverProps> = ({
     transform: 'translate(-50%, -105%)', // Centered above source anchor
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      onClose();
+      return;
+    }
+    if (event.key === 'Tab' && popoverRef.current) {
+      const focusableElements = popoverRef.current.querySelectorAll<HTMLElement>(
+        'button, a[href], [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements.length > 0) {
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            event.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            event.preventDefault();
+          }
+        }
+      }
+    }
+  };
+
   return (
     <div
       ref={popoverRef}
       style={style}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape') {
-          onClose(); // Changed: Handled inline keydown event for Escape key as well
-        }
-      }}
+      onKeyDown={handleKeyDown}
       tabIndex={-1}
       className="z-50 w-64 bg-bg-surface/95 backdrop-blur-[var(--blur-glass)] border border-accent-saffron/30 shadow-[0_4px_24px_var(--color-accent-glow)] p-3 rounded-2xl text-xs space-y-2 animate-in fade-in zoom-in-95 duration-[var(--transition-fast)] focus:outline-none"
       role="dialog" // Changed: Fix 4 - Explicitly added role dialog for assistive technologies

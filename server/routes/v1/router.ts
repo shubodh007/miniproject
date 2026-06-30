@@ -38,6 +38,7 @@ import {
   expandQueryWithHyDE
 } from '../../ragUtils';
 import { PipelineTimer } from '../../utils/PipelineTimer';
+import { performWebSearch } from '../../utils/webSearch';
 
 const router = express.Router();
 
@@ -1798,14 +1799,11 @@ Keep your tone humble, authoritative, encouraging, and clear.`;
 
 
   try {
-    isSearchActive = search_mode === true || 
-      user_message.toLowerCase().includes('search the web') || 
-      user_message.toLowerCase().includes('google search') ||
-      user_message.toLowerCase().includes('perplexity') ||
-      user_message.toLowerCase().includes('latest news') ||
-      user_message.toLowerCase().includes('recent updates') ||
-      user_message.toLowerCase().includes('current status') ||
-      user_message.toLowerCase().includes('live status');
+    isSearchActive = search_mode === true || search_mode === 'true';
+
+    let googleSearchQueries: string[] = [];
+    let googleSearchSources: Record<string, unknown>[] = [];
+    let webSearchResultsText = '';
 
     if (isSearchActive) {
       // Stream searching status and progress stages to frontend immediately so pulsing spinner starts
@@ -1813,21 +1811,49 @@ Keep your tone humble, authoritative, encouraging, and clear.`;
       res.write(`data: ${JSON.stringify({ type: 'search_stage', stage: 'analyzing', message: 'Analyzing query intent & identifying policy domains...' })}\n\n`);
       await new Promise(resolve => setTimeout(resolve, 150));
       
-      const simulatedQuery = user_message.substring(0, 60) + " welfare regulations grounding";
-      res.write(`data: ${JSON.stringify({ type: 'query_formed', query: simulatedQuery })}\n\n`);
-      res.write(`data: ${JSON.stringify({ type: 'search_stage', stage: 'handshake', message: 'Formulating Google Search grounding parameters...' })}\n\n`);
-      await new Promise(resolve => setTimeout(resolve, 150));
+      const queryToSearch = user_message;
+      res.write(`data: ${JSON.stringify({ type: 'query_formed', query: queryToSearch })}\n\n`);
+      res.write(`data: ${JSON.stringify({ type: 'search_stage', stage: 'handshake', message: 'Querying live search API (Tavily/Serper)...' })}\n\n`);
       
-      res.write(`data: ${JSON.stringify({ type: 'site_visited', site: 'india.gov.in', title: 'National Portal of India', status: 'Visiting...' })}\n\n`);
-      await new Promise(resolve => setTimeout(resolve, 100));
-      res.write(`data: ${JSON.stringify({ type: 'site_visited', site: 'ap.gov.in', title: 'Official AP State Secretariat', status: 'Visiting...' })}\n\n`);
-      await new Promise(resolve => setTimeout(resolve, 100));
+      const searchResults = await performWebSearch(queryToSearch);
       
-      res.write(`data: ${JSON.stringify({ type: 'search_stage', stage: 'scanning', message: 'Scanning live policy catalogs and welfare data registries...' })}\n\n`);
-    }
+      if (searchResults.length > 0) {
+        googleSearchSources = searchResults.map((r) => ({
+          title: r.title,
+          url: r.url,
+          snippet: r.snippet
+        }));
+        googleSearchQueries = [queryToSearch];
+        
+        // Broadcast each visited site
+        for (const r of searchResults.slice(0, 3)) {
+          const cleanUrl = r.url.replace(/^https?:\/\/(www\.)?/, '');
+          res.write(`data: ${JSON.stringify({ type: 'site_visited', site: cleanUrl, title: r.title, status: 'Done' })}\n\n`);
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        res.write(`data: ${JSON.stringify({ type: 'source_added', count: searchResults.length })}\n\n`);
+        res.write(`data: ${JSON.stringify({
+          type: 'search_results',
+          queries: [queryToSearch],
+          sources: googleSearchSources
+        })}\n\n`);
+        
+        res.write(`data: ${JSON.stringify({
+          type: 'search_stage',
+          stage: 'reading',
+          message: `Retrieved and incorporated ${searchResults.length} real-time web reference citation(s).`
+        })}\n\n`);
 
-    let googleSearchQueries: string[] = [];
-    let googleSearchSources: Record<string, unknown>[] = [];
+        webSearchResultsText = `\n\n=== LIVE WEB GROUNDING (Tavily/Serper Search) ===\n`;
+        searchResults.forEach((r, idx) => {
+          webSearchResultsText += `[Source ${idx + 1}]: "${r.title}"\nURL: ${r.url}\nExcerpt: ${r.snippet}\n\n`;
+        });
+        webSearchResultsText += `\nUse the above real-time live web results to answer the query accurately. If local scheme data is missing or insufficient, rely heavily on this web grounding to answer welfare inquiries.`;
+      } else {
+        res.write(`data: ${JSON.stringify({ type: 'search_stage', stage: 'scanning', message: 'No live results returned, falling back as is...' })}\n\n`);
+      }
+    }
 
     logger.info(`Sending streaming turn for session ${currentSessionId} to Gemini. Search active: ${isSearchActive}`);
     
@@ -1839,7 +1865,7 @@ Keep your tone humble, authoritative, encouraging, and clear.`;
     await generateContentStreamWithRetryAndFallback({
       contents: activeHistoryList,
       config: {
-        systemInstruction,
+        systemInstruction: systemInstruction + webSearchResultsText,
         temperature: 0.25,
         ...(isSearchActive ? { tools: [{ googleSearch: {} }] } : {})
       },
@@ -2005,9 +2031,39 @@ Keep your tone humble, authoritative, encouraging, and clear.`;
 router.post('/smart-chat/generate', async (req, res) => {
   logger.info('Processing /smart-chat/generate API request');
   try {
-    const { messages, thinkingLevel, schemeContext, profileSnapshot } = req.body;
+    const { messages, thinkingLevel, schemeContext, profileSnapshot, webSearchEnabled } = req.body;
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'messages payload is required and must be an array' });
+    }
+
+    let lastUserMessage = '';
+    if (messages && Array.isArray(messages)) {
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].role === 'user') {
+          lastUserMessage = messages[i].content || '';
+          break;
+        }
+      }
+    }
+
+    let webSearchResultsText = '';
+    let searchCitations: any[] = [];
+    if (webSearchEnabled && lastUserMessage) {
+      logger.info(`[SmartChat] Web search is enabled. Performing lookup for: "${lastUserMessage}"`);
+      const searchResults = await performWebSearch(lastUserMessage);
+      if (searchResults.length > 0) {
+        webSearchResultsText = `\n\n=== LIVE WEB GROUNDING (Tavily/Serper Search) ===\n`;
+        searchResults.forEach((r, idx) => {
+          webSearchResultsText += `[Source ${idx + 1}]: "${r.title}"\nURL: ${r.url}\nExcerpt: ${r.snippet}\n\n`;
+        });
+        webSearchResultsText += `\nUse the above real-time live web results to answer the query accurately in JSON format. If local scheme data is missing or insufficient, rely heavily on these web grounding sources.`;
+        
+        searchCitations = searchResults.map((r, idx) => ({
+          id: idx + 100, // Unique numerical ID for display inside chat bubbles
+          text: r.title,
+          url: r.url
+        }));
+      }
     }
 
     let preferredFallbackModels = [
@@ -2077,6 +2133,10 @@ ${profileStr}
 In corporate discussions, relate benefits and prerequisites to this user's profile where relevant!`;
     }
 
+    if (webSearchResultsText) {
+      systemPrompt += webSearchResultsText;
+    }
+
     const mappedMessages = messages.map((m: any) => ({
       role: m.role,
       parts: [{ text: m.content || JSON.stringify(m.blocks) }]
@@ -2101,7 +2161,13 @@ In corporate discussions, relate benefits and prerequisites to this user's profi
       if (startIndex !== -1 && endIndex !== -1) {
         cleaned = cleaned.substring(startIndex, endIndex + 1);
       }
-      return res.json(JSON.parse(cleaned));
+      
+      let parsed = JSON.parse(cleaned);
+      if (searchCitations.length > 0) {
+        if (!parsed.citations) parsed.citations = [];
+        parsed.citations = [...parsed.citations, ...searchCitations];
+      }
+      return res.json(parsed);
     } else {
       throw new Error('Empty response from AI');
     }
@@ -2117,6 +2183,14 @@ In corporate discussions, relate benefits and prerequisites to this user's profi
       follow_up_suggestions: []
     });
   }
+});
+
+// Secure endpoint to get Supabase config for Admin Panel React context
+router.get('/admin/supabase-config', (req, res) => {
+  res.json({
+    supabaseUrl: process.env.SUPABASE_URL || '',
+    supabaseKey: process.env.SUPABASE_KEY || ''
+  });
 });
 
 export default router;

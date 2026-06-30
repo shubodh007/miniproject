@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { 
   ShieldAlert, Upload, Sparkles, CheckCircle2, FileText, AlertTriangle, 
   HelpCircle, ChevronRight, Gauge, MessageSquare, Download, ArrowRight, CornerDownRight, Cpu
@@ -12,6 +13,7 @@ import ActionChecklist from './legal/ActionChecklist';
 import AnalysisProgress from './legal/AnalysisProgress';
 import ExportReport from './legal/ExportReport';
 import { parsePartialJson } from '../utils/gemini'; // Import resilient partial JSON stream/chunk parser
+import { ArtifactSidebar } from './ArtifactSidebar';
 
 const getTodayString = () => {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -167,6 +169,8 @@ export const LegalPage: React.FC<LegalPageProps> = ({ setView, setChatAttachedFi
 
   // States for analysis results
   const [healthScore, setHealthScore] = useState(65);
+  const [isArtifactOpen, setIsArtifactOpen] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('generic');
   const [healthGrade, setHealthGrade] = useState('C');
   const [overallRisk, setOverallRisk] = useState<'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'>('MEDIUM');
   const [flags, setFlags] = useState<AnalysisFlag[]>([]);
@@ -560,7 +564,14 @@ Sri Sri Sri Sri K. Ramiah (Lessor) and Sri Sri Sri M. Venkatesh (Lessee) enterin
         <span className="font-semibold">⚠️ AI-generated analysis. Always verify with a qualified lawyer or legal aid.</span>
       </div>
 
-      <div className="min-h-screen pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-100" id="legal-viewport">
+      <div className="flex flex-col lg:flex-row w-full items-stretch">
+        <motion.div 
+          layout
+          className={`min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 text-slate-100 transition-all duration-350 ${
+            isArtifactOpen ? 'w-full lg:w-[60%] lg:flex-none shrink-0' : 'w-full max-w-7xl mx-auto'
+          }`}
+          id="legal-viewport"
+        >
         {/* Page Header */}
         <div className="mb-8" id="legal-header">
           <div className="flex items-center space-x-2.5 mb-2">
@@ -666,6 +677,7 @@ Sri Sri Sri Sri K. Ramiah (Lessor) and Sri Sri Sri M. Venkatesh (Lessee) enterin
                       onClick={() => {
                         setDocContent(t.content);
                         setFile(new File([t.content], t.filename, { type: 'text/plain' }));
+                        setSelectedTemplateId(t.id);
                       }}
                       className="px-2.5 py-2 bg-bg-base hover:bg-bg-elevated border border-border-subtle hover:border-accent-saffron text-[11px] leading-tight font-bold text-text-secondary hover:text-text-primary rounded-xl transition-all cursor-pointer text-left truncate flex items-center space-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]"
                       title={t.nameEn}
@@ -867,10 +879,21 @@ Sri Sri Sri Sri K. Ramiah (Lessor) and Sri Sri Sri M. Venkatesh (Lessee) enterin
                   })}
                 </div>
 
-                <div className="pt-4 border-t border-border-subtle mt-4">
+                <div className="pt-4 border-t border-border-subtle mt-4 space-y-2">
+                  <button 
+                    onClick={() => setIsArtifactOpen(true)}
+                    className="w-full py-3 bg-accent-saffron/10 hover:bg-accent-saffron/20 border border-accent-saffron/30 text-accent-saffron rounded-xl font-bold text-xs cursor-pointer flex items-center justify-center space-x-1.5 transition-all shadow-xs"
+                    id="btn-view-interactive-deeds"
+                  >
+                    <Sparkles size={13} className="text-accent-saffron animate-pulse" />
+                    <span>View Interactive Deeds &amp; Maps</span>
+                    <ChevronRight size={13} />
+                  </button>
+
                   <button 
                     onClick={handleChatWithDoc}
                     className="w-full py-3 bg-bg-base hover:bg-bg-elevated border border-border-main text-text-primary rounded-xl font-bold text-xs cursor-pointer flex items-center justify-center space-x-1.5 transition-colors"
+                    id="btn-launch-doc-advisor"
                   >
                     <MessageSquare size={13} className="text-accent-blue" />
                     <span>Launch Doc Advisor Chat</span>
@@ -1110,6 +1133,15 @@ Sri Sri Sri Sri K. Ramiah (Lessor) and Sri Sri Sri M. Venkatesh (Lessee) enterin
           </div>
         );
       })()}
+        </motion.div>
+
+        <ArtifactSidebar
+          isOpen={isArtifactOpen}
+          onClose={() => setIsArtifactOpen(false)}
+          documentName={file ? file.name : "WelfareAdvisory.txt"}
+          documentContent={docContent}
+          templateId={selectedTemplateId}
+        />
       </div>
     </>
   );

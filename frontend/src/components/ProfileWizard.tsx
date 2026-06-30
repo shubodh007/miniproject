@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { 
-  ArrowLeft, ArrowRight, Sparkles, Loader2, Info, AlertCircle, 
-  CheckCircle, Search, Edit2, User, MapPin, Home, Briefcase, Landmark, ListChecks 
+  ArrowLeft, ArrowRight, Sparkles, Loader2, Info, AlertCircle, MapPin 
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { ProfilePayload } from '../types';
 import { useToast } from './ToastProvider';
+
+// Import subcomponents
+import { StepPersonalInfo } from './wizard/StepPersonalInfo';
+import { StepLocation } from './wizard/StepLocation';
+import { StepIncome } from './wizard/StepIncome';
+import { StepReview } from './wizard/StepReview';
 
 interface ProfileWizardProps {
   onSearch: (payload: ProfilePayload) => void;
@@ -33,17 +38,6 @@ const TS_DISTRICTS = [
   "Karimnagar", "Nizamabad", "Khammam", "Nalgonda", "Mahabubnagar", "Adilabad"
 ];
 
-const OCCUPATIONS = [
-  "Farmer", "Agricultural Labourer", "Daily Wage Worker", "Self-Employed", 
-  "Government Employee", "Private Salaried", "Student", "Unemployed", "Retired", "Other"
-];
-
-const CASTES = ["General", "OBC", "SC", "ST", "Minority"];
-
-const EXISTING_SCHEMES_LIST = [
-  "PM-KISAN", "PMAY", "NTR Bharosa Pension", "Aarogyasri", "YSR Rythu Bharosa", "Kalyana Lakshmi"
-];
-
 export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoading, errorMsg, setView }) => {
   const { t, language } = useTranslation();
   const { toast } = useToast();
@@ -56,49 +50,19 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
   const isDraftInitialized = React.useRef(false);
 
   const stepVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 40 : -40,
-      opacity: 0
-    }),
-    center: {
-      x: 0,
-      opacity: 1
-    },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -40 : 40,
-      opacity: 0
-    })
+    enter: (dir: number) => ({ x: dir > 0 ? 40 : -40, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? -40 : 40, opacity: 0 })
   };
   
-  // Single comprehensive state mapping our schema with 6-stage expansions
   const [formData, setFormData] = useState<Partial<ProfilePayload>>({
-    name: '',
-    age: undefined,
-    gender: '',
-    income_annual: 120000,
-    occupation: '',
-    family_members: 4,
-    land_acres: undefined,
-    bpl_card: 'BPL',
-    state: 'Andhra Pradesh',
-    district: '',
-    caste_category: '',
-    sub_caste: '',
-    existing_schemes: [],
-    language: language,
-    // Expansion fields
-    disability: 'No',
-    mandal: '',
-    habitation: 'Rural',
-    ration_card: 'White',
-    soil_type: undefined,
-    student_level: undefined,
-    own_house: 'No',
-    house_type: undefined,
-    bank_account: 'Yes'
+    name: '', age: undefined, gender: '', income_annual: 120000, occupation: '',
+    family_members: 4, land_acres: undefined, bpl_card: 'BPL', state: 'Andhra Pradesh',
+    district: '', caste_category: '', sub_caste: '', existing_schemes: [], language: language,
+    disability: 'No', mandal: '', habitation: 'Rural', ration_card: 'White', soil_type: undefined,
+    student_level: undefined, own_house: 'No', house_type: undefined, bank_account: 'Yes'
   });
 
-  // Load autosaved progress on mount
   React.useEffect(() => {
     const sessionSaved = sessionStorage.getItem('sc-wizard-draft');
     if (sessionSaved) {
@@ -115,33 +79,18 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
     isDraftInitialized.current = true;
   }, []);
 
-  // Persist current wizard step + all filled inputs to sessionStorage on every change
   React.useEffect(() => {
-    if (!isDraftInitialized.current) return;
-    if (showResumeBanner) return; // Do not overwrite with empty state before they decide
-
+    if (!isDraftInitialized.current || showResumeBanner) return;
     try {
-      const draft: WizardDraft = {
-        step,
-        formData
-      };
-      sessionStorage.setItem('sc-wizard-draft', JSON.stringify(draft));
+      sessionStorage.setItem('sc-wizard-draft', JSON.stringify({ step, formData }));
     } catch (err) {
-      console.error('[ProfileWizard] Error saving draft to sessionStorage:', err);
+      console.error('[ProfileWizard] Error saving draft:', err);
     }
   }, [formData, step, showResumeBanner]);
 
-
-
-  // warn if unsaved form entries are in progress before unloading the page
   React.useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      const hasEntries = !!(
-        (formData.name && formData.name.trim().length > 0) ||
-        formData.age !== undefined ||
-        formData.gender !== '' ||
-        formData.district !== ''
-      );
+      const hasEntries = !!((formData.name && formData.name.trim().length > 0) || formData.age !== undefined || formData.gender !== '' || formData.district !== '');
       if (hasEntries) {
         e.preventDefault();
         e.returnValue = '';
@@ -149,41 +98,26 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
       }
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [formData]);
 
-  // Keyboard navigation listener
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (document.activeElement?.tagName === 'INPUT') {
         if (e.key === 'Enter') {
           e.preventDefault();
-          if (step < 6) {
-            handleNext();
-          } else {
-            handleSubmit();
-          }
+          if (step < 6) handleNext(); else handleSubmit();
         }
         return;
       }
-
       if (e.key === 'ArrowRight' || e.key === 'Enter') {
         e.preventDefault();
-        if (step < 6) {
-          handleNext();
-        } else if (step === 6) {
-          handleSubmit();
-        }
+        if (step < 6) handleNext(); else handleSubmit();
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
         e.preventDefault();
-        if (step > 1) {
-          handleBack();
-        }
+        if (step > 1) handleBack();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [step, formData]);
@@ -191,55 +125,30 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
   const handleResumeDraft = () => {
     if (draftToResume) {
       setStep(draftToResume.step);
-      if (draftToResume.formData) {
-        setFormData(prev => ({ ...prev, ...draftToResume.formData }));
-      }
+      if (draftToResume.formData) setFormData(prev => ({ ...prev, ...draftToResume.formData }));
       setShowResumeBanner(false);
     }
   };
 
-  const handleDismissDraft = () => {
-    setShowResumeBanner(false);
-  };
+  const handleDismissDraft = () => setShowResumeBanner(false);
 
-  // Handle manual complete reset
   const handleWizardReset = () => {
     sessionStorage.removeItem('sc-wizard-draft');
     setShowResumeBanner(false);
     setStep(1);
     setFormData({
-      name: '',
-      age: undefined,
-      gender: '',
-      income_annual: 120000,
-      occupation: '',
-      family_members: 4,
-      land_acres: undefined,
-      bpl_card: 'BPL',
-      state: 'Andhra Pradesh',
-      district: '',
-      caste_category: '',
-      sub_caste: '',
-      existing_schemes: [],
-      language: language,
-      disability: 'No',
-      mandal: '',
-      habitation: 'Rural',
-      ration_card: 'White',
-      soil_type: undefined,
-      student_level: undefined,
-      own_house: 'No',
-      house_type: undefined,
-      bank_account: 'Yes'
+      name: '', age: undefined, gender: '', income_annual: 120000, occupation: '',
+      family_members: 4, land_acres: undefined, bpl_card: 'BPL', state: 'Andhra Pradesh',
+      district: '', caste_category: '', sub_caste: '', existing_schemes: [], language: language,
+      disability: 'No', mandal: '', habitation: 'Rural', ration_card: 'White', soil_type: undefined,
+      student_level: undefined, own_house: 'No', house_type: undefined, bank_account: 'Yes'
     });
     setErrors({});
     setTouched({});
     setDistrictSearch('');
   };
 
-  // Interactive District Search
   const [districtSearch, setDistrictSearch] = useState('');
-  const [isCasteTouched, setIsCasteTouched] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
 
   const handleAutoDetectLocation = async () => {
@@ -247,22 +156,13 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
       toast.warning('Geolocation not supported on this device');
       return;
     }
-    
     setIsLocating(true);
-    
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        
         try {
-          // Use Nominatim reverse geocoding (free, no API key needed)
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`,
-            { headers: { 'User-Agent': 'SchemeConnectAP/1.0' } }
-          );
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`, { headers: { 'User-Agent': 'SchemeConnectAP/1.0' } });
           const data = await response.json();
-          
-          // Extract district and state from Nominatim response
           const address = data.address;
           if (!address) {
             toast.warning('Could not resolve address details. Please select manually.');
@@ -270,18 +170,9 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
           }
           const rawDistrict = address.county || address.district || address.state_district || '';
           const rawState = address.state || '';
-          
-          // Match to our known district list
-          const detectedState = rawState.includes('Andhra') ? 'Andhra Pradesh' 
-                               : rawState.includes('Telangana') ? 'Telangana' 
-                               : (formData.state || 'Andhra Pradesh');
-          
-          // Fuzzy match district name
+          const detectedState = rawState.includes('Andhra') ? 'Andhra Pradesh' : rawState.includes('Telangana') ? 'Telangana' : (formData.state || 'Andhra Pradesh');
           const allDistricts = detectedState === 'Andhra Pradesh' ? AP_DISTRICTS : TS_DISTRICTS;
-          const matchedDistrict = allDistricts.find(d => 
-            d.toLowerCase().includes(rawDistrict.toLowerCase()) ||
-            rawDistrict.toLowerCase().includes(d.toLowerCase())
-          ) || '';
+          const matchedDistrict = allDistricts.find(d => d.toLowerCase().includes(rawDistrict.toLowerCase()) || rawDistrict.toLowerCase().includes(d.toLowerCase())) || '';
           
           if (matchedDistrict) {
             setFormData(prev => ({ ...prev, state: detectedState, district: matchedDistrict }));
@@ -310,94 +201,57 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
     );
   };
 
-  // Changed: Local temporary states to hold input field values to prevent high-frequency parent re-renders on keystrokes
-  const [localName, setLocalName] = useState(formData.name || ''); // Changed: local useState for Name input field
-  const [localAge, setLocalAge] = useState(formData.age !== undefined ? String(formData.age) : ''); // Changed: local useState for Age input field
-  const [localDistrict, setLocalDistrict] = useState(districtSearch || formData.district || ''); // Changed: local useState for District input field
-  const [localMandal, setLocalMandal] = useState(formData.mandal || ''); // Changed: local useState for Mandal input field
-  const [localLandAcres, setLocalLandAcres] = useState(formData.land_acres !== undefined ? String(formData.land_acres) : ''); // Changed: local useState for land_acres input field
-  const [localFamilyMembers, setLocalFamilyMembers] = useState(formData.family_members || 4); // Changed: local useState for Family Members range field
-  const [localIncomeAnnual, setLocalIncomeAnnual] = useState(formData.income_annual || 120000); // Changed: local useState for Annual Income range field
+  const [localName, setLocalName] = useState(formData.name || '');
+  const [localAge, setLocalAge] = useState(formData.age !== undefined ? String(formData.age) : '');
+  const [localDistrict, setLocalDistrict] = useState(districtSearch || formData.district || '');
+  const [localMandal, setLocalMandal] = useState(formData.mandal || '');
+  const [localLandAcres, setLocalLandAcres] = useState(formData.land_acres !== undefined ? String(formData.land_acres) : '');
+  const [localFamilyMembers, setLocalFamilyMembers] = useState(formData.family_members || 4);
+  const [localIncomeAnnual, setLocalIncomeAnnual] = useState(formData.income_annual || 120000);
 
-  // Changed: Synchronize local states when parent formData gets loaded, resumed, or altered externally
-  React.useEffect(() => { // Changed: Effect for synchronizing local name
-    setLocalName(formData.name || ''); // Changed: update localName
-  }, [formData.name]); // Changed: dependency array for name
+  React.useEffect(() => { setLocalName(formData.name || ''); }, [formData.name]);
+  React.useEffect(() => { setLocalAge(formData.age !== undefined ? String(formData.age) : ''); }, [formData.age]);
+  React.useEffect(() => { setLocalDistrict(formData.district || ''); }, [formData.district]);
+  React.useEffect(() => { setLocalMandal(formData.mandal || ''); }, [formData.mandal]);
+  React.useEffect(() => { setLocalLandAcres(formData.land_acres !== undefined ? String(formData.land_acres) : ''); }, [formData.land_acres]);
+  React.useEffect(() => { setLocalFamilyMembers(formData.family_members || 4); }, [formData.family_members]);
+  React.useEffect(() => { setLocalIncomeAnnual(formData.income_annual || 120000); }, [formData.income_annual]);
 
-  React.useEffect(() => { // Changed: Effect for synchronizing local age
-    setLocalAge(formData.age !== undefined ? String(formData.age) : ''); // Changed: update localAge
-  }, [formData.age]); // Changed: dependency array for age
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const parsed = localAge === '' ? undefined : Number(localAge);
+      if (parsed !== formData.age) handleChange('age', parsed);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localAge]);
 
-  React.useEffect(() => { // Changed: Effect for synchronizing local district
-    setLocalDistrict(formData.district || ''); // Changed: update localDistrict
-  }, [formData.district]); // Changed: dependency array for district
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const parsed = localLandAcres === '' ? undefined : Number(localLandAcres);
+      if (parsed !== formData.land_acres) handleChange('land_acres', parsed);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localLandAcres]);
 
-  React.useEffect(() => { // Changed: Effect for synchronizing local mandal
-    setLocalMandal(formData.mandal || ''); // Changed: update localMandal
-  }, [formData.mandal]); // Changed: dependency array for mandal
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localFamilyMembers !== formData.family_members) handleChange('family_members', localFamilyMembers);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localFamilyMembers]);
 
-  React.useEffect(() => { // Changed: Effect for synchronizing local land acres
-    setLocalLandAcres(formData.land_acres !== undefined ? String(formData.land_acres) : ''); // Changed: update localLandAcres
-  }, [formData.land_acres]); // Changed: dependency array for land_acres
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localIncomeAnnual !== formData.income_annual) handleChange('income_annual', localIncomeAnnual);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localIncomeAnnual]);
 
-  React.useEffect(() => { // Changed: Effect for synchronizing local family members range slider
-    setLocalFamilyMembers(formData.family_members || 4); // Changed: update localFamilyMembers
-  }, [formData.family_members]); // Changed: dependency array for family_members
-
-  React.useEffect(() => { // Changed: Effect for synchronizing local income slider
-    setLocalIncomeAnnual(formData.income_annual || 120000); // Changed: update localIncomeAnnual
-  }, [formData.income_annual]); // Changed: dependency array for income_annual
-
-  // Changed: Debounce logic for age numeric field (300ms delay) to limit re-rendering frequency
-  React.useEffect(() => { // Changed: Effect for debouncing local age
-    const timer = setTimeout(() => { // Changed: start timeout
-      const parsed = localAge === '' ? undefined : Number(localAge); // Changed: parse to Number if not empty
-      if (parsed !== formData.age) { // Changed: check if different
-        handleChange('age', parsed); // Changed: propagate change back to parent state
-      } // Changed: end check
-    }, 300); // Changed: 300ms debounce duration
-    return () => clearTimeout(timer); // Changed: clear timeout on subsequent keystrokes
-  }, [localAge]); // Changed: dependency on localAge
-
-  // Changed: Debounce logic for land acres numeric field (300ms delay) to limit re-rendering frequency
-  React.useEffect(() => { // Changed: Effect for debouncing local land acres
-    const timer = setTimeout(() => { // Changed: start timeout
-      const parsed = localLandAcres === '' ? undefined : Number(localLandAcres); // Changed: parse land acres to Number
-      if (parsed !== formData.land_acres) { // Changed: check if different
-        handleChange('land_acres', parsed); // Changed: update parent state
-      } // Changed: end check
-    }, 300); // Changed: 300ms debounce duration
-    return () => clearTimeout(timer); // Changed: clear timeout on subsequent keystrokes
-  }, [localLandAcres]); // Changed: dependency on localLandAcres
-
-  // Changed: Debounce logic for family members range slider (300ms delay)
-  React.useEffect(() => { // Changed: Effect for debouncing family members range slider
-    const timer = setTimeout(() => { // Changed: start timeout
-      if (localFamilyMembers !== formData.family_members) { // Changed: check if different
-        handleChange('family_members', localFamilyMembers); // Changed: update parent state
-      } // Changed: end check
-    }, 300); // Changed: 300ms debounce duration
-    return () => clearTimeout(timer); // Changed: clear timeout on subsequent slide gestures
-  }, [localFamilyMembers]); // Changed: dependency on localFamilyMembers
-
-  // Changed: Debounce logic for annual income range slider (300ms delay)
-  React.useEffect(() => { // Changed: Effect for debouncing annual income range slider
-    const timer = setTimeout(() => { // Changed: start timeout
-      if (localIncomeAnnual !== formData.income_annual) { // Changed: check if different
-        handleChange('income_annual', localIncomeAnnual); // Changed: update parent state
-      } // Changed: end check
-    }, 300); // Changed: 300ms debounce duration
-    return () => clearTimeout(timer); // Changed: clear timeout on subsequent slide gestures
-  }, [localIncomeAnnual]); // Changed: dependency on localIncomeAnnual
-
-  // Field validation states
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  // Dynamic status/errors speech announcer for assistive technologies
   React.useEffect(() => {
     const activeErrorMessages: string[] = [];
-    
     if (step === 1) {
       if (errors.name) activeErrorMessages.push(errors.name);
       if (errors.age) activeErrorMessages.push(errors.age);
@@ -409,17 +263,11 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
     } else if (step === 4) {
       if (errors.occupation) activeErrorMessages.push(errors.occupation);
     }
-
-    if (activeErrorMessages.length > 0) {
-      setAnnouncerMessage(activeErrorMessages.join(' '));
-    } else {
-      setAnnouncerMessage('');
-    }
+    setAnnouncerMessage(activeErrorMessages.length > 0 ? activeErrorMessages.join(' ') : '');
   }, [errors, step]);
 
   const validateField = (field: string, value: any) => {
     let err = '';
-    
     switch (field) {
       case 'name':
         if (!value || String(value).trim().length < 2) {
@@ -433,32 +281,21 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
         }
         break;
       case 'gender':
-        if (!value) {
-          err = language === 'te' ? 'దయచేసి లింగాన్ని ఎంచుకోండి.' : 'Please select your gender.';
-        }
+        if (!value) err = language === 'te' ? 'దయచేసి లింగాన్ని ఎంచుకోండి.' : 'Please select your gender.';
         break;
       case 'caste_category':
-        if (!value) {
-          err = language === 'te' ? 'దయచేసి కుల వర్గాన్ని ఎంచుకోండి.' : 'Please select your caste category.';
-        }
+        if (!value) err = language === 'te' ? 'దయచేసి కుల వర్గాన్ని ఎంచుకోండి.' : 'Please select your caste category.';
         break;
       case 'district':
-        if (!value) {
-          err = language === 'te' ? 'దయచేసి మీ జిల్లా ఎంచుకోండి.' : 'Please select your district.';
-        }
+        if (!value) err = language === 'te' ? 'దయచేసి మీ జిల్లా ఎంచుకోండి.' : 'Please select your district.';
         break;
       case 'mandal':
-        if (!value || String(value).trim().length === 0) {
-          err = language === 'te' ? 'దయచేసి మండలం పేరు టైప్ చేయండి.' : 'Please type your Mandal name.';
-        }
+        if (!value || String(value).trim().length === 0) err = language === 'te' ? 'దయచేసి మండలం పేరు టైప్ చేయండి.' : 'Please type your Mandal name.';
         break;
       case 'occupation':
-        if (!value) {
-          err = language === 'te' ? 'వృత్తిని ఎంచుకోండి.' : 'Please select your occupation.';
-        }
+        if (!value) err = language === 'te' ? 'వృత్తిని ఎంచుకోండి.' : 'Please select your occupation.';
         break;
     }
-
     setErrors(prev => ({ ...prev, [field]: err }));
     return err === '';
   };
@@ -470,23 +307,17 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
 
   const handleChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    if (touched[field]) {
-      validateField(field, value);
-    }
+    if (touched[field]) validateField(field, value);
   };
 
   const toggleScheme = (scheme: string) => {
     const current = formData.existing_schemes || [];
-    const updated = current.includes(scheme)
-      ? current.filter(s => s !== scheme)
-      : [...current, scheme];
+    const updated = current.includes(scheme) ? current.filter(s => s !== scheme) : [...current, scheme];
     handleChange('existing_schemes', updated);
   };
 
   const handleNext = () => {
     let isValid = true;
-
-    // Validate fields based on the current step
     if (step === 1) {
       const vName = validateField('name', formData.name);
       const vAge = validateField('age', formData.age);
@@ -499,15 +330,9 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
       const vMandal = validateField('mandal', formData.mandal);
       isValid = vDistrict && vMandal;
       setTouched(prev => ({ ...prev, district: true, mandal: true }));
-    } else if (step === 3) {
-      // Step 3 (Household) holds Sliders & ration, usually inherently valid
-      isValid = true;
     } else if (step === 4) {
-      const vOcc = validateField('occupation', formData.occupation);
-      isValid = vOcc;
+      isValid = validateField('occupation', formData.occupation);
       setTouched(prev => ({ ...prev, occupation: true }));
-    } else if (step === 5) {
-      isValid = true;
     }
 
     if (isValid) {
@@ -525,8 +350,7 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
 
   const handleSubmit = () => {
     sessionStorage.removeItem('sc-wizard-draft');
-    // Collect all final payload variables
-    const payload: ProfilePayload = {
+    onSearch({
       name: formData.name || 'Citizen',
       age: Number(formData.age || 35),
       gender: formData.gender || 'Male',
@@ -541,7 +365,6 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
       sub_caste: formData.sub_caste || undefined,
       existing_schemes: formData.existing_schemes || [],
       language: language,
-      // Expansion fields
       disability: formData.disability || 'No',
       mandal: formData.mandal || '',
       habitation: formData.habitation || 'Rural',
@@ -551,15 +374,11 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
       own_house: formData.own_house || 'No',
       house_type: formData.house_type,
       bank_account: formData.bank_account || 'Yes'
-    };
-    onSearch(payload);
+    });
   };
 
-  // Filter districts based on searchable criteria
   const baseDistricts = formData.state === 'Andhra Pradesh' ? AP_DISTRICTS : TS_DISTRICTS;
-  const filteredDistricts = baseDistricts.filter(d => 
-    d.toLowerCase().includes(districtSearch.toLowerCase())
-  );
+  const filteredDistricts = baseDistricts.filter(d => d.toLowerCase().includes(districtSearch.toLowerCase()));
 
   return (
     <div className="min-h-screen pt-28 pb-16 flex items-center justify-center px-4" id="wizard-viewport">
@@ -571,9 +390,7 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
             <div 
               key={i}
               className={`flex-1 h-full transition-all duration-300 ${
-                i <= step 
-                  ? 'bg-accent-saffron' 
-                  : 'bg-transparent border-r border-border-subtle/40'
+                i <= step ? 'bg-accent-saffron' : 'bg-transparent border-r border-border-subtle/40'
               }`}
             />
           ))}
@@ -660,859 +477,77 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
 
         {/* STEP CONTENT WRAPPERS */}
         <div className="px-6 sm:px-8 py-8 h-[440px] overflow-y-auto" id="wizard-form-body">
-          {/* Form validation accessibility live error announcer */}
-          <div 
-            aria-live="assertive" 
-            role="alert" 
-            className="sr-only" 
-            id="wizard-error-announcer"
-          >
+          <div aria-live="assertive" role="alert" className="sr-only" id="wizard-error-announcer">
             {announcerMessage}
           </div>
           <AnimatePresence mode="wait">
-            
-            {/* STEP 1: PERSONAL INFORMATION */}
             {step === 1 && (
-              <motion.div 
-                key="step1"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-6"
-              >
-                {/* Name */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-name">
-                    {t('wizard.field.name')} *
-                  </label>
-                  <input
-                    type="text"
-                    id="ctz-name"
-                    required
-                    aria-required="true"
-                    value={localName} // Changed: Bind value to local state to avoid parent re-renders on keystroke
-                    onChange={(e) => setLocalName(e.target.value)} // Changed: Update local state on every keystroke
-                    onBlur={() => { // Changed: Handle blur event to commit changes to parent state and validate
-                      handleChange('name', localName); // Changed: Call parent updater on blur
-                      handleBlur('name'); // Changed: Run validation on blur
-                    }} // Changed: End of blur handler
-                    placeholder={language === 'te' ? 'ఉదా: రాముడు' : 'e.g. Ramanjaneyulu'}
-                    aria-invalid={errors.name ? "true" : "false"}
-                    aria-describedby={errors.name ? "name-error" : undefined}
-                    className={`bg-bg-base text-text-primary border rounded-xl px-4 py-3 text-sm font-semibold outline-none transition-all ${
-                      errors.name ? 'border-error focus:ring-1 focus:ring-error' : 'border-border-main focus:border-accent-saffron focus:ring-1'
-                    }`}
-                  />
-                  {errors.name && (
-                    <span id="name-error" role="alert" className="text-xs font-bold text-error mt-1.5 flex items-center">
-                      <AlertCircle size={12} className="mr-1" />
-                      {errors.name}
-                    </span>
-                  )}
-                </div>
-
-                {/* Age & Gender */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-age">
-                      {t('wizard.field.age')} *
-                    </label>
-                    <input
-                      type="number"
-                      id="ctz-age"
-                      min={0}
-                      max={120}
-                      required
-                      aria-required="true"
-                      value={localAge} // Changed: Bind value to local state to avoid active parent re-renders on every keystroke
-                      onChange={(e) => setLocalAge(e.target.value)} // Changed: Update local state on every keystroke, which debounces updates to parent state
-                      onBlur={() => handleBlur('age')} // Changed: Run validation on blur
-                      placeholder="e.g. 45"
-                      aria-invalid={errors.age ? "true" : "false"}
-                      aria-describedby={errors.age ? "age-error" : undefined}
-                      className={`bg-bg-base text-text-primary border rounded-xl px-4 py-3 text-sm font-semibold outline-none transition-all ${
-                        errors.age ? 'border-error focus:ring-1 focus:ring-error' : 'border-border-main focus:border-accent-saffron'
-                      }`}
-                    />
-                    {errors.age && (
-                      <span id="age-error" role="alert" className="text-xs font-bold text-error mt-1.5 flex items-center">
-                        <AlertCircle size={12} className="mr-1" />
-                        {errors.age}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                      {t('wizard.field.gender')} *
-                    </label>
-                    <div className="grid grid-cols-3 gap-2" role="group" aria-label="Gender selection">
-                      {['Male', 'Female', 'Other'].map((g) => (
-                        <button
-                          key={g}
-                          type="button"
-                          onClick={() => handleChange('gender', g)}
-                          aria-invalid={errors.gender ? "true" : "false"}
-                          aria-describedby={errors.gender ? "gender-error" : undefined}
-                          className={`py-3 rounded-xl border font-bold text-xs cursor-pointer transition-colors ${
-                            formData.gender === g
-                              ? 'bg-accent-blue/15 border-accent-blue text-accent-blue'
-                              : 'bg-bg-base border-border-main text-text-secondary hover:border-text-secondary'
-                          }`}
-                        >
-                          {g === 'Female' ? (language === 'te' ? 'స్త్రీ' : 'Female') : g === 'Male' ? (language === 'te' ? 'పురుషుడు' : 'Male') : (language === 'te' ? 'ఇతర' : 'Other')}
-                        </button>
-                      ))}
-                    </div>
-                    {errors.gender && (
-                      <span id="gender-error" className="text-xs font-bold text-error mt-1.5 flex items-center">
-                        <AlertCircle size={12} className="mr-1" />
-                        {errors.gender}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Caste Category & disability */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-caste">
-                      {t('wizard.field.caste')} *
-                    </label>
-                    <select
-                      id="ctz-caste"
-                      required
-                      aria-required="true"
-                      aria-label={language === 'te' ? 'కులం ఎంచుకోండి' : 'Select caste category'}
-                      value={formData.caste_category}
-                      onChange={(e) => handleChange('caste_category', e.target.value)}
-                      onBlur={() => handleBlur('caste_category')}
-                      aria-invalid={errors.caste_category ? "true" : "false"}
-                      aria-describedby={errors.caste_category ? "caste-error" : undefined}
-                      className={`bg-bg-base text-text-primary border rounded-xl px-4 py-3 text-sm font-semibold outline-none cursor-pointer transition-all ${
-                        errors.caste_category ? 'border-error' : 'border-border-main'
-                      }`}
-                    >
-                      <option value="">{language === 'te' ? '-- కులం --' : '-- Select --'}</option>
-                      {CASTES.map((c) => (
-                        <option key={c} value={c}>{c === 'General' ? 'General / OC' : c}</option>
-                      ))}
-                    </select>
-                    {errors.caste_category && (
-                      <span id="caste-error" role="alert" className="text-xs font-bold text-error mt-1.5 flex items-center">
-                        <AlertCircle size={12} className="mr-1" />
-                        {errors.caste_category}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                      Special Disability Status?
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {['Yes', 'No'].map((op) => (
-                        <button
-                          key={op}
-                          type="button"
-                          onClick={() => handleChange('disability', op)}
-                          className={`py-3 rounded-xl border font-bold text-xs cursor-pointer transition-colors ${
-                            formData.disability === op
-                              ? 'bg-accent-saffron/15 border-accent-saffron text-accent-saffron'
-                              : 'bg-bg-base border-border-main text-text-secondary hover:border-text-secondary'
-                          }`}
-                        >
-                          {op === 'Yes' ? (language === 'te' ? 'అవును' : 'Yes') : (language === 'te' ? 'కాదు' : 'No')}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <StepPersonalInfo
+                formData={formData}
+                localName={localName}
+                setLocalName={setLocalName}
+                localAge={localAge}
+                setLocalAge={setLocalAge}
+                errors={errors}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                direction={direction}
+                stepVariants={stepVariants}
+                language={language}
+                t={t}
+              />
             )}
 
-            {/* STEP 2: ADDRESS AND GEOGRAPHY */}
             {step === 2 && (
-              <motion.div 
-                key="step2"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-6"
-              >
-                {/* State Toggles (AP prefilled/Telangana) */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                    {t('wizard.field.state')} *
-                  </label>
-                  <div className="grid grid-cols-2 gap-2 bg-bg-base/40 p-1.5 rounded-2xl border border-border-subtle">
-                    {['Andhra Pradesh', 'Telangana'].map((st) => (
-                      <button
-                        key={st}
-                        type="button"
-                        onClick={() => {
-                          handleChange('state', st);
-                          handleChange('district', '');
-                          setDistrictSearch('');
-                        }}
-                        className={`py-3 rounded-xl font-bold text-xs cursor-pointer transition-all ${
-                          formData.state === st
-                            ? 'bg-accent-saffron text-white shadow-md'
-                            : 'text-text-secondary hover:text-text-primary'
-                        }`}
-                      >
-                        {st}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* District search lookups */}
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs font-black text-text-secondary uppercase animate-pulse-subtle" htmlFor="ctz-district">
-                      {t('wizard.field.district')} *
-                    </label>
-                    <div className="flex flex-col items-end">
-                      <button
-                        type="button"
-                        onClick={handleAutoDetectLocation}
-                        disabled={isLocating}
-                        className="flex items-center space-x-1.5 text-xs font-bold text-accent-blue hover:text-accent-blue/80 disabled:opacity-50 transition-colors cursor-pointer bg-accent-blue/10 hover:bg-accent-blue/20 px-3 py-1.5 rounded-xl border border-accent-blue/10"
-                        id="auto-detect-location-btn"
-                      >
-                        {isLocating ? (
-                          <Loader2 size={14} className="animate-spin" />
-                        ) : (
-                          <MapPin size={14} />
-                        )}
-                        <span>{language === 'te' ? 'నా స్థానం ఉపయోగించు' : 'Use My Location'}</span>
-                      </button>
-                      <span className="text-[10px] text-text-muted mt-1">
-                        {language === 'te' ? 'ఈ పరికరం GPS ని ఉపయోగిస్తుంది' : 'Uses device GPS'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-3.5 text-text-muted" size={15} />
-                    <input
-                      type="text"
-                      id="ctz-district"
-                      required
-                      aria-required="true"
-                      placeholder="Type district to filter... (e.g. Guntur)"
-                      value={localDistrict} // Changed: Bind value to local state to optimize typing throughput
-                      onChange={(e) => { // Changed: Handle typing
-                        setLocalDistrict(e.target.value); // Changed: Immediately update local input state on keyboard input
-                        setDistrictSearch(e.target.value); // Changed: Update parent filter search input to refine results in list
-                      }} // Changed: End of onChange
-                      onBlur={() => { // Changed: Commit input value to parent state on focus out
-                        handleChange('district', localDistrict); // Changed: Call parent updater on blur
-                        handleBlur('district'); // Changed: Run validation on focus blur
-                      }} // Changed: End of onBlur
-                      aria-invalid={errors.district ? "true" : "false"}
-                      aria-describedby={errors.district ? "district-error" : undefined}
-                      className="bg-bg-base text-text-primary border border-border-main rounded-xl pl-9 pr-4 py-3 text-sm font-semibold outline-none w-full"
-                    />
-                  </div>
-                  {/* Matching results dropdown list */}
-                  <div className="grid grid-cols-3 gap-1.5 mt-2 max-h-24 overflow-y-auto pr-1 bg-bg-base/30 p-2 rounded-xl">
-                    {filteredDistricts.map((d) => (
-                      <button
-                        key={d}
-                        type="button"
-                        onClick={() => { // Changed: Handle click selection
-                          handleChange('district', d); // Changed: Commit clicked selection to parent state
-                          setDistrictSearch(d); // Changed: Reset filter text
-                          setLocalDistrict(d); // Changed: Keep local input value in sync with selected district
-                        }} // Changed: End of onClick
-                        className={`px-2 py-1.5 rounded text-[11px] leading-tight font-black tracking-wide border cursor-pointer truncate ${
-                          formData.district === d
-                            ? 'bg-accent-blue/15 border-accent-blue text-accent-blue'
-                            : 'bg-bg-surface border-border-subtle text-text-secondary hover:border-text-secondary'
-                        }`}
-                      >
-                        {d}
-                      </button>
-                    ))}
-                  </div>
-                  {errors.district && (
-                    <span id="district-error" role="alert" className="text-xs font-bold text-error mt-1 flex items-center">
-                      <AlertCircle size={12} className="mr-1" />
-                      {errors.district}
-                    </span>
-                  )}
-                </div>
-
-                {/* Mandal & Habitation */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-mandal">
-                      Mandal Textbox *
-                    </label>
-                    <input
-                      type="text"
-                      id="ctz-mandal"
-                      required
-                      aria-required="true"
-                      value={localMandal} // Changed: Bind to local state to prevent keystroke lag
-                      onChange={(e) => setLocalMandal(e.target.value)} // Changed: Set local mandal value on keystroke
-                      onBlur={() => { // Changed: Update parent state and run validation on blur
-                        handleChange('mandal', localMandal); // Changed: Call parent updater on blur
-                        handleBlur('mandal'); // Changed: Run standard fields validation on focus blur
-                      }} // Changed: End of onBlur
-                      placeholder="e.g. Tenali"
-                      aria-invalid={errors.mandal ? "true" : "false"}
-                      aria-describedby={errors.mandal ? "mandal-error" : undefined}
-                      className={`bg-bg-base text-text-primary border rounded-xl px-4 py-3 text-sm font-semibold outline-none transition-all ${
-                        errors.mandal ? 'border-error' : 'border-border-main'
-                      }`}
-                    />
-                    {errors.mandal && (
-                      <span id="mandal-error" role="alert" className="text-xs font-bold text-error mt-1.5 flex items-center">
-                        <AlertCircle size={12} className="mr-1" />
-                        {errors.mandal}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-habitation">
-                      Habitation Area Type *
-                    </label>
-                    <select
-                      id="ctz-habitation"
-                      required
-                      aria-required="true"
-                      aria-label="Habitation Area Type"
-                      value={formData.habitation}
-                      onChange={(e) => handleChange('habitation', e.target.value)}
-                      className="bg-bg-base text-text-primary border border-border-main rounded-xl px-4 py-3 text-sm font-semibold outline-none cursor-pointer"
-                    >
-                      <option value="Rural">{language === 'te' ? 'గ్రామీణ (Rural)' : 'Rural / Village'}</option>
-                      <option value="Urban">{language === 'te' ? 'పట్టణ (Urban)' : 'Urban / City'}</option>
-                      <option value="Tribal">{language === 'te' ? 'గిరిజన (Tribal)' : 'Tribal agency area'}</option>
-                    </select>
-                  </div>
-                </div>
-              </motion.div>
+              <StepLocation
+                formData={formData}
+                localDistrict={localDistrict}
+                setLocalDistrict={setLocalDistrict}
+                localMandal={localMandal}
+                setLocalMandal={setLocalMandal}
+                districtSearch={districtSearch}
+                setDistrictSearch={setDistrictSearch}
+                isLocating={isLocating}
+                handleAutoDetectLocation={handleAutoDetectLocation}
+                filteredDistricts={filteredDistricts}
+                errors={errors}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                direction={direction}
+                stepVariants={stepVariants}
+                language={language}
+                t={t}
+              />
             )}
 
-            {/* STEP 3: HOUSEHOLD PROFILE AND ECONOMIC CONDITIONS */}
-            {step === 3 && (
-              <motion.div 
-                key="step3"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-6"
-              >
-                {/* Family Members slider */}
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-center mb-2">
-                    <label id="family-members-label" className="text-xs font-black text-text-secondary uppercase" htmlFor="family-members-input">
-                      Number of Family Members
-                    </label>
-                    <span className="bg-accent-blue/10 text-accent-blue font-bold text-xs px-2.5 py-0.5 rounded-full font-mono">
-                      {localFamilyMembers} Persons
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    id="family-members-input"
-                    aria-labelledby="family-members-label"
-                    min="1"
-                    max="15"
-                    value={localFamilyMembers}
-                    onChange={(e) => setLocalFamilyMembers(Number(e.target.value))}
-                    className="w-full h-1.5 bg-bg-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
-                  />
-                  <div className="flex justify-between text-[11px] leading-tight text-text-muted font-bold mt-1.5">
-                    <span>1 (Single)</span>
-                    <span>5 (Standard)</span>
-                    <span>10 (Joint)</span>
-                    <span>15+</span>
-                  </div>
-                </div>
-
-                {/* Income annual slider */}
-                <div className="flex flex-col bg-bg-base/30 p-5 rounded-2xl border border-border-subtle">
-                  <div className="flex justify-between items-center mb-1">
-                    <label id="income-annual-label" className="text-xs font-black text-text-primary uppercase" htmlFor="income-annual-input">
-                      Annual Household Income
-                    </label>
-                    <span className="text-accent-saffron font-black text-sm font-mono">
-                      ₹{localIncomeAnnual?.toLocaleString('en-IN')}
-                    </span>
-                  </div>
-                  <p className="text-[11px] leading-tight text-text-muted font-semibold mb-3">
-                    Calculated Slab: {
-                      (localIncomeAnnual || 0) <= 150000 ? '🔴 BPL Target (Below 1.5 Lakhs)' :
-                      (localIncomeAnnual || 0) <= 300000 ? '🟠 Low Income (1.5 - 3 Lakhs)' :
-                      (localIncomeAnnual || 0) <= 600000 ? '🟡 Medium Slab (3 - 6 Lakhs)' :
-                      '🟢 High Income Slab (Above 6 Lakhs)'
-                    }
-                  </p>
-                  <input
-                    type="range"
-                    id="income-annual-input"
-                    aria-labelledby="income-annual-label"
-                    min="0"
-                    max="10000000"
-                    step="25000"
-                    value={localIncomeAnnual || 0}
-                    onChange={(e) => setLocalIncomeAnnual(Number(e.target.value))}
-                    className="w-full h-2 bg-bg-elevated rounded-lg appearance-none cursor-pointer accent-accent-saffron"
-                  />
-                  <div className="flex justify-between text-[11px] leading-tight text-text-muted font-mono mt-1.5 font-bold">
-                    <span>₹0</span>
-                    <span>₹1.5 Lakhs</span>
-                    <span>₹5 Lakhs</span>
-                    <span>₹20 Lakhs</span>
-                    <span>₹1 Crore</span>
-                  </div>
-                </div>
-
-                {/* Ration Card states */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                    Ration Card & BPL Status *
-                  </label>
-                  <div className="grid grid-cols-4 gap-2">
-                    {[
-                      { val: 'White', label: 'White Card (BPL)', color: 'border-white text-text-primary bg-white/5' },
-                      { val: 'Yellow', label: 'Yellow (Antyodaya)', color: 'border-yellow-400 text-yellow-500 bg-yellow-500/5' },
-                      { val: 'Pink', label: 'Pink Card (APL)', color: 'border-pink-400 text-pink-500 bg-pink-500/5' },
-                      { val: 'None', label: 'None', color: 'border-text-muted text-text-muted' }
-                    ].map((rc) => (
-                      <button
-                        key={rc.val}
-                        type="button"
-                        onClick={() => handleChange('ration_card', rc.val)}
-                        className={`p-3 rounded-xl border text-center font-bold text-[11px] leading-tight sm:text-xs cursor-pointer transition-all ${
-                          formData.ration_card === rc.val
-                            ? 'ring-1 ring-accent-saffron border-accent-saffron ' + rc.color
-                            : 'bg-bg-base border-border-default text-text-muted hover:border-text-secondary'
-                        }`}
-                      >
-                        {rc.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+            {(step === 3 || step === 4 || step === 5) && (
+              <StepIncome
+                step={step}
+                direction={direction}
+                stepVariants={stepVariants}
+                formData={formData}
+                localFamilyMembers={localFamilyMembers}
+                setLocalFamilyMembers={setLocalFamilyMembers}
+                localIncomeAnnual={localIncomeAnnual}
+                setLocalIncomeAnnual={setLocalIncomeAnnual}
+                localLandAcres={localLandAcres}
+                setLocalLandAcres={setLocalLandAcres}
+                errors={errors}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                toggleScheme={toggleScheme}
+                language={language}
+                t={t}
+              />
             )}
 
-            {/* STEP 4: OCCUPATION CATEGORIES */}
-            {step === 4 && (
-              <motion.div 
-                key="step4"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-6"
-              >
-                {/* Primary Occupation select */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-black text-text-secondary uppercase mb-2" htmlFor="ctz-occ">
-                    Primary Occupation *
-                  </label>
-                  <select
-                    id="ctz-occ"
-                    required
-                    aria-required="true"
-                    aria-label="Primary Occupation"
-                    value={formData.occupation}
-                    onChange={(e) => {
-                      handleChange('occupation', e.target.value);
-                      // Clear conditionally nested variables
-                      if (e.target.value !== 'Farmer') {
-                        handleChange('land_acres', undefined);
-                        handleChange('soil_type', undefined);
-                      }
-                      if (e.target.value !== 'Student') {
-                        handleChange('student_level', undefined);
-                      }
-                    }}
-                    onBlur={() => handleBlur('occupation')}
-                    aria-invalid={errors.occupation ? "true" : "false"}
-                    aria-describedby={errors.occupation ? "occupation-error" : undefined}
-                    className="bg-bg-base text-text-primary border border-border-main rounded-xl px-4 py-3 text-sm font-semibold outline-none cursor-pointer"
-                  >
-                    <option value="">-- Choose Category --</option>
-                    {OCCUPATIONS.map(op => (
-                      <option key={op} value={op}>{op}</option>
-                    ))}
-                  </select>
-                  {errors.occupation && (
-                    <span id="occupation-error" role="alert" className="text-xs font-bold text-error mt-1 flex items-center">
-                      <AlertCircle size={12} className="mr-1" />
-                      {errors.occupation}
-                    </span>
-                  )}
-                </div>
-
-                {/* Conditionally reveal Farmer configurations */}
-                {formData.occupation === 'Farmer' && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="border border-accent-saffron/10 bg-accent-saffron/5 p-5 rounded-2xl space-y-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Sparkles className="text-accent-saffron animate-pulse" size={14} />
-                      <span className="text-xs font-black uppercase text-accent-saffron">Rythu Mitra Subfields</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex flex-col">
-                        <label className="text-[11px] leading-tight font-black text-text-secondary uppercase mb-1.5" htmlFor="ctz-acres">
-                          Owned Cultivable Land (Acres) *
-                        </label>
-                        <input
-                          type="number"
-                          id="ctz-acres"
-                          required
-                          aria-required="true"
-                          min="0"
-                          max="100"
-                          step="0.1"
-                          placeholder="e.g. 2.5"
-                          value={localLandAcres} // Changed: Bind value to local state to optimize responsiveness
-                          onChange={(e) => setLocalLandAcres(e.target.value)} // Changed: Update local state on keystroke and let debounce trigger parent
-                          className="bg-bg-base text-text-primary border border-border-main rounded-xl px-3 py-2 text-xs font-bold outline-none"
-                        />
-                      </div>
-
-                      <div className="flex flex-col">
-                        <label className="text-[11px] leading-tight font-black text-text-secondary uppercase mb-1.5" htmlFor="ctz-soil">
-                          Irrigation Soil dry-type
-                        </label>
-                        <select
-                          id="ctz-soil"
-                          aria-label="Irrigation Soil dry-type"
-                          value={formData.soil_type || ''}
-                          onChange={(e) => handleChange('soil_type', e.target.value)}
-                          className="bg-bg-base text-text-primary border border-border-main rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-pointer"
-                        >
-                          <option value="">-- Select Dry type --</option>
-                          <option value="Black">Regur / Black Soil</option>
-                          <option value="Red">Red Soil (AP Dry blocks)</option>
-                          <option value="Alluvial">Alluvial (Delta river basin)</option>
-                          <option value="Sandy">Sandy coastal belt</option>
-                          <option value="Other">Other / Hard gravel</option>
-                        </select>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Conditionally reveal Student educational parameters */}
-                {formData.occupation === 'Student' && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="border border-accent-blue/10 bg-accent-blue/5 p-5 rounded-2xl space-y-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Info className="text-accent-blue" size={14} />
-                      <span className="text-xs font-black uppercase text-accent-blue">Vidya Deevena criteria</span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <label className="text-[11px] leading-tight font-black text-text-secondary uppercase mb-1.5" htmlFor="student-lvl">
-                        Level of current education
-                      </label>
-                      <select
-                        id="student-lvl"
-                        aria-label="Level of current education"
-                        value={formData.student_level || ''}
-                        onChange={(e) => handleChange('student_level', e.target.value)}
-                        className="bg-bg-base text-text-primary border border-border-main rounded-xl px-3.5 py-2.5 text-xs font-bold outline-none cursor-pointer"
-                      >
-                        <option value="">-- Choose level --</option>
-                        <option value="School">School Level (Primary/High)</option>
-                        <option value="Intermediate">Intermediate / 12th Class</option>
-                        <option value="Undergraduate">Undergraduate (BTech, BSc, etc)</option>
-                        <option value="Postgraduate">Postgraduate (MTech, MSc, etc)</option>
-                        <option value="Diploma">Polytechnic / ITI Diploma</option>
-                        <option value="Other">Other Certificate / Coaching</option>
-                      </select>
-                    </div>
-                  </motion.div>
-                )}
-              </motion.div>
-            )}
-
-            {/* STEP 5: HOUSE PROPERTIES AND EXISTING WELFARES */}
-            {step === 5 && (
-              <motion.div 
-                key="step5"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-6"
-              >
-                {/* House parameters */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                      Own permanent house?
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {['Yes', 'No'].map(op => (
-                        <button
-                          key={op}
-                          type="button"
-                          onClick={() => {
-                            handleChange('own_house', op);
-                            if (op === 'No') handleChange('house_type', undefined);
-                          }}
-                          className={`py-3 rounded-xl border font-bold text-xs cursor-pointer transition-colors ${
-                            formData.own_house === op
-                              ? 'bg-accent-saffron/15 border-accent-saffron text-accent-saffron'
-                              : 'bg-bg-base border-border-main text-text-secondary hover:border-text-secondary'
-                          }`}
-                        >
-                          {op === 'Yes' ? (language === 'te' ? 'అవును' : 'Yes') : (language === 'te' ? 'కాదు' : 'No')}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {formData.own_house === 'Yes' && (
-                    <div className="flex flex-col">
-                      <label className="text-xs font-black text-text-secondary uppercase mb-2">
-                        Physical Structure Type
-                      </label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {[
-                          { val: 'Pucca', text: 'Pucca (Cement)' },
-                          { val: 'Kutcha', text: 'Kutcha (Thatch)' }
-                        ].map(ht => (
-                          <button
-                            key={ht.val}
-                            type="button"
-                            onClick={() => handleChange('house_type', ht.val)}
-                            className={`py-3 rounded-xl border font-bold text-[11px] sm:text-xs cursor-pointer transition-colors ${
-                              formData.house_type === ht.val
-                                ? 'bg-accent-blue/15 border-accent-blue text-accent-blue'
-                                : 'bg-bg-base border-border-main text-text-secondary hover:border-text-secondary'
-                            }`}
-                          >
-                            {ht.text}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* DBT Active Bank toggle */}
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-center mb-1">
-                    <label className="text-xs font-black text-text-secondary uppercase">
-                      Direct Benefit Transfer / Active Bank Account
-                    </label>
-                    <span className="text-[11px] leading-tight bg-success/15 text-success font-bold px-2 py-0.5 rounded">DBT COMPLIANT</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {['Yes', 'No'].map((ba) => (
-                      <button
-                        key={ba}
-                        type="button"
-                        onClick={() => handleChange('bank_account', ba)}
-                        className={`py-2.5 rounded-xl border font-bold text-xs cursor-pointer transition-colors ${
-                          formData.bank_account === ba
-                            ? 'bg-success/15 border-success text-success'
-                            : 'bg-bg-base border-border-main text-text-secondary'
-                        }`}
-                      >
-                        {ba === 'Yes' ? (language === 'te' ? 'బ్యాంక్ ఖాతా ఉంది' : 'Bank Active') : (language === 'te' ? 'ఖాతా లేదు' : 'No Account')}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Multi selection existing receiving welfares */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-black text-text-secondary uppercase mb-3">
-                    {t('wizard.field.existing_schemes')}
-                  </label>
-                  <div className="grid grid-cols-2 gap-2" id="existing-schemes-chk-grid">
-                    {EXISTING_SCHEMES_LIST.map((sch) => {
-                      const isChecked = (formData.existing_schemes || []).includes(sch);
-                      return (
-                        <button
-                          key={sch}
-                          type="button"
-                          onClick={() => toggleScheme(sch)}
-                          className={`flex items-center justify-between px-3.5 py-3 rounded-xl border text-left cursor-pointer transition-all ${
-                            isChecked
-                              ? 'bg-accent-saffron/10 border-accent-saffron text-accent-saffron'
-                              : 'bg-bg-base/40 border-border-main text-text-secondary hover:border-text-secondary'
-                          }`}
-                        >
-                          <span className="text-[11px] leading-tight font-black">{sch}</span>
-                          <div className={`w-4 h-4 rounded-md border flex items-center justify-center text-white ${
-                            isChecked ? 'bg-accent-saffron border-accent-saffron' : 'border-text-muted'
-                          }`}>
-                            {isChecked && <CheckCircle size={10} className="stroke-[3]" />}
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 6: SUMMARISED VERIFICATION VERDICT - EDIT AND DRILL BACK CAPABILITY */}
             {step === 6 && (
-              <motion.div 
-                key="step6"
-                custom={direction}
-                variants={stepVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                className="space-y-4"
-              >
-                <div className="bg-bg-elevated/40 border border-border-subtle rounded-2xl p-3 flex items-start space-x-2">
-                  <CheckCircle className="text-accent-saffron shrink-0 mt-0.5" size={15} />
-                  <p className="text-[11px] leading-tight font-semibold text-text-secondary leading-relaxed">
-                    Check your details below. Click the small edit icon beside any section to return instantly and make modifications.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" id="review-cards-matrix">
-                  {/* Card Section 1: Who are you */}
-                  <div className="bg-bg-base/30 border border-border-default rounded-2xl p-4 relative group">
-                    <button 
-                      onClick={() => setStep(1)}
-                      className="absolute top-3 right-3 p-1 text-text-muted hover:text-accent-saffron bg-bg-surface border border-border-subtle rounded-lg cursor-pointer"
-                    >
-                      <Edit2 size={11} />
-                    </button>
-                    <div className="flex items-center space-x-2 text-text-muted mb-2">
-                      <User size={13} />
-                      <span className="text-[11px] leading-tight font-black uppercase tracking-wider">Identity</span>
-                    </div>
-                    <div className="space-y-1 text-xs text-text-secondary font-bold">
-                      <p>Name: <span className="text-text-primary font-black">{formData.name}</span></p>
-                      <p>Age/Sex: <span className="text-text-primary">{formData.age} • {formData.gender}</span></p>
-                      <p>Category: <span className="text-text-primary">{formData.caste_category || 'General'}</span></p>
-                      <p>Disability: <span className="text-text-primary">{formData.disability || 'No'}</span></p>
-                    </div>
-                  </div>
-
-                  {/* Card Section 2: Address */}
-                  <div className="bg-bg-base/30 border border-border-default rounded-2xl p-4 relative">
-                    <button 
-                      onClick={() => setStep(2)}
-                      className="absolute top-3 right-3 p-1 text-text-muted hover:text-accent-saffron bg-bg-surface border border-border-subtle rounded-lg cursor-pointer"
-                    >
-                      <Edit2 size={11} />
-                    </button>
-                    <div className="flex items-center space-x-2 text-text-muted mb-2">
-                      <MapPin size={13} />
-                      <span className="text-[11px] leading-tight font-black uppercase tracking-wider">Geography</span>
-                    </div>
-                    <div className="space-y-1 text-xs text-text-secondary font-bold">
-                      <p>State: <span className="text-text-primary">{formData.state}</span></p>
-                      <p>District: <span className="text-text-primary">{formData.district || 'Not Chosen'}</span></p>
-                      <p>Mandal: <span className="text-text-primary">{formData.mandal || 'N/A'}</span></p>
-                      <p>Habitation: <span className="text-text-primary">{formData.habitation}</span></p>
-                    </div>
-                  </div>
-
-                  {/* Card Section 3: Economics */}
-                  <div className="bg-bg-base/30 border border-border-default rounded-2xl p-4 relative">
-                    <button 
-                      onClick={() => setStep(3)}
-                      className="absolute top-3 right-3 p-1 text-text-muted hover:text-accent-saffron bg-bg-surface border border-border-subtle rounded-lg cursor-pointer"
-                    >
-                      <Edit2 size={11} />
-                    </button>
-                    <div className="flex items-center space-x-2 text-text-muted mb-2">
-                      <Landmark size={13} />
-                      <span className="text-[11px] leading-tight font-black uppercase tracking-wider">Household</span>
-                    </div>
-                    <div className="space-y-1 text-xs text-text-secondary font-bold">
-                      <p>Members: <span className="text-text-primary">{formData.family_members} Persons</span></p>
-                      <p>Income: <span className="text-text-primary font-black">₹{formData.income_annual?.toLocaleString()}</span></p>
-                      <p>Ration Card: <span className="text-text-primary font-bold">{formData.ration_card} Card</span></p>
-                    </div>
-                  </div>
-
-                  {/* Card Section 4: Occupation */}
-                  <div className="bg-bg-base/30 border border-border-default rounded-2xl p-4 relative">
-                    <button 
-                      onClick={() => setStep(4)}
-                      className="absolute top-3 right-3 p-1 text-text-muted hover:text-accent-saffron bg-bg-surface border border-border-subtle rounded-lg cursor-pointer"
-                    >
-                      <Edit2 size={11} />
-                    </button>
-                    <div className="flex items-center space-x-2 text-text-muted mb-2">
-                      <Briefcase size={13} />
-                      <span className="text-[11px] leading-tight font-black uppercase tracking-wider">Education & Labor</span>
-                    </div>
-                    <div className="space-y-1 text-xs text-text-secondary font-bold">
-                      <p>Occupation: <span className="text-text-primary font-black">{formData.occupation || 'N/A'}</span></p>
-                      {formData.occupation === 'Farmer' && (
-                        <>
-                          <p>Land Acres: <span className="text-text-primary">{formData.land_acres} Acres</span></p>
-                          <p>Soil Dry Type: <span className="text-text-primary">{formData.soil_type || 'Mixed'}</span></p>
-                        </>
-                      )}
-                      {formData.occupation === 'Student' && (
-                        <p>Edu Level: <span className="text-text-primary">{formData.student_level || 'School'}</span></p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Card Section 5: Property and Assets */}
-                  <div className="bg-bg-base/30 border border-border-default rounded-2xl p-4 relative sm:col-span-2">
-                    <button 
-                      onClick={() => setStep(5)}
-                      className="absolute top-3 right-3 p-1 text-text-muted hover:text-accent-saffron bg-bg-surface border border-border-subtle rounded-lg cursor-pointer"
-                    >
-                      <Edit2 size={11} />
-                    </button>
-                    <div className="flex items-center space-x-2 text-text-muted mb-2">
-                      <Home size={13} />
-                      <span className="text-[11px] leading-tight font-black uppercase tracking-wider">Property & Welfare</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 text-xs text-text-secondary font-bold">
-                      <div>
-                        <p>Own House: <span className="text-text-primary">{formData.own_house}</span></p>
-                        {formData.own_house === 'Yes' && <p>House structure: <span className="text-text-primary">{formData.house_type || 'Pucca'}</span></p>}
-                        <p>DBT Bank Active: <span className="text-text-primary">{formData.bank_account || 'Yes'}</span></p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] leading-tight uppercase text-text-muted">Already receiving:</p>
-                        <p className="text-text-primary mt-0.5 truncate">{formData.existing_schemes?.join(', ') || 'None'}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <StepReview
+                formData={formData}
+                setStep={setStep}
+                direction={direction}
+                stepVariants={stepVariants}
+              />
             )}
           </AnimatePresence>
         </div>
@@ -1543,7 +578,7 @@ export const ProfileWizard: React.FC<ProfileWizardProps> = ({ onSearch, isLoadin
               onClick={handleNext}
               className="px-6 py-2.5 bg-bg-surface-raised border border-border-default hover:bg-bg-surface-raised/80 text-white rounded-xl font-bold text-sm shadow-md cursor-pointer flex items-center space-x-1 transition-all active:scale-[0.98]"
               style={{
-                textShadow: '0px 1px 3px rgba(0, 0, 0, 0.90), 0px 0px 1.5px rgba(0, 0, 0, 0.90)' // Maximum legibility outline for low-vision accessibility
+                textShadow: '0px 1px 3px rgba(0, 0, 0, 0.90), 0px 0px 1.5px rgba(0, 0, 0, 0.90)'
               }}
               id="wizard-next-btn"
             >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Home, 
   Sparkles, 
@@ -19,11 +19,13 @@ import {
 import { useTranslation } from '../i18n';
 import { LanguageToggle } from './LanguageToggle';
 import { ThemeToggle } from './ThemeToggle';
+import { CommandPalette } from './ui/CommandPalette';
+import { AuthUser } from '../types';
 
 interface AppShellProps {
   currentView: string;
   setView: (view: string) => void;
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
   onLogout: () => void;
   children: React.ReactNode;
 }
@@ -38,7 +40,20 @@ export const AppShell: React.FC<AppShellProps> = ({
   const { t, language } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  // Removed unused mobileMenuOpen state here to prevent unnecessary JS-driven re-renders.
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  // Global keydown listener for Cmd/Ctrl + K
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   // Notifications mock array for premium internal product feel
   const notifications = [
@@ -250,7 +265,11 @@ export const AppShell: React.FC<AppShellProps> = ({
           </div>
 
           {/* Desktop Search bar mock (Linear style) - Changed: Adjusted quick search visibility breakpoint from md: to lg: */}
-          <div className="hidden lg:flex items-center space-x-2 bg-bg-base border border-border-subtle px-3.5 py-1.5 rounded-full w-64 text-text-secondary hover:text-text-primary transition-colors cursor-pointer focus-ring shadow-inner">
+          <div 
+            onClick={() => setIsCommandPaletteOpen(true)}
+            className="hidden lg:flex items-center space-x-2 bg-bg-base border border-border-subtle px-3.5 py-1.5 rounded-full w-64 text-text-secondary hover:text-text-primary transition-colors cursor-pointer focus-ring shadow-inner"
+            id="workspace-search-trigger"
+          >
             <Search size={14} className="text-text-muted" />
             <span className="text-[11px] font-semibold text-text-muted select-none">{language === 'te' ? 'ద్వార శోధన (Cmd+K)' : 'Quick Portal Search (Cmd+K)'}</span>
           </div>
@@ -387,6 +406,12 @@ export const AppShell: React.FC<AppShellProps> = ({
         })}
       </nav>
 
+      <CommandPalette 
+        isOpen={isCommandPaletteOpen} 
+        onClose={() => setIsCommandPaletteOpen(false)} 
+        setView={setView} 
+        currentView={currentView} 
+      />
     </div>
   );
 };

@@ -35,7 +35,7 @@ export interface Citation {
 
 export interface ChatResponse {
   loading_messages: string[];
-  thinking_level: 'minimal'|'low'|'medium'|'high';
+  thinking_level: 'minimal'|'low'|'medium'|'high'|'web_search';
   blocks: Block[];
   citations: Citation[];
   follow_up_suggestions: string[];
@@ -47,10 +47,11 @@ export interface Message {
   content?: string;
   blocks?: Block[];
   timestamp: number;
-  thinking_level?: 'minimal'|'low'|'medium'|'high';
+  thinking_level?: 'minimal'|'low'|'medium'|'high'|'web_search';
   citations?: Citation[];
   follow_up_suggestions?: string[];
   loading_messages?: string[];
+  thinking_steps?: string[];
 }
 
 export interface Conversation {

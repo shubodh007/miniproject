@@ -57,3 +57,44 @@ export interface SearchHistory {
   results_snapshot: MatchResponse;
   created_at: string;
 }
+
+export interface EligibilityRules {
+  min_age?: number;
+  max_age?: number;
+  max_income?: number;
+  max_income_urban?: number;
+  max_income_rural?: number;
+  max_land_acres?: number;
+  applicable_states?: string[];
+  caste_categories?: string[];
+  occupation?: string;
+  gender?: string;
+  has_pattadar_passbook?: boolean;
+  [key: string]: unknown; // Allow extensible keys
+}
+
+export interface WelfareScheme {
+  id?: string; // Optional during creation
+  name: string;
+  name_te?: string;
+  description: string;
+  description_te?: string;
+  benefit_details?: string;
+  benefit_details_te?: string;
+  eligibility_rules: EligibilityRules;
+  docs_required?: string[];
+  docs_required_te?: string[];
+  state: 'Andhra Pradesh' | 'Telangana' | 'Central';
+  district?: string | null;
+  category: 'Agriculture' | 'Education' | 'Social Welfare' | 'Housing' | 'Health' | 'Employment' | 'Women & Child';
+  external_url?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AuthUser {
+  name: string;
+  email: string;
+}
+
+

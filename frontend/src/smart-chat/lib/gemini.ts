@@ -29,7 +29,7 @@ Respond ONLY with raw JSON matching this schema:
 Do not use markdown formatting marks (\`\`\`) in the top-level JSON response.
 `;
 
-export type ThinkingLevel = 'minimal' | 'low' | 'medium' | 'high';
+export type ThinkingLevel = 'minimal' | 'low' | 'medium' | 'high' | 'web_search';
 
 export function detectThinkingLevel(query: string): ThinkingLevel {
   const q = query.toLowerCase();
@@ -75,7 +75,8 @@ export async function chatWithGemini(
   messages: Message[], 
   thinkingLevel: ThinkingLevel = 'low', 
   schemeContext?: any,
-  profileSnapshot?: any
+  profileSnapshot?: any,
+  webSearchEnabled?: boolean
 ): Promise<ChatResponse> {
   try {
     const sterilizedMessages = safeSerialize(messages); // Sterilize message state payload before sending to prevent circular crash
@@ -84,7 +85,7 @@ export async function chatWithGemini(
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ messages: sterilizedMessages, thinkingLevel, schemeContext, profileSnapshot }) // Stringify clean payload safely with schemeContext and profileSnapshot
+      body: JSON.stringify({ messages: sterilizedMessages, thinkingLevel, schemeContext, profileSnapshot, webSearchEnabled }) // Stringify clean payload safely with schemeContext, profileSnapshot and webSearchEnabled
     });
 
     if (!res.ok) {

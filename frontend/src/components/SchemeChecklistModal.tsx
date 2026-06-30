@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Copy, Download, Share2, Loader2, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
-import { SchemeResult } from '../types';
+import { SchemeResult, ProfilePayload } from '../types';
 import { useToast } from './ToastProvider';
 
 interface SchemeChecklistModalProps {
@@ -9,7 +9,7 @@ interface SchemeChecklistModalProps {
   scheme: SchemeResult | null;
   checklist: string[] | null;
   loading: boolean;
-  profileSnapshot: any | null;
+  profileSnapshot: ProfilePayload | null;
   language: 'en' | 'te' | 'hi';
 }
 

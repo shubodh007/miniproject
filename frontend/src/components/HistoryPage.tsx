@@ -4,14 +4,28 @@ import {
   IndianRupee, CheckCircle2, Search, X, Loader2, ShieldAlert, MessageSquare 
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
-import { SearchHistory } from '../types';
+import { SearchHistory, AuthUser } from '../types';
+
+interface HistoryDoc {
+  id: string;
+  created_at: string;
+  title?: string;
+  category?: string;
+  risk_score?: number;
+}
+
+interface HistoryChat {
+  id: string;
+  created_at: string;
+  title?: string;
+}
 
 interface HistoryPageProps {
   historyList: SearchHistory[];
   onLoadHistoryItem: (item: SearchHistory) => void;
   onDeleteHistoryItem: (id: string) => void;
   setView: (v: string) => void;
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
 }
 
 export const HistoryPage: React.FC<HistoryPageProps> = ({
@@ -40,9 +54,9 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({
 
   // Backend state for database fetched items
   const [dbHistory, setDbHistory] = useState<{
-    searches: any[];
-    documents: any[];
-    chat_sessions: any[];
+    searches: SearchHistory[];
+    documents: HistoryDoc[];
+    chat_sessions: HistoryChat[];
   }>({ searches: [], documents: [], chat_sessions: [] });
   const [dbLoading, setDbLoading] = useState(false);
   const [dbError, setDbError] = useState<string | null>(null);

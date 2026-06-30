@@ -1,8 +1,8 @@
 // ===== FILE: src/components/chat/ChatInterface.tsx =====
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, Loader2, MessageSquare, Copy, Sparkles, Plus, PanelLeftClose, PanelLeftOpen, CornerDownRight, Trash2, Download, FileText } from 'lucide-react';
-import { Message, ChatResponse, Block } from '../../types/chat';
+import { Send, Loader2, MessageSquare, Copy, Sparkles, Plus, PanelLeftClose, PanelLeftOpen, CornerDownRight, Trash2, Download, FileText, Scale, Globe } from 'lucide-react';
+import { Message, ChatResponse, Block, Step, Metric, Criteria, TimelineEvent, Branch, Flashcard, Question } from '../../types/chat';
 import { chatWithGemini, detectThinkingLevel } from '../../lib/gemini';
 import { BlockRenderer } from '../blocks';
 import { useLocation, router } from '../../../utils/router';
@@ -10,14 +10,19 @@ import { useTranslation } from '../../../i18n';
 import { useChatSession } from '../../../hooks/useChatSession';
 import { EmptyState } from '../../../components/EmptyState';
 import { SchemeChecklistModal } from '../../../components/SchemeChecklistModal';
+import { ArtifactSidebar } from '../../../components/ArtifactSidebar';
+import { useChecklistGenerator } from '../../../hooks/useChecklistGenerator';
+import { ThinkingStageStreamer } from '../../../components/ui/ThinkingStageStreamer';
+import { Virtuoso } from 'react-virtuoso';
+import { ProfilePayload, AuthUser } from '../../../types';
 
 interface ChatInterfaceProps {
   attachedFile?: { name: string; content: string } | null;
   clearAttachedFile?: () => void;
   prepopulatedQuery?: string | null;
   clearPrepopulatedQuery?: () => void;
-  profileSnapshot?: any | null;
-  user?: any | null;
+  profileSnapshot?: ProfilePayload | null;
+  user?: AuthUser | null;
 }
 
 export function ChatInterface({
@@ -29,9 +34,13 @@ export function ChatInterface({
   user = null,
 }: ChatInterfaceProps = {}) {
   const [isOpen, setIsOpen] = useState(true);
+  const [isArtifactOpen, setIsArtifactOpen] = useState(false);
+  const [artifactTemplateId, setArtifactTemplateId] = useState<string>('generic');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const virtuosoRef = useRef<any>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const consumedQueryRef = useRef<string | null>(null);
   const [typingMsgId, setTypingMsgId] = useState<string | null>(null);
@@ -39,128 +48,11 @@ export function ChatInterface({
   const location = useLocation();
   const { language } = useTranslation();
   const [activeScheme, setActiveScheme] = useState<any>(null);
-  const [checklistModal, setChecklistModal] = useState<{
-    scheme: any;
-    checklist: string[] | null;
-    loading: boolean;
-  } | null>(null);
-
-  const handleGenerateChecklist = async (scheme: any) => {
-    // Check sessionStorage cache first
-    try {
-      const cached = sessionStorage.getItem(`checklist-${scheme.scheme_id}`);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setChecklistModal({ scheme, checklist: parsed, loading: false });
-          return;
-        }
-      }
-    } catch (e) {
-      console.warn('SessionStorage failed to parse:', e);
-    }
-
-    setChecklistModal({ scheme, checklist: null, loading: true });
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_message: `Generate a personalized document checklist for ${profileSnapshot?.name || 'a citizen'} to apply for ${scheme.name_en || scheme.scheme_name}. 
-          Their profile: State=${profileSnapshot?.state || 'AP'}, District=${profileSnapshot?.district || 'N/A'}, Occupation=${profileSnapshot?.occupation || 'N/A'}, 
-          Caste=${profileSnapshot?.caste_category || 'N/A'}, Land=${profileSnapshot?.land_acres || 'N/A'} acres, BPL=${profileSnapshot?.bpl_card || 'N/A'}.
-          The base required documents are: ${(scheme.documents_required || scheme.documents_needed || []).join(', ')}.
-          Generate a specific, personalized checklist mentioning their exact district MRO office, their specific situation (e.g., "Since you're a tenant farmer, include your CCRC card"). 
-          Format as a JSON array of strings: ["Document 1 — specific note", "Document 2 — specific note"]
-          Respond ONLY with the JSON array, no other text.`,
-          profile_snapshot: profileSnapshot,
-          streaming: false
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) {
-        throw new Error('ReadableStream not supported on this response');
-      }
-
-      let accumulatedText = '';
-      const decoder = new TextDecoder('utf-8');
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-          if (trimmed.startsWith('data: ')) {
-            const jsonStr = trimmed.slice(6).trim();
-            try {
-              const parsed = JSON.parse(jsonStr);
-              if (parsed.token) {
-                accumulatedText += parsed.token;
-              }
-            } catch (err) {
-              console.warn('Failed to parse SSE partial line:', jsonStr, err);
-            }
-          }
-        }
-      }
-
-      if (buffer.trim()) {
-        const trimmed = buffer.trim();
-        if (trimmed.startsWith('data: ')) {
-          const jsonStr = trimmed.slice(6).trim();
-          try {
-            const parsed = JSON.parse(jsonStr);
-            if (parsed.token) {
-              accumulatedText += parsed.token;
-            }
-          } catch (err) {
-            console.warn('Failed to parse remaining buffer line:', jsonStr, err);
-          }
-        }
-      }
-
-      const clean = accumulatedText.replace(/```json|```/g, '').trim();
-      const checklist = JSON.parse(clean);
-      
-      if (Array.isArray(checklist) && checklist.length > 0) {
-        try {
-          sessionStorage.setItem(`checklist-${scheme.scheme_id}`, JSON.stringify(checklist));
-        } catch (e) {
-          console.warn('SessionStorage save failed:', e);
-        }
-        setChecklistModal(prev => prev ? { ...prev, checklist, loading: false } : null);
-      } else {
-        throw new Error('Invalid JSON format');
-      }
-    } catch (e) {
-      console.error('AI checklist generation failed, falling back to static list:', e);
-      // Fallback to static list
-      const staticChecklist = scheme.documents_required || scheme.documents_needed || [];
-      try {
-        sessionStorage.setItem(`checklist-${scheme.scheme_id}`, JSON.stringify(staticChecklist));
-      } catch (err) {
-        // Safe check
-      }
-      setChecklistModal(prev => prev ? { 
-        ...prev, 
-        checklist: staticChecklist, 
-        loading: false 
-      } : null);
-    }
-  };
+  const {
+    handleGenerateChecklist,
+    checklistModal,
+    setChecklistModal
+  } = useChecklistGenerator(profileSnapshot);
 
   const normalizedActiveScheme = activeScheme ? {
     scheme_id: activeScheme.scheme_id || activeScheme.id || 'unknown',
@@ -179,6 +71,35 @@ export function ChatInterface({
       setLocalAttachedFile(attachedFile);
     }
   }, [attachedFile]);
+
+  // Sync artifact template ID based on active scheme or attached file
+  useEffect(() => {
+    if (localAttachedFile?.name) {
+      const n = localAttachedFile.name.toLowerCase();
+      if (n.includes('rent') || n.includes('lease')) {
+        setArtifactTemplateId('rental');
+      } else if (n.includes('land') || n.includes('agri')) {
+        setArtifactTemplateId('land-lease');
+      } else if (n.includes('income') || n.includes('cert')) {
+        setArtifactTemplateId('income');
+      } else if (n.includes('grievance') || n.includes('letter')) {
+        setArtifactTemplateId('grievance');
+      } else {
+        setArtifactTemplateId('generic');
+      }
+    } else if (activeScheme) {
+      const sName = (activeScheme.scheme_name || activeScheme.name_en || "").toLowerCase();
+      if (sName.includes('land') || sName.includes('agri') || sName.includes('farmer') || sName.includes('rythu')) {
+        setArtifactTemplateId('land-lease');
+      } else if (sName.includes('rent') || sName.includes('house')) {
+        setArtifactTemplateId('rental');
+      } else if (sName.includes('grievance') || sName.includes('support')) {
+        setArtifactTemplateId('grievance');
+      } else {
+        setArtifactTemplateId('generic');
+      }
+    }
+  }, [localAttachedFile, activeScheme]);
 
   const {
     sessions,
@@ -308,6 +229,15 @@ export function ChatInterface({
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
+    try {
+      virtuosoRef.current?.scrollToIndex({
+        index: messages.length - 1,
+        align: 'end',
+        behavior: 'smooth'
+      });
+    } catch (e) {
+      // Safe boundary check
+    }
   };
 
   useEffect(() => {
@@ -342,10 +272,19 @@ export function ChatInterface({
     // Save User message
     await saveMessage('user', finalContent, undefined, undefined, undefined, userMsgId);
 
-    const computedThinkingLevel = detectThinkingLevel(text);
+    const computedThinkingLevel = webSearchEnabled ? 'web_search' : detectThinkingLevel(text);
 
     let loadingMsgs = ["Initializing AI environment...", "Parsing structure...", "Generating intelligent response..."];
-    if (computedThinkingLevel === 'high') {
+    if (webSearchEnabled) {
+      loadingMsgs = [
+        "Connecting to live search API...",
+        "Searching web via Tavily/Serper...",
+        "Retrieving latest state regulations...",
+        "Analyzing real-time policy guidelines...",
+        "Grounding response in verified web results...",
+        "Constructing complete answers..."
+      ];
+    } else if (computedThinkingLevel === 'high') {
       loadingMsgs = ["Initializing AI environment...", "Processing complex eligibility rules...", "Analyzing dependencies...", "Generating intelligent response..."];
     }
 
@@ -354,6 +293,7 @@ export function ChatInterface({
       id: astId,
       role: 'assistant',
       loading_messages: loadingMsgs,
+      thinking_steps: loadingMsgs,
       timestamp: Date.now(),
       thinking_level: computedThinkingLevel
     };
@@ -368,7 +308,7 @@ export function ChatInterface({
         console.info('[Chat] Sending profile context for state:', profileSnapshot?.state);
       }
       const contextMessages = [...messages, userMsg];
-      const response = await chatWithGemini(contextMessages, computedThinkingLevel, activeScheme, profileSnapshot);
+      const response = await chatWithGemini(contextMessages, computedThinkingLevel, activeScheme, profileSnapshot, webSearchEnabled);
       
       // Instantly update UI element to render blocks and clear loaders
       setMessages(prev => prev.map(m => m.id === astId ? {
@@ -458,7 +398,7 @@ export function ChatInterface({
           case 'steps':
             md += `#### ${data.title || 'Steps'}\n`;
             if (Array.isArray(data.steps)) {
-              data.steps.forEach((step: any, sIdx: number) => {
+              data.steps.forEach((step: Step, sIdx: number) => {
                 const num = data.style === 'numbered' ? `${sIdx + 1}.` : '-';
                 md += `${num} **${step.title || ''}**${step.description ? `: ${step.description}` : ''}\n`;
                 if (step.tip) md += `   *Tip:* ${step.tip}\n`;
@@ -482,7 +422,7 @@ export function ChatInterface({
           case 'dashboard':
             md += `#### ${data.title || 'Dashboard'}\n\n`;
             if (Array.isArray(data.metrics)) {
-              data.metrics.forEach((m: any) => {
+              data.metrics.forEach((m: Metric) => {
                 md += `- **${m.label || ''}**: ${m.value || ''} (${m.change || ''})\n`;
               });
             }
@@ -494,7 +434,7 @@ export function ChatInterface({
             md += `| Criterion | ${labels[0]} | ${labels[1]} | Win |\n`;
             md += `| --- | --- | --- | --- |\n`;
             if (Array.isArray(data.criteria)) {
-              data.criteria.forEach((c: any) => {
+              data.criteria.forEach((c: Criteria) => {
                 md += `| ${c.name || ''} | ${c.a || ''} | ${c.b || ''} | ${c.winner || ''} |\n`;
               });
             }
@@ -503,7 +443,7 @@ export function ChatInterface({
           case 'timeline':
             md += `#### ${data.title || 'Timeline'}\n\n`;
             if (Array.isArray(data.events)) {
-              data.events.forEach((evt: any) => {
+              data.events.forEach((evt: TimelineEvent) => {
                 md += `- **${evt.date || ''}** - **${evt.title || ''}**: ${evt.description || ''}\n`;
               });
             }
@@ -512,7 +452,7 @@ export function ChatInterface({
           case 'mindmap':
             md += `#### Mind Map: ${data.center || ''}\n\n`;
             if (Array.isArray(data.branches)) {
-              data.branches.forEach((b: any) => {
+              data.branches.forEach((b: Branch) => {
                 md += `- **${b.topic || ''}**\n`;
                 if (Array.isArray(b.subtopics)) {
                   b.subtopics.forEach((sub: string) => {
@@ -526,7 +466,7 @@ export function ChatInterface({
           case 'flashcards':
             md += `#### Flashcards: ${data.topic || ''}\n\n`;
             if (Array.isArray(data.cards)) {
-              data.cards.forEach((card: any, cIdx: number) => {
+              data.cards.forEach((card: Flashcard, cIdx: number) => {
                 md += `${cIdx + 1}. **Q:** ${card.front}\n   **A:** ${card.back}\n\n`;
               });
             }
@@ -534,7 +474,7 @@ export function ChatInterface({
           case 'quiz':
             md += `#### Quiz: ${data.topic || ''}\n\n`;
             if (Array.isArray(data.questions)) {
-              data.questions.forEach((q: any, qIdx: number) => {
+              data.questions.forEach((q: Question, qIdx: number) => {
                 md += `**Q${qIdx + 1}: ${q.question}**\n`;
                 if (Array.isArray(q.options)) {
                   q.options.forEach((opt: string, oIdx: number) => {
@@ -685,7 +625,12 @@ export function ChatInterface({
       </AnimatePresence>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-bg-base">
+      <motion.div 
+        layout
+        className={`flex flex-col min-w-0 bg-bg-base transition-all duration-350 ${
+          isArtifactOpen ? 'w-full lg:w-[60%] lg:flex-none shrink-0 border-r border-border-subtle' : 'flex-1'
+        }`}
+      >
         
         {/* Header */}
         <div className="h-14 flex items-center px-4 border-b border-border-subtle bg-bg-surface/50 backdrop-blur shrink-0 justify-between">
@@ -701,17 +646,34 @@ export function ChatInterface({
             <span className="font-medium text-sm text-text-primary">Smart Chat Engine</span>
           </div>
 
-          {messages.length > 0 && (
+          <div className="flex items-center space-x-2">
             <button
-              onClick={handleDownload}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary bg-bg-surface hover:bg-bg-elevated border border-border-default hover:border-border-hover rounded-xl cursor-pointer transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-saffron/30 select-none active:scale-95"
-              title="Download Conversation"
-              aria-label="Download Conversation"
+              onClick={() => setIsArtifactOpen(!isArtifactOpen)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-extrabold rounded-xl cursor-pointer transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-saffron/30 select-none active:scale-95 border ${
+                isArtifactOpen 
+                  ? 'bg-accent-saffron text-white border-accent-saffron'
+                  : 'text-accent-saffron bg-accent-saffron/10 hover:bg-accent-saffron/20 border-accent-saffron/30'
+              }`}
+              title="Toggle Legal Artifact Sidebar"
+              aria-label="Toggle Legal Artifact Sidebar"
+              id="chat-toggle-artifact-panel"
             >
-              <Download size={14} className="text-text-muted" />
-              <span className="hidden sm:inline">Download Chat</span>
+              <Scale size={13} className="animate-pulse shrink-0 text-current" />
+              <span>Deeds &amp; Maps View</span>
             </button>
-          )}
+
+            {messages.length > 0 && (
+              <button
+                onClick={handleDownload}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary bg-bg-surface hover:bg-bg-elevated border border-border-default hover:border-border-hover rounded-xl cursor-pointer transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-accent-saffron/30 select-none active:scale-95"
+                title="Download Conversation"
+                aria-label="Download Conversation"
+              >
+                <Download size={14} className="text-text-muted" />
+                <span className="hidden sm:inline">Download Chat</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {activeScheme && (
@@ -736,35 +698,44 @@ export function ChatInterface({
         )}
 
         {/* Messages */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div 
-            className="max-w-[760px] mx-auto flex flex-col gap-6 relative"
-            aria-live="polite"
-            aria-atomic="false"
-          >
-            {messages.length === 0 && !loading && (
+        {messages.length === 0 ? (
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8">
+            <div 
+              className="max-w-[760px] mx-auto flex flex-col gap-6 relative"
+              aria-live="polite"
+              aria-atomic="false"
+            >
               <EmptyState 
                 onSelectSuggestion={(prompt) => handleSend(prompt)} 
                 profileSnapshot={profileSnapshot}
                 user={user}
               />
-            )}
-
-            {messages.map(msg => (
-              <MessageBubble 
-                key={msg.id} 
-                msg={msg} 
-                onSend={handleSend} 
-                isTyping={msg.id === typingMsgId} 
-                onTypeProgress={scrollToBottom}
-                onTypeComplete={() => setTypingMsgId(null)}
-              />
-            ))}
-            
-            {/* Scroll anchor spacer */}
-            <div className="h-4" />
+            </div>
           </div>
-        </div>
+        ) : (
+          <Virtuoso
+            ref={virtuosoRef}
+            data={messages}
+            followOutput="smooth"
+            useWindowScroll={false}
+            style={{ height: '100%', width: '100%' }}
+            className="flex-1 scrollbar-thin"
+            itemContent={(index, msg) => (
+              <div className="max-w-[760px] mx-auto px-4 md:px-8 py-4 flex flex-col gap-6 relative" key={msg.id}>
+                <MessageBubble 
+                  msg={msg} 
+                  onSend={handleSend} 
+                  isTyping={msg.id === typingMsgId} 
+                  onTypeProgress={scrollToBottom}
+                  onTypeComplete={() => setTypingMsgId(null)}
+                />
+              </div>
+            )}
+            components={{
+              Footer: () => <div className="h-4" />
+            }}
+          />
+        )}
 
         {/* Input */}
         <div className="p-4 bg-bg-surface border-t border-border-subtle shrink-0">
@@ -819,12 +790,28 @@ export function ChatInterface({
               {loading ? <Loader2 size={16} className="animate-spin text-white" /> : <Send size={16} className="text-white" />}
             </button>
           </div>
-          <div id="chat-helper-text" className="text-center mt-2 text-[11px] leading-tight text-text-muted"> {/* Changed: Added unique id parameter for input description reference */}
-             Smart Chat Engine responses may be inaccurate. Press Shift+Enter for newline.
+          <div id="chat-helper-text" className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-2 text-[11px] leading-tight text-text-muted"> {/* Changed: Added unique id parameter for input description reference */}
+            <div>
+              Smart Chat Engine responses may be inaccurate. Press Shift+Enter for newline.
+            </div>
+            {/* Real-time Web Search Capability Activation */}
+            <button
+              onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all duration-150 font-medium ${
+                webSearchEnabled 
+                  ? 'bg-accent-saffron/10 border-accent-saffron/30 text-accent-saffron shadow-xs' 
+                  : 'bg-bg-base border-border-default hover:border-text-muted text-text-muted cursor-pointer'
+              }`}
+              title="Toggle live Web Search via Tavily/Serper API"
+              aria-label="Toggle web search ability"
+            >
+              <Globe size={11} className={`${webSearchEnabled ? 'text-accent-saffron' : 'text-text-muted animate-pulse'}`} />
+              <span>Web Search Ability: {webSearchEnabled ? 'ON' : 'OFF'}</span>
+            </button>
           </div>
         </div>
 
-      </div>
+      </motion.div>
 
       {checklistModal && (
         <SchemeChecklistModal
@@ -837,6 +824,14 @@ export function ChatInterface({
           language={language}
         />
       )}
+
+      <ArtifactSidebar
+        isOpen={isArtifactOpen}
+        onClose={() => setIsArtifactOpen(false)}
+        documentName={localAttachedFile ? localAttachedFile.name : (activeScheme ? `${activeScheme.scheme_name || 'Scheme'}_Deed.txt` : "WelfareAdvisory.txt")}
+        documentContent={localAttachedFile ? localAttachedFile.content : (activeScheme ? `AGRICULTURAL LAND LEASE DEED COVENANT\n\nThis deed details structural parameters for ${activeScheme.scheme_name || 'welfare schema'}. It was verified on eligibility rules for beneficiary state limits. The lease agreement details specific landlord responsibilities for irrigation pump sub-station repair as certified by authorized Mandal Revenue officer under Indian Tenancy protection frameworks.` : "")}
+        templateId={artifactTemplateId}
+      />
     </div>
   );
 }
@@ -919,7 +914,14 @@ function MessageBubble({
                   exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
-                  <LoadingWidget messages={msg.loading_messages} level={msg.thinking_level} />
+                  {msg.thinking_steps && msg.thinking_steps.length > 0 ? (
+                    <ThinkingStageStreamer 
+                      thinkingSteps={msg.thinking_steps} 
+                      isLive={true} 
+                    />
+                  ) : (
+                    <LoadingWidget messages={msg.loading_messages} level={msg.thinking_level} />
+                  )}
                 </motion.div>
               ) : (
                 <motion.div
@@ -928,6 +930,12 @@ function MessageBubble({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.4 }}
                 >
+                  {msg.thinking_steps && msg.thinking_steps.length > 0 && (
+                    <ThinkingStageStreamer 
+                      thinkingSteps={msg.thinking_steps} 
+                      isLive={false} 
+                    />
+                  )}
                   {msg.blocks && (
                     <BlockRenderer 
                       blocks={msg.blocks} 
@@ -1013,6 +1021,15 @@ function LoadingWidget({ messages, level }: { messages: string[], level?: string
               className="text-accent-saffron mr-2 font-bold inline-flex items-center gap-1"
             >
               <Sparkles size={12} /> Deep thinking...
+            </motion.span>
+          )}
+          {level === 'web_search' && (
+            <motion.span
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              className="text-accent-saffron mr-2 font-bold inline-flex items-center gap-1"
+            >
+              <Globe size={12} className="animate-spin" /> Searching web...
             </motion.span>
           )}
           {messages[idx]}

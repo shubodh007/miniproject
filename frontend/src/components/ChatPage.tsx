@@ -1,13 +1,14 @@
 import React from 'react';
 import { ChatInterface } from '../smart-chat/components/chat/ChatInterface';
+import { ProfilePayload, AuthUser } from '../types';
 
 interface ChatPageProps {
   attachedFile?: { name: string; content: string } | null;
   clearAttachedFile?: () => void;
   prepopulatedQuery?: string | null;
   clearPrepopulatedQuery?: () => void;
-  profileSnapshot?: any | null;
-  user?: any | null;
+  profileSnapshot?: ProfilePayload | null;
+  user?: AuthUser | null;
 }
 
 export const ChatPage: React.FC<ChatPageProps> = ({

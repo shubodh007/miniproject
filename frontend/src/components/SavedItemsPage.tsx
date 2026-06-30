@@ -11,7 +11,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
-import { SchemeResult } from '../types';
+import { SchemeResult, AuthUser } from '../types';
 import { SEED_SCHEMES } from '../utils/schemeEngine';
 import { router } from '../utils/router';
 import { getSecuredStorage } from '../utils/security';
@@ -20,7 +20,7 @@ interface SavedItemsPageProps {
   savedSchemeIds: string[];
   onToggleSaveScheme: (id: string) => void;
   setView: (v: string) => void;
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
 }
 
 export const SavedItemsPage: React.FC<SavedItemsPageProps> = ({

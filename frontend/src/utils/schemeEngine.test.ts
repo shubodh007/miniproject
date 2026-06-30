@@ -43,14 +43,14 @@ describe('runMatchEngine Welfare Policy Solver Unit Tests', () => {
       ...baseAPProfile,
       income_annual: 80000
     });
-    const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-001');
+    const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-pradhan-mantri-kisan-samman-nidhi-001');
     expect(pmKisan).toBeDefined();
     expect(pmKisan?.source).toBe('Central');
   });
 
   it('correctly matches Telangana specific schemes', () => {
     const results = runMatchEngine(baseTSProfile);
-    const rythuBharosa = results.find(s => s.scheme_id === 'rythu-bharosa-tg-008');
+    const rythuBharosa = results.find(s => s.scheme_id === 'telangana-rythu-bharosa-scheme-035');
     expect(rythuBharosa).toBeDefined();
     expect(rythuBharosa?.source).toBe('Telangana State');
   });
@@ -64,7 +64,7 @@ describe('runMatchEngine Welfare Policy Solver Unit Tests', () => {
         hasCCRC: false
       };
       const results = runMatchEngine(tenantNoLandNoCCRC);
-      const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-001');
+      const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-pradhan-mantri-kisan-samman-nidhi-001');
       expect(pmKisan).toBeUndefined();
     });
 
@@ -76,7 +76,7 @@ describe('runMatchEngine Welfare Policy Solver Unit Tests', () => {
         hasCCRC: true
       };
       const results = runMatchEngine(tenantWithCCRC);
-      const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-001');
+      const pmKisan = results.find(s => s.scheme_id === 'pm-kisan-pradhan-mantri-kisan-samman-nidhi-001');
       expect(pmKisan).toBeDefined();
     });
   });
@@ -84,8 +84,8 @@ describe('runMatchEngine Welfare Policy Solver Unit Tests', () => {
   describe('Geographic Offset Income Boundary Conditions', () => {
     it('calculates the correct income limit per district and habitation', () => {
       // Visakhapatnam (AP): Rural: 140000, Urban: 180000
-      const limitRuralAmma = getSchemeIncomeLimit('talliki-vandanam-007', 144000, 'Visakhapatnam', 'Rural');
-      const limitUrbanAmma = getSchemeIncomeLimit('talliki-vandanam-007', 144000, 'Visakhapatnam', 'Urban');
+      const limitRuralAmma = getSchemeIncomeLimit('thalliki-vandanam-scheme-mother-s-salute-052', 144000, 'Visakhapatnam', 'Rural');
+      const limitUrbanAmma = getSchemeIncomeLimit('thalliki-vandanam-scheme-mother-s-salute-052', 144000, 'Visakhapatnam', 'Urban');
       
       expect(limitRuralAmma).toBe(140000);
       expect(limitUrbanAmma).toBe(180000);
@@ -96,26 +96,26 @@ describe('runMatchEngine Welfare Policy Solver Unit Tests', () => {
       // Amma Vodi is pegged to habitation-category limit (110000)
       const overLimitProfile: ProfilePayload = {
         ...baseAPProfile,
-        age: 12, // child age
+        age: 35, // Mother's/guardian's age (since scheme has min_age 18 in database)
         district: 'Srikakulam',
         habitation: 'Rural',
         income_annual: 115000 // Above rural limit of 110000!
       };
       const results = runMatchEngine(overLimitProfile);
-      const ammaVodi = results.find(s => s.scheme_id === 'talliki-vandanam-007');
+      const ammaVodi = results.find(s => s.scheme_id === 'thalliki-vandanam-scheme-mother-s-salute-052');
       expect(ammaVodi).toBeUndefined();
     });
 
     it('allows scheme matching when family income matches or is below the geographic limit', () => {
       const underLimitProfile: ProfilePayload = {
         ...baseAPProfile,
-        age: 12,
+        age: 35, // Mother's/guardian's age (since scheme has min_age 18 in database)
         district: 'Srikakulam',
         habitation: 'Rural',
         income_annual: 105000 // Under rural limit of 110000
       };
       const results = runMatchEngine(underLimitProfile);
-      const ammaVodi = results.find(s => s.scheme_id === 'talliki-vandanam-007');
+      const ammaVodi = results.find(s => s.scheme_id === 'thalliki-vandanam-scheme-mother-s-salute-052');
       expect(ammaVodi).toBeDefined();
     });
   });

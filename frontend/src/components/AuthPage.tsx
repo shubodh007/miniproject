@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../i18n';
 import { getSecuredStorage, setSecuredStorage } from '../utils/security';
 import { useToast } from './ToastProvider';
+import { AuthUser } from '../types';
+
+interface StoredUser extends AuthUser {
+  passwordHash?: string;
+  password?: string;
+}
 
 interface AuthPageProps {
-  onLogin: (user: { name: string; email: string }) => void;
+  onLogin: (user: AuthUser) => void;
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
@@ -71,15 +77,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
         const inputHash = await hashPassword(password);
         
         // TODO: Replace with Supabase Auth — supabase.auth.signUp() / supabase.auth.signInWithPassword()
-        const users = getSecuredStorage<any[]>('sc_users') || [];
-        const matched = users.find((u: any) => u.email === email && u.passwordHash === inputHash);
+        const users = getSecuredStorage<StoredUser[]>('sc_users') || [];
+        const matched = users.find((u: StoredUser) => u.email === email && u.passwordHash === inputHash);
         
         const demoHash = await hashPassword('password123');
         const isDemoCitizen = email === 'citizen@ap.gov.in' && inputHash === demoHash;
         const isDemoGuest = email.startsWith('guest') && password.length >= 6; // length criteria on initial signin input
 
         if (matched || isDemoCitizen || isDemoGuest) {
-          const loggedInUser = matched || { name: fullName || email.split('@')[0], email };
+          const loggedInUser: AuthUser = matched ? { name: matched.name, email: matched.email } : { name: fullName || email.split('@')[0], email };
           onLogin(loggedInUser);
           
           const storedIntent = sessionStorage.getItem('sc_redirect_intent');
@@ -97,8 +103,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
     } else {
       // Sign up flows
       try {
-        const users = getSecuredStorage<any[]>('sc_users') || [];
-        if (users.find((u: any) => u.email === email)) {
+        const users = getSecuredStorage<StoredUser[]>('sc_users') || [];
+        if (users.find((u: StoredUser) => u.email === email)) {
           setErrors({ email: language === 'te' ? 'ఈ ఇమెయిల్ ఇప్పటికే నమోదు చేయబడింది.' : 'This email address is already in use.' });
           toast.error(language === 'te' ? 'ఈ ఇమెయిల్ ఇప్పటికే నమోదు చేయబడింది.' : 'This email address is already in use.');
           return;
@@ -151,10 +157,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
   React.useEffect(() => {
     // Migration cleanup: Remove legacy stored user objects containing plain-text 'password' attributes
     try {
-      const users = getSecuredStorage<any[]>('sc_users') || [];
-      const hasLegacyUsers = users.some((u: any) => u.hasOwnProperty('password'));
+      const users = getSecuredStorage<StoredUser[]>('sc_users') || [];
+      const hasLegacyUsers = users.some((u: StoredUser) => u.hasOwnProperty('password'));
       if (hasLegacyUsers) {
-        const cleanedUsers = users.filter((u: any) => !u.hasOwnProperty('password'));
+        const cleanedUsers = users.filter((u: StoredUser) => !u.hasOwnProperty('password'));
         setSecuredStorage('sc_users', cleanedUsers);
         console.log('Successfully completed security migration cleanup: purged legacy plain-text password user items.');
       }

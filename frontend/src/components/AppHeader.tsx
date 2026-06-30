@@ -3,11 +3,12 @@ import { User, LogOut, History, LogIn, Sparkles } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { LanguageToggle } from './LanguageToggle';
 import { ThemeToggle } from './ThemeToggle';
+import { AuthUser } from '../types';
 
 interface AppHeaderProps {
   currentView: string;
   setView: (view: string) => void;
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
   onLogout: () => void;
 }
 

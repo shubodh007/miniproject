@@ -64,18 +64,28 @@ export function getSchemeIncomeLimit(schemeId: string, defaultMaxIncome: number,
 
   switch (schemeId) {
     case 'talliki-vandanam-007':
+    case 'thalliki-vandanam-scheme-mother-s-salute-052':
       return habitation === 'Urban' ? geo.Urban : geo.Rural;
     case 'ntr-bharosa-005':
+    case 'ntr-bharosa-pension-scheme-051':
       return geoBase * 0.9;
     case 'ntr-aarogyasri-002':
     case 'tg-aarogyasri-002':
+    case 'ap-aarogyasri-community-health-insurance-continued-076':
       return geoBase * 3.5;
     case 'chandranna-pelli-kanuka-004':
     case 'tg-kalyana-lakshmi-004':
+    case 'chandranna-pelli-kanuka-scheme-058':
+    case 'kalyana-lakshmi-scheme-037':
       return geoBase * 1.5;
     case 'tg-grupajyothi-006':
+    case 'gruha-jyothi-scheme-045':
       return geoBase * 1.8;
     case 'pmay-003':
+    case 'pradhan-mantri-awaas-yojana-gramin-pmay-g-007':
+    case 'pradhan-mantri-awaas-yojana-urban-pmay-u-008':
+    case 'ntr-housing-scheme-056':
+    case 'indiramma-indlu-housing-scheme-044':
       return geoBase * 2.0;
     default:
       // Farmer schemes (PM-Kisan, Rythu Bharosa) have high flat exclusion limits (no hard local cap unless extremely rich)
@@ -122,7 +132,9 @@ export function runMatchEngine(profile: ProfilePayload): SchemeResult[] {
     }
 
     // 6. Filter by Caste
-    if (!item.castes.includes(profile.caste_category)) {
+    const cleanUserCaste = profile.caste_category === 'OBC' ? 'BC' : profile.caste_category;
+    const cleanSchemeCastes = item.castes.map((c: string) => c === 'OBC' ? 'BC' : c);
+    if (!cleanSchemeCastes.includes(cleanUserCaste)) {
       continue;
     }
 

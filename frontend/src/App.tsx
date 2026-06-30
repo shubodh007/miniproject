@@ -6,7 +6,7 @@ import { LandingPage } from './components/LandingPage';
 import { AuthPage } from './components/AuthPage';
 import { ChatPage } from './components/ChatPage';
 import { AppShell } from './components/AppShell';
-import { ProfilePayload, SchemeResult, SearchHistory, MatchResponse } from './types';
+import { ProfilePayload, SchemeResult, SearchHistory, MatchResponse, AuthUser } from './types';
 import { SEED_SCHEMES, runMatchEngine as matchSchemes } from './utils/schemeEngine';
 import { Loader2, Sparkles, Home, ShieldAlert, MessageSquare, History, User } from 'lucide-react';
 import { getSecuredStorage, setSecuredStorage } from './utils/security';
@@ -22,6 +22,7 @@ const ResultsPage = lazy(() => import(/* webpackChunkName: "results-page" */ './
 const HistoryPage = lazy(() => import(/* webpackChunkName: "history-page" */ './components/HistoryPage').then(m => ({ default: m.HistoryPage })));
 const SavedItemsPage = lazy(() => import(/* webpackChunkName: "saved-items-page" */ './components/SavedItemsPage').then(m => ({ default: m.SavedItemsPage })));
 const ProfileSettingsPage = lazy(() => import(/* webpackChunkName: "profile-settings-page" */ './components/ProfileSettingsPage').then(m => ({ default: m.ProfileSettingsPage })));
+const AdminPage = lazy(() => import('./components/AdminPage').then(m => ({ default: m.AdminPage })));
 
 // PageLoader component
 const PageLoader = () => (
@@ -43,7 +44,7 @@ export default function App() {
 
 // ProtectedRoute Wrapper Component (Step 4)
 interface ProtectedRouteProps {
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ user }) => {
@@ -60,7 +61,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ user }) => {
 
 // Main layout wrapper that adapts layout conditionally if the user is authenticated (with AppShell) or not (with AppHeader)
 interface MainLayoutProps {
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
   currentView: string;
   navigateToView: (view: string) => void;
   handleLogout: () => void;
@@ -127,7 +128,7 @@ function MainAppContainer() {
   const location = useLocation();
   
   // Authentication states
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
 
   // Map view strings to URL paths and vice-versa
   const viewToPathMap: Record<string, string> = {
@@ -446,6 +447,15 @@ function MainAppContainer() {
   return (
     <div className="w-full min-h-screen flex flex-col">
       <Routes>
+        {/* Protected Admin CRUD Panel Road */}
+        <Route path="/admin" element={
+          <ErrorBoundary key="admin" sectionName="Admin Panel">
+            <Suspense fallback={<PageLoader />}>
+              <AdminPage />
+            </Suspense>
+          </ErrorBoundary>
+        } />
+
         <Route element={
           <MainLayout
             user={user}

@@ -2,14 +2,15 @@ import React from 'react';
 import { Sparkles, ArrowRight, Search, ListTodo, ShieldAlert, HeartHandshake } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { useTypewriter } from '../hooks/useTypewriter';
+import { ProfilePayload, AuthUser } from '../types';
 
 interface EmptyStateProps {
   onSelectSuggestion: (prompt: string) => void;
   userRegion?: string;
   userOccupation?: string;
   userAge?: number;
-  profileSnapshot?: any | null;
-  user?: any | null;
+  profileSnapshot?: ProfilePayload | null;
+  user?: AuthUser | null;
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ 

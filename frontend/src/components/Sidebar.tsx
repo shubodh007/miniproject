@@ -4,6 +4,7 @@ import {
   Sparkles, PanelLeftClose, PanelLeft, Settings, User, LogOut, ChevronDown, FolderSync 
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { ProfilePayload } from '../types';
 
 interface Session {
   id: string;
@@ -20,7 +21,7 @@ interface SidebarProps {
   onRenameSession: (id: string, newTitle: string) => void;
   onLogout?: () => void;
   onToggleProfileSettings?: () => void;
-  profileSnapshot?: any;
+  profileSnapshot?: ProfilePayload;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
