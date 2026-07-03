@@ -4,7 +4,7 @@
 // For production use, migrate this storage to Supabase tables or another persistent database.
 // For now, this works for demos and testing but users will be logged out on each redeploy.
 
-import { promises as fs, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { promises as fs, existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
@@ -82,6 +82,9 @@ const CHUNKS_FILE = path.join(DATA_DIR, 'document_chunks_db.json');
 const REPORTS_FILE = path.join(DATA_DIR, 'reports_db.json');
 const CHAT_SESSIONS_FILE = path.join(DATA_DIR, 'chat_sessions_db.json');
 const CHAT_MESSAGES_FILE = path.join(DATA_DIR, 'chat_messages_db.json');
+const SCHEMES_FILE = path.join(DATA_DIR, 'schemes_db.json');
+const SCHEME_VERSIONS_FILE = path.join(DATA_DIR, 'scheme_versions_db.json');
+const SCHEME_ANALYTICS_FILE = path.join(DATA_DIR, 'scheme_analytics_db.json');
 
 const locks = new Map<string, Promise<void>>();
 
@@ -120,6 +123,145 @@ async function ensureDatabase() {
   if (!existsSync(CHAT_MESSAGES_FILE)) {
     writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify([], null, 2), 'utf-8');
   }
+
+  // Auto-seed schemes registry from static JSON mapping if empty or missing
+  if (!existsSync(SCHEMES_FILE)) {
+    try {
+      const freshSchemesPath = path.join(process.cwd(), 'frontend', 'src', 'utils', 'fresh_schemes_mapped.json');
+      if (existsSync(freshSchemesPath)) {
+        const rawSchemes = JSON.parse(readFileSync(freshSchemesPath, 'utf-8'));
+        const dbSchemes = rawSchemes.map((sc: any) => ({
+          id: sc.scheme_id,
+          name: sc.name_en,
+          name_te: sc.name_te || '',
+          description: sc.name_en + " detailed scheme benefits.",
+          description_te: sc.name_te || '',
+          benefit_details: sc.benefit_amount || '',
+          benefit_details_te: sc.benefit_amount || '',
+          eligibility_rules: {
+            min_age: sc.min_age ?? 0,
+            max_age: sc.max_age ?? 120,
+            max_income: sc.max_income ?? 1000000,
+            requires_land: sc.requires_land ?? false,
+            applicable_states: sc.states || []
+          },
+          docs_required: sc.documents_required || [],
+          docs_required_te: [] as string[],
+          state: sc.source === "Central" ? "Central" : (sc.states && sc.states[0] ? sc.states[0] : "Andhra Pradesh"),
+          district: null as string | null,
+          category: sc.category || "Social Welfare",
+          external_url: sc.apply_link || "",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          status: 'PUBLISHED'
+        }));
+        writeFileSync(SCHEMES_FILE, JSON.stringify(dbSchemes, null, 2), 'utf-8');
+      } else {
+        writeFileSync(SCHEMES_FILE, JSON.stringify([], null, 2), 'utf-8');
+      }
+    } catch (e) {
+      console.error('[DB] Failed to auto-seed local schemes registry:', e);
+      writeFileSync(SCHEMES_FILE, JSON.stringify([], null, 2), 'utf-8');
+    }
+  }
+
+  if (!existsSync(SCHEME_VERSIONS_FILE)) {
+    writeFileSync(SCHEME_VERSIONS_FILE, JSON.stringify([], null, 2), 'utf-8');
+  }
+
+  if (!existsSync(SCHEME_ANALYTICS_FILE)) {
+    writeFileSync(SCHEME_ANALYTICS_FILE, JSON.stringify([], null, 2), 'utf-8');
+  }
+}
+
+export interface SchemeVersion {
+  id: string;
+  scheme_id: string;
+  version_data: any;
+  created_at: string;
+}
+
+export interface QueryAnalytic {
+  id: string;
+  query_text: string;
+  language: string;
+  latency_ms: number;
+  match_count: number;
+  rag_mode: 'vector' | 'fallback' | 'cached';
+  matched_schemes: string[];
+  timestamp: string;
+  profile_snapshot?: any;
+}
+
+export async function getAllSchemes(): Promise<any[]> {
+  await ensureDatabase();
+  try {
+    const raw = await fs.readFile(SCHEMES_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export async function saveSchemes(schemes: any[]): Promise<void> {
+  await ensureDatabase();
+  try {
+    await safeWrite(SCHEMES_FILE, schemes);
+  } catch (error) {
+    console.error('Failed to write schemes:', error);
+  }
+}
+
+export async function getAllSchemeVersions(): Promise<SchemeVersion[]> {
+  await ensureDatabase();
+  try {
+    const raw = await fs.readFile(SCHEME_VERSIONS_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export async function saveSchemeVersions(versions: SchemeVersion[]): Promise<void> {
+  await ensureDatabase();
+  try {
+    await safeWrite(SCHEME_VERSIONS_FILE, versions);
+  } catch (error) {
+    console.error('Failed to write scheme versions:', error);
+  }
+}
+
+export async function getAllQueryAnalytics(): Promise<QueryAnalytic[]> {
+  await ensureDatabase();
+  try {
+    const raw = await fs.readFile(SCHEME_ANALYTICS_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export async function saveQueryAnalytics(analytics: QueryAnalytic[]): Promise<void> {
+  await ensureDatabase();
+  try {
+    await safeWrite(SCHEME_ANALYTICS_FILE, analytics);
+  } catch (error) {
+    console.error('Failed to write scheme analytics:', error);
+  }
+}
+
+export async function recordQueryAnalytic(analytic: Omit<QueryAnalytic, 'id' | 'timestamp'>): Promise<void> {
+  const analytics = await getAllQueryAnalytics();
+  const item: QueryAnalytic = {
+    id: crypto.randomUUID(),
+    timestamp: new Date().toISOString(),
+    ...analytic
+  };
+  analytics.unshift(item);
+  if (analytics.length > 500) {
+    analytics.pop();
+  }
+  await saveQueryAnalytics(analytics);
 }
 
 // ----------------------------------------------------

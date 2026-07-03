@@ -88,6 +88,7 @@ export interface WelfareScheme {
   district?: string | null;
   category: 'Agriculture' | 'Education' | 'Social Welfare' | 'Housing' | 'Health' | 'Employment' | 'Women & Child';
   external_url?: string;
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   created_at?: string;
   updated_at?: string;
 }

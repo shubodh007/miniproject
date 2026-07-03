@@ -93,16 +93,47 @@ export function getSchemeIncomeLimit(schemeId: string, defaultMaxIncome: number,
   }
 }
 
-export function runMatchEngine(profile: ProfilePayload): SchemeResult[] {
+export function runMatchEngine(profile: ProfilePayload, dynamicSchemes?: any[]): SchemeResult[] {
   const matches: SchemeResult[] = [];
   if (!profile) return matches;
 
   const userDistrict = profile.district || 'Anantapur';
   const userHabitation = profile.habitation || 'Rural';
 
-  for (const item of SEED_SCHEMES) {
+  let schemesToProcess = SEED_SCHEMES;
+  if (dynamicSchemes && dynamicSchemes.length > 0) {
+    schemesToProcess = dynamicSchemes.map((s: any) => {
+      if (s.scheme_id) return s;
+      const requiresLand = s.eligibility_rules?.requires_land ?? (s.eligibility_rules?.max_land_acres !== undefined && s.eligibility_rules?.max_land_acres > 0);
+      const isCentral = s.state === "Central";
+      return {
+        scheme_id: s.id || `dynamic-scheme-${s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+        name_en: s.name,
+        name_te: s.name_te || s.name,
+        ministry: s.category + " Department",
+        department: s.category + " Department",
+        category: s.category,
+        source: isCentral ? "Central" : (s.state === "Andhra Pradesh" ? "AP" : "TS"),
+        apply_link: s.external_url || "https://www.ap.gov.in",
+        benefit_amount: s.benefit_details || "Financial assistance",
+        documents_required: s.docs_required || [],
+        states: s.eligibility_rules?.applicable_states && s.eligibility_rules?.applicable_states.length > 0
+          ? s.eligibility_rules?.applicable_states
+          : [s.state],
+        min_age: s.eligibility_rules?.min_age ?? 0,
+        max_age: s.eligibility_rules?.max_age ?? 120,
+        max_income: s.eligibility_rules?.max_income ?? 1000000,
+        requires_land: requiresLand,
+        castes: s.eligibility_rules?.caste_categories || ["General", "OBC", "BC", "SC", "ST"],
+        female_only: s.eligibility_rules?.gender?.toLowerCase() === 'female'
+      };
+    });
+  }
+
+  for (const item of schemesToProcess) {
     // 1. Filter by State
-    if (!item.states.includes(profile.state)) {
+    const statesAllowed = item.states || [item.source === "Central" ? "Central" : (item.source?.includes("AP") ? "Andhra Pradesh" : "Telangana")];
+    if (!statesAllowed.includes(profile.state)) {
       continue;
     }
 

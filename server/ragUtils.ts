@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { logger } from '../frontend/src/utils/logger';
 import { generateContentWithRetryAndFallback } from '../frontend/src/utils/gemini';
+import { GoogleGenAI } from '@google/genai';
 
 export interface ParentChunk {
   id: string;
@@ -187,4 +188,120 @@ export async function expandQueryWithHyDE(query: string): Promise<string> {
     logger.warn('[RAG-HyDE] HyDE generation failed, falling back to raw query', error);
   }
   return query;
+}
+
+export interface QueryClassification {
+  scheme: string | null;
+  state: 'AP' | 'TS' | 'Central' | null;
+  category: 'Agriculture' | 'Pension' | 'Education' | 'Health' | 'Housing' | null;
+  confidence: number;
+}
+
+/**
+ * Pre-retrieval Query-Time Scheme/State Classifier using Gemini.
+ */
+export async function classifyQueryWithGemini(
+  query: string,
+  apiKey: string
+): Promise<QueryClassification | null> {
+  if (!apiKey) return null;
+  const ai = new GoogleGenAI({ apiKey });
+  const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+  
+  try {
+    const prompt = `Classify this user query for a government welfare scheme portal.
+Query: "${query}"
+
+Analyze and extract:
+1. "scheme": The exact name of the scheme if mentioned or highly implied (e.g. "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)", "NTR Bharosa Pension", "Jagananna Amma Vodi", "Kalyana Lakshmi / Shaadi Mubarak (AP)", "Kalyana Lakshmi / Shaadi Mubarak (Telangana)", "Gruha Jyothi Free Electricity (Telangana)", "AP Aarogyasri Health Care Trust", "Telangana Aarogyasri Health Scheme", "Telangana Rythu Bharosa (formerly Rythu Bandhu)", "PMAY-Gramin (Pradhan Mantri Awaas Yojana - Rural)"), or null if general.
+2. "state": The targeted state. Must be "AP" (for Andhra Pradesh), "TS" (for Telangana), "Central" (for central/federal schemes like PM-KISAN, PMAY-G), or null if general/unspecified.
+3. "category": The category of the scheme. Must be "Agriculture", "Pension", "Education", "Health", "Housing", or null if general.
+4. "confidence": A float from 0.0 to 1.0 representing your classification confidence.
+
+Return ONLY a raw JSON object matching this schema, without any markdown formatting or wrapper:
+{
+  "scheme": string | null,
+  "state": "AP" | "TS" | "Central" | null,
+  "category": "Agriculture" | "Pension" | "Education" | "Health" | "Housing" | null,
+  "confidence": number
+}`;
+
+    const res = await ai.models.generateContent({
+      model: model,
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        temperature: 0.1
+      }
+    });
+
+    if (res && res.text) {
+      let cleaned = res.text.trim();
+      if (cleaned.startsWith('```json')) cleaned = cleaned.replace(/^```json/, '').replace(/```$/, '').trim();
+      else if (cleaned.startsWith('```')) cleaned = cleaned.replace(/^```/, '').replace(/```$/, '').trim();
+      return JSON.parse(cleaned) as QueryClassification;
+    }
+  } catch (error) {
+    logger.warn('[RAG-Classifier] Query classification failed:', error);
+  }
+  return null;
+}
+
+export interface RerankedItem {
+  id: string;
+  score: number;
+}
+
+/**
+ * Cross-Encoder Rerank Stage using Gemini.
+ */
+export async function rerankCandidatesWithGemini(
+  query: string,
+  candidates: { id: string; scheme_name: string; chunk_text: string }[],
+  apiKey: string
+): Promise<RerankedItem[] | null> {
+  if (candidates.length === 0) return [];
+  if (!apiKey) return null;
+  const ai = new GoogleGenAI({ apiKey });
+  const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+
+  try {
+    const prompt = `You are an elite Cross-Encoder Reranking model. Evaluate the direct relevance of each retrieved government scheme policy chunk to the user's query.
+
+Query: "${query}"
+
+Candidates to evaluate:
+${candidates.map((c, idx) => `
+Candidate [${idx}]:
+ID: "${c.id}"
+Scheme: "${c.scheme_name}"
+Text: "${c.chunk_text}"
+`).join('\n')}
+
+For each candidate, assign a relevance score between 0.0 (completely irrelevant) and 1.0 (highly relevant, contains precise answer to query).
+Return ONLY a raw JSON array of objects containing the ID and the relevance score, without any markdown formatting or codeblocks:
+[
+  { "id": string, "score": number },
+  ...
+]`;
+
+    const res = await ai.models.generateContent({
+      model: model,
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        temperature: 0.1
+      }
+    });
+
+    if (res && res.text) {
+      let cleaned = res.text.trim();
+      if (cleaned.startsWith('```json')) cleaned = cleaned.replace(/^```json/, '').replace(/```$/, '').trim();
+      else if (cleaned.startsWith('```')) cleaned = cleaned.replace(/^```/, '').replace(/```$/, '').trim();
+      return JSON.parse(cleaned) as RerankedItem[];
+    }
+  } catch (error) {
+    logger.warn('[RAG-Reranker] Reranking failed:', error);
+  }
+  return null;
 }

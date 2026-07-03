@@ -32,6 +32,11 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
   const [rulesJson, setRulesJson] = useState('{\n  "min_age": 18\n}');
   const [jsonError, setJsonError] = useState<string | null>(null);
 
+  // Status and version states
+  const [status, setStatus] = useState<WelfareScheme['status']>('DRAFT');
+  const [versions, setVersions] = useState<any[]>([]);
+  const [loadingVersions, setLoadingVersions] = useState<boolean>(false);
+
   // Loading/saving state
   const [isSaving, setIsSaving] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -52,7 +57,20 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
       setDocsRequired(scheme.docs_required || []);
       setDocsRequiredTe(scheme.docs_required_te || []);
       setRulesJson(JSON.stringify(scheme.eligibility_rules || {}, null, 2));
+      setStatus(scheme.status || 'DRAFT');
       setJsonError(null);
+
+      // Fetch historical edits and logs for rollback and dynamic observability audit
+      if (scheme.id) {
+        setLoadingVersions(true);
+        fetch(`/api/admin/schemes/${scheme.id}/versions`)
+          .then(res => res.json())
+          .then(data => setVersions(data || []))
+          .catch(err => console.error("Error loading versions", err))
+          .finally(() => setLoadingVersions(false));
+      } else {
+        setVersions([]);
+      }
     } else {
       // Clear fields for new
       setName('');
@@ -68,10 +86,53 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
       setDocsRequired([]);
       setDocsRequiredTe([]);
       setRulesJson('{\n  "min_age": 18,\n  "max_age": 60,\n  "max_income": 250000\n}');
+      setStatus('DRAFT');
+      setVersions([]);
       setJsonError(null);
     }
     setValidationError(null);
   }, [scheme, isOpen]);
+
+  // Hot rollback action
+  const handleRollback = async (verId: string) => {
+    if (!scheme || !scheme.id) return;
+    if (!window.confirm("Are you sure you want to revert this scheme's configuration to this previous version? Current form inputs will be overwritten.")) return;
+    try {
+      const res = await fetch(`/api/admin/schemes/${scheme.id}/rollback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ versionId: verId })
+      });
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || "Rollback failed");
+      }
+      const reverted = await res.json();
+      
+      // Overwrite the editor state instantly
+      setName(reverted.name || '');
+      setNameTe(reverted.name_te || '');
+      setCategory(reverted.category || 'Agriculture');
+      setState(reverted.state || 'Central');
+      setDistrict(reverted.district || '');
+      setExternalUrl(reverted.external_url || '');
+      setDescription(reverted.description || '');
+      setDescriptionTe(reverted.description_te || '');
+      setBenefitDetails(reverted.benefit_details || '');
+      setBenefitDetailsTe(reverted.benefit_details_te || '');
+      setDocsRequired(reverted.docs_required || []);
+      setDocsRequiredTe(reverted.docs_required_te || []);
+      setRulesJson(JSON.stringify(reverted.eligibility_rules || {}, null, 2));
+      setStatus(reverted.status || 'DRAFT');
+
+      // Refresh list
+      const versRes = await fetch(`/api/admin/schemes/${scheme.id}/versions`);
+      const versData = await versRes.json();
+      setVersions(versData || []);
+    } catch (err: any) {
+      alert("Error reverting scheme: " + err.message);
+    }
+  };
 
   // Handle JSON syntax validation on the fly
   const handleRulesChange = (value: string) => {
@@ -151,6 +212,7 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
         docs_required: docsRequired.filter((d) => d.trim() !== ''),
         docs_required_te: docsRequiredTe.filter((d) => d.trim() !== ''),
         eligibility_rules: parsedRules,
+        status: status,
       };
 
       if (scheme?.id) {
@@ -318,6 +380,20 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
                       placeholder="https://ysrrythubharosa.ap.gov.in/"
                       className="w-full py-2 px-3 bg-black border border-white/5 focus:border-violet-500/50 rounded-lg text-sm transition-all focus:outline-none"
                     />
+                  </div>
+
+                  {/* Lifecycle Status */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-zinc-400">Lifecycle Status *</label>
+                    <select
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value as WelfareScheme['status'])}
+                      className="w-full py-2 px-3 bg-black border border-white/5 focus:border-violet-500/50 rounded-lg text-sm transition-all focus:outline-none cursor-pointer font-bold text-violet-400"
+                    >
+                      <option value="DRAFT">DRAFT (Hidden from matching)</option>
+                      <option value="PUBLISHED">PUBLISHED (Live matching active)</option>
+                      <option value="ARCHIVED">ARCHIVED (Retired / Read-Only)</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -505,6 +581,57 @@ export function SchemeFormPanel({ isOpen, onClose, onSave, scheme }: SchemeFormP
                   </div>
                 </div>
               </div>
+
+              {/* Section 5: Version History & Rollback Audit (Only in Edit mode) */}
+              {scheme && scheme.id && (
+                <div className="space-y-4 pt-4 border-t border-white/5">
+                  <h3 className="text-xs font-bold text-violet-400 uppercase tracking-wider flex items-center gap-2">
+                    <Layers size={14} />
+                    Version History & Rollbacks
+                  </h3>
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    Review past revisions of this welfare scheme. You can instantly hot-reload previous configurations onto the editor using the Rollback action.
+                  </p>
+                  
+                  {loadingVersions ? (
+                    <div className="text-center py-4">
+                      <span className="animate-spin border-2 border-white/25 border-t-violet-400 w-5 h-5 rounded-full inline-block" />
+                      <p className="text-xs text-zinc-500 mt-1">Loading revision logs...</p>
+                    </div>
+                  ) : versions.length === 0 ? (
+                    <p className="text-xs text-zinc-500 italic p-4 bg-white/[0.01] border border-white/5 rounded-lg text-center">
+                      No previous historical edits found. Revisions are created automatically when edits are saved.
+                    </p>
+                  ) : (
+                    <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                      {versions.map((ver, index) => (
+                        <div key={ver.id} className="p-3 bg-black border border-white/5 hover:border-violet-500/20 rounded-lg flex items-center justify-between gap-4 transition-colors">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-mono uppercase">
+                                Revision {versions.length - index}
+                              </span>
+                              <span className="text-[10px] text-zinc-500 font-mono">
+                                {new Date(ver.created_at).toLocaleString()}
+                              </span>
+                            </div>
+                            <p className="text-xs text-zinc-300 font-medium truncate mt-1">
+                              Saved by system administrator
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleRollback(ver.id)}
+                            className="px-2.5 py-1.5 bg-violet-600/10 hover:bg-violet-600 hover:text-white border border-violet-500/20 text-violet-300 text-[10px] font-bold rounded transition-all cursor-pointer shrink-0"
+                          >
+                            Rollback
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </form>
 
             {/* Sticky Actions Footer */}

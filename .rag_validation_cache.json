@@ -1,0 +1,156 @@
+{
+  "classifications": {
+    "What is the annual benefit amount for PM-KISAN?": {
+      "scheme": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "state": "Central",
+      "category": "Agriculture",
+      "confidence": 1
+    },
+    "PM-KISAN కి సంవత్సరానికి ఎంత అమౌంట్ వస్తుంది?": {
+      "scheme": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "state": "Central",
+      "category": "Agriculture",
+      "confidence": 1
+    },
+    "PM-KISAN installment duration and frequency": {
+      "scheme": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "state": "Central",
+      "category": "Agriculture",
+      "confidence": 1
+    },
+    "What are the eligibility guidelines for AP NTR Bharosa Pension?": {
+      "scheme": "NTR Bharosa Pension",
+      "state": "AP",
+      "category": "Pension",
+      "confidence": 1
+    },
+    "NTR Bharosa Pension వయస్సు పరిమితి ఎంత?": {
+      "scheme": "NTR Bharosa Pension",
+      "state": "AP",
+      "category": "Pension",
+      "confidence": 1
+    },
+    "Amma Vodi scheme rules for school attendance": {
+      "scheme": "Jagananna Amma Vodi",
+      "state": "AP",
+      "category": "Education",
+      "confidence": 1
+    },
+    "Shaadi Mubarak scheme Telangana income limits": {
+      "scheme": "Kalyana Lakshmi / Shaadi Mubarak (Telangana)",
+      "state": "TS",
+      "category": null,
+      "confidence": 1
+    }
+  },
+  "rerankings": {
+    "What is the annual benefit amount for PM-KISAN?": [
+      {
+        "id": "chunk-2",
+        "score": 1
+      },
+      {
+        "id": "chunk-1",
+        "score": 0.1
+      },
+      {
+        "id": "chunk-3",
+        "score": 0.2
+      },
+      {
+        "id": "chunk-4",
+        "score": 0.1
+      }
+    ],
+    "PM-KISAN కి సంవత్సరానికి ఎంత అమౌంట్ వస్తుంది?": [
+      {
+        "id": "chunk-2",
+        "score": 1
+      },
+      {
+        "id": "chunk-1",
+        "score": 0.3
+      },
+      {
+        "id": "chunk-3",
+        "score": 0.2
+      },
+      {
+        "id": "chunk-4",
+        "score": 0.1
+      }
+    ],
+    "PM-KISAN installment duration and frequency": [
+      {
+        "id": "chunk-2",
+        "score": 1
+      },
+      {
+        "id": "chunk-1",
+        "score": 0.1
+      },
+      {
+        "id": "chunk-3",
+        "score": 0.1
+      },
+      {
+        "id": "chunk-4",
+        "score": 0.1
+      }
+    ],
+    "What are the eligibility guidelines for AP NTR Bharosa Pension?": [
+      {
+        "id": "chunk-2",
+        "score": 0
+      },
+      {
+        "id": "chunk-3",
+        "score": 0
+      },
+      {
+        "id": "chunk-4",
+        "score": 0
+      },
+      {
+        "id": "chunk-1",
+        "score": 0
+      }
+    ],
+    "Who is eligible for Jagananna Amma Vodi in Andhra Pradesh?": [
+      {
+        "id": "chunk-2",
+        "score": 0
+      },
+      {
+        "id": "chunk-4",
+        "score": 0
+      },
+      {
+        "id": "chunk-3",
+        "score": 0
+      },
+      {
+        "id": "chunk-1",
+        "score": 0
+      }
+    ],
+    "Kalyana Lakshmi apply చేయడానికి ఏ డాక్యుమెంట్లు కావాలి?": [
+      {
+        "id": "chunk-4",
+        "score": 0.05
+      },
+      {
+        "id": "chunk-2",
+        "score": 0
+      },
+      {
+        "id": "chunk-3",
+        "score": 0
+      },
+      {
+        "id": "chunk-1",
+        "score": 0
+      }
+    ]
+  }
+}
