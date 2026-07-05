@@ -104,11 +104,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     
     if (historyList && historyList.length > 0) {
       historyList.slice(0, 2).forEach((hist) => {
+        const citizenName = hist.profile_snapshot?.name || (language === 'te' ? 'పౌరుడు' : 'citizen');
         list.push({
           id: `act-hist-${hist.id}`,
           type: 'wizard',
-          text_en: `Welfare eligibility analysis for ${hist.profile_snapshot.name} executed`,
-          text_te: `${hist.profile_snapshot.name} కోసం సంక్షేమ అర్హత విశ్లేషణ విజయవంతంగా జరిగింది`,
+          text_en: `Welfare eligibility analysis for ${citizenName} executed`,
+          text_te: `${citizenName} కోసం సంక్షేమ అర్హత విశ్లేషణ విజయవంతంగా జరిగింది`,
           time: getRelativeTime(hist.created_at),
           color: 'bg-emerald-500'
         });
@@ -321,8 +322,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 </span>
                 <p className="text-sm font-bold text-text-primary mt-0.5">
                   {language === 'te' 
-                    ? `చివరి శోధన: ${historyList[0].profile_snapshot.name}, ₹${historyList[0].profile_snapshot.income_annual.toLocaleString()} వార్షిక ఆదాయం` 
-                    : `Last evaluation profile: ${historyList[0].profile_snapshot.name}, ₹${historyList[0].profile_snapshot.income_annual.toLocaleString()} income`}
+                    ? `చివరి శోధన: ${historyList[0].profile_snapshot?.name || 'User'}, ₹${(historyList[0].profile_snapshot?.income_annual ?? 0).toLocaleString()} వార్షిక ఆదాయం` 
+                    : `Last evaluation profile: ${historyList[0].profile_snapshot?.name || 'User'}, ₹${(historyList[0].profile_snapshot?.income_annual ?? 0).toLocaleString()} income`}
                 </p>
               </div>
             </div>
@@ -594,10 +595,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         </div>
                         <div className="truncate">
                           <p className="text-xs font-bold text-text-primary capitalize leading-tight">
-                            {item.profile_snapshot.name} ({item.profile_snapshot.gender}, {item.profile_snapshot.age})
+                            {item.profile_snapshot?.name || ''} ({item.profile_snapshot?.gender || ''}, {item.profile_snapshot?.age || ''})
                           </p>
                           <p className="text-[11px] leading-tight text-text-secondary truncate mt-0.5">
-                            {item.profile_snapshot.district}, {item.profile_snapshot.state} • ₹{item.profile_snapshot.income_annual.toLocaleString()}
+                            {item.profile_snapshot?.district || ''}, {item.profile_snapshot?.state || ''} • ₹{(item.profile_snapshot?.income_annual ?? 0).toLocaleString()}
                           </p>
                         </div>
                       </div>
@@ -642,7 +643,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         >
                           <div className="flex items-center space-x-2.5 truncate">
                             <div className="w-5 h-5 rounded bg-accent-blue/10 text-accent-blue flex items-center justify-center font-bold text-[11px] leading-tight shrink-0 font-mono">
-                              {item.profile_snapshot.name.charAt(0).toUpperCase()}
+                              {(item.profile_snapshot?.name || 'C').charAt(0).toUpperCase()}
                             </div>
                             <div className="truncate">
                               <p className="font-bold text-text-primary leading-tight">
