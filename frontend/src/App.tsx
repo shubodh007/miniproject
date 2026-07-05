@@ -213,13 +213,13 @@ function MainAppContainer() {
 
     // 2. Load scheme bookmark indices
     const keys = getSecuredStorage<string[]>('sc_bookmarks');
-    if (keys) {
+    if (keys && Array.isArray(keys)) {
       setSavedSchemeIds(keys);
     }
 
     // 3. Load historical logs list
     const logs = getSecuredStorage<SearchHistory[]>('sc_histories');
-    if (logs) {
+    if (logs && Array.isArray(logs)) {
       setHistoryList(logs);
     }
   }, []);
@@ -228,7 +228,7 @@ function MainAppContainer() {
   useEffect(() => {
     const handleStorageSync = (e: Event) => {
       const keys = getSecuredStorage<string[]>('sc_bookmarks');
-      if (keys) {
+      if (keys && Array.isArray(keys)) {
         setSavedSchemeIds(keys);
       }
     };

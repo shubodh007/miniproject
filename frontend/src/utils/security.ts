@@ -474,6 +474,9 @@ export function getSecuredStorage<T>(key: string): T | null {
   
   const decrypted = syncDecrypt(item);
   if (!decrypted) {
+    if (item.startsWith('AES-GCM-256:') || item.startsWith('DYN_XOR:')) {
+      return null;
+    }
     try {
       return JSON.parse(item) as T;
     } catch (e) {
