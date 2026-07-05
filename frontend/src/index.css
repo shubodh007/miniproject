@@ -275,3 +275,13 @@ body {
   animation: shimmer-wave 2s infinite linear;
 }
 
+/* ==========================================================================
+   MOBILE ACCESSIBILITY & VIEWPORT HEIGHT RESILIENCE OVERRIDES
+   ========================================================================== */
+.chat-container-wrap {
+  height: 100vh; /* Fallback for older legacy browsers */
+  height: 100dvh; /* Enforces modern dynamic viewport height to prevent iOS address bar layout clipping */
+  padding-bottom: env(safe-area-inset-bottom, 0px); /* Respects safe areas on notched display interfaces (pb-safe-bottom equivalent) */
+}
+
+

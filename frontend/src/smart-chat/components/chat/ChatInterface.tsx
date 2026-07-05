@@ -538,7 +538,7 @@ export function ChatInterface({
   };
 
   return (
-    <div className="flex h-full w-full bg-bg-base text-text-primary font-sans overflow-hidden">
+    <div className="flex w-full bg-bg-base text-text-primary font-sans overflow-hidden chat-container-wrap">
       
       {/* Sidebar */}
       <AnimatePresence>
@@ -739,7 +739,7 @@ export function ChatInterface({
 
         {/* Input */}
         <div className="p-4 bg-bg-surface border-t border-border-subtle shrink-0">
-          <div className="max-w-[760px] mx-auto relative group">
+          <div className="max-w-[760px] mx-auto group">
             
             {/* Visual File Attachment Badge */}
             {localAttachedFile && (
@@ -771,43 +771,56 @@ export function ChatInterface({
               </div>
             )}
 
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={handleInput}
-              onKeyDown={handleKeyDown}
-              placeholder={localAttachedFile ? "Ask a question about this document..." : "Ask anything..."}
-              className="w-full bg-bg-base border border-border-default group-focus-within:border-accent-saffron/50 rounded-[10px] pl-4 pr-12 py-3.5 text-sm outline-none resize-none overflow-hidden text-text-primary placeholder:text-text-muted leading-relaxed shadow-lg block animate-fade-in duration-200"
-              rows={1}
-              aria-label="Type your message" // Changed: Added descriptive aria-label for accessibility screen reader compliance
-              aria-describedby="chat-helper-text" // Changed: Linked with the helper text below using aria-describedby
-            />
-            <button 
-              onClick={() => handleSend()}
-              disabled={loading || (!input.trim() && !localAttachedFile)}
-              className="absolute right-2 bottom-2 p-2 bg-accent-saffron hover:brightness-110 disabled:bg-bg-surface disabled:opacity-20 rounded-lg text-white transition-all cursor-pointer"
-            >
-              {loading ? <Loader2 size={16} className="animate-spin text-white" /> : <Send size={16} className="text-white" />}
-            </button>
+            {/* Restructured Input Layout for Mobile Accessibility and No Button Overlaps */}
+            <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-end bg-bg-base border border-border-default group-focus-within:border-accent-saffron/50 rounded-[10px] p-2 shadow-lg transition-all">
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={handleInput}
+                onKeyDown={handleKeyDown}
+                placeholder={localAttachedFile ? "Ask a question about this document..." : "Ask anything..."}
+                className="flex-1 bg-transparent px-3 py-2 text-sm outline-none resize-none overflow-hidden text-text-primary placeholder:text-text-muted leading-relaxed block animate-fade-in duration-200"
+                rows={1}
+                aria-label="Type your message" // Changed: Added descriptive aria-label for accessibility screen reader compliance
+                aria-describedby="chat-helper-text" // Changed: Linked with the helper text below using aria-describedby
+              />
+              
+              {/* Controls and Send Button Section - Stacks cleanly underneath the field on mobile */}
+              <div className="flex items-center justify-end gap-2 px-2 pb-1 sm:pb-0 shrink-0">
+                <button 
+                  onClick={() => handleSend()}
+                  disabled={loading || (!input.trim() && !localAttachedFile)}
+                  className="flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 bg-accent-saffron hover:brightness-110 disabled:bg-bg-surface disabled:opacity-20 rounded-lg text-white transition-all cursor-pointer shrink-0 min-w-[44px] min-h-[44px] sm:min-w-[36px] sm:min-h-[36px]"
+                  title="Send Message"
+                  aria-label="Send Message"
+                >
+                  {loading ? <Loader2 size={16} className="animate-spin text-white" /> : <Send size={16} className="text-white" />}
+                </button>
+              </div>
+            </div>
           </div>
-          <div id="chat-helper-text" className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-2 text-[11px] leading-tight text-text-muted"> {/* Changed: Added unique id parameter for input description reference */}
-            <div>
+          
+          {/* Helper info with stable wrapping preventing unexpected vertical layout shifts on narrow displays */}
+          <div id="chat-helper-text" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 mt-2 text-[11px] leading-tight text-text-muted w-full overflow-hidden"> {/* Changed: Added unique id parameter for input description reference */}
+            <div className="break-words text-left flex-1 min-w-0">
               Smart Chat Engine responses may be inaccurate. Press Shift+Enter for newline.
             </div>
-            {/* Real-time Web Search Capability Activation */}
-            <button
-              onClick={() => setWebSearchEnabled(!webSearchEnabled)}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all duration-150 font-medium ${
-                webSearchEnabled 
-                  ? 'bg-accent-saffron/10 border-accent-saffron/30 text-accent-saffron shadow-xs' 
-                  : 'bg-bg-base border-border-default hover:border-text-muted text-text-muted cursor-pointer'
-              }`}
-              title="Toggle live Web Search via Tavily/Serper API"
-              aria-label="Toggle web search ability"
-            >
-              <Globe size={11} className={`${webSearchEnabled ? 'text-accent-saffron' : 'text-text-muted animate-pulse'}`} />
-              <span>Web Search Ability: {webSearchEnabled ? 'ON' : 'OFF'}</span>
-            </button>
+            {/* Real-time Web Search Capability Activation with stable wrap protection */}
+            <div className="flex justify-end shrink-0">
+              <button
+                onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all duration-150 font-medium whitespace-nowrap ${
+                  webSearchEnabled 
+                    ? 'bg-accent-saffron/10 border-accent-saffron/30 text-accent-saffron shadow-xs' 
+                    : 'bg-bg-base border-border-default hover:border-text-muted text-text-muted cursor-pointer'
+                }`}
+                title="Toggle live Web Search via Tavily/Serper API"
+                aria-label="Toggle web search ability"
+              >
+                <Globe size={11} className={`${webSearchEnabled ? 'text-accent-saffron' : 'text-text-muted animate-pulse'}`} />
+                <span>Web Search Ability: {webSearchEnabled ? 'ON' : 'OFF'}</span>
+              </button>
+            </div>
           </div>
         </div>
 

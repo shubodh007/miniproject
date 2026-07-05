@@ -213,25 +213,30 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
     if (historyList && historyList.length > 0) {
       const latestSearch = historyList[0];
-      const schemesFound = latestSearch.results_snapshot.schemes.slice(0, 2);
-      
-      list.push({
-        id: `act-search-${latestSearch.id}`,
-        text_en: `Evaluated eligibility for ${latestSearch.profile_snapshot.name} (${latestSearch.results_snapshot.total_found} matched)`,
-        text_te: `${latestSearch.profile_snapshot.name} కు అర్హతలను తనిఖీ చేసారు (${latestSearch.results_snapshot.total_found} పథకాలు జతపడ్డాయి)`,
-        time: getRelativeTime(latestSearch.created_at),
-        color: 'bg-emerald-500'
-      });
-
-      schemesFound.forEach((scheme, idx) => {
+      if (latestSearch && latestSearch.profile_snapshot) {
+        const totalFound = latestSearch.results_snapshot?.total_found ?? 0;
+        const schemesFound = latestSearch.results_snapshot?.schemes?.slice(0, 2) || [];
+        
         list.push({
-          id: `act-scheme-${scheme.scheme_id}-${idx}`,
-          text_en: `Viewed matching details for "${scheme.name_en}"`,
-          text_te: `"${scheme.name_te || scheme.name_en}" సరిపోలు వివరణలను చూశారు`,
+          id: `act-search-${latestSearch.id}`,
+          text_en: `Evaluated eligibility for ${latestSearch.profile_snapshot.name} (${totalFound} matched)`,
+          text_te: `${latestSearch.profile_snapshot.name} కు అర్హతలను తనిఖీ చేసారు (${totalFound} పథకాలు జతపడ్డాయి)`,
           time: getRelativeTime(latestSearch.created_at),
-          color: 'bg-blue-500'
+          color: 'bg-emerald-500'
         });
-      });
+
+        schemesFound.forEach((scheme, idx) => {
+          if (scheme) {
+            list.push({
+              id: `act-scheme-${scheme.scheme_id}-${idx}`,
+              text_en: `Viewed matching details for "${scheme.name_en}"`,
+              text_te: `"${scheme.name_te || scheme.name_en}" సరిపోలు వివరణలను చూశారు`,
+              time: getRelativeTime(latestSearch.created_at),
+              color: 'bg-blue-500'
+            });
+          }
+        });
+      }
     }
 
     if (savedSchemes && savedSchemes.length > 0) {
@@ -598,7 +603,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                       </div>
                       <div className="flex items-center space-x-2 shrink-0">
                         <span className="text-[11px] leading-tight bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded-full font-bold">
-                          {item.results_snapshot.total_found} {language === 'te' ? 'జతలు' : 'Matches'}
+                          {item.results_snapshot?.total_found ?? 0} {language === 'te' ? 'జతలు' : 'Matches'}
                         </span>
                         <ChevronRight size={14} className="text-text-muted" />
                       </div>
@@ -641,11 +646,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                             </div>
                             <div className="truncate">
                               <p className="font-bold text-text-primary leading-tight">
-                                {item.profile_snapshot.name}
-                                <span className="font-semibold text-text-secondary text-[11px] leading-tight"> ({item.profile_snapshot.district})</span>
+                                {item.profile_snapshot?.name || ''}
+                                <span className="font-semibold text-text-secondary text-[11px] leading-tight"> ({item.profile_snapshot?.district || ''})</span>
                               </p>
                               <p className="text-[10.5px] text-text-secondary truncate mt-0.5 font-medium">
-                                {language === 'te' ? 'పథకాలు జతపడ్డాయి' : 'Matched'} → <span className="text-emerald-500 font-bold">{item.results_snapshot.total_found}</span>
+                                {language === 'te' ? 'పథకాలు జతపడ్డాయి' : 'Matched'} → <span className="text-emerald-500 font-bold">{item.results_snapshot?.total_found ?? 0}</span>
                                 {topScheme && (
                                   <span className="text-text-muted text-[11px] leading-tight">
                                     {" "}({language === 'te' ? 'అగ్ర పథకం' : 'Top'}: {language === 'te' ? (topScheme.name_te || topScheme.name_en) : topScheme.name_en})

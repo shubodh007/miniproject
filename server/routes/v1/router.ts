@@ -10,6 +10,23 @@ import { generateContentWithRetryAndFallback, generateContentStreamWithRetryAndF
 import { analyzeLegalDocumentLocal, generateDynamicChatResponseLocal } from '../../../frontend/src/utils/localReply';
 import { ProfilePayload } from '../../../frontend/src/types';
 import { 
+  validateBody, 
+  MatchSchema, 
+  LegalAnalyzeSchema, 
+  LegalCompareSchema, 
+  ChatSchema, 
+  SmartChatGenerateSchema, 
+  AdminSchemeSchema, 
+  AdminRollbackSchema,
+  InferredMatchPayload,
+  InferredLegalAnalyzePayload,
+  InferredLegalComparePayload,
+  InferredChatPayload,
+  InferredSmartChatGeneratePayload,
+  InferredAdminSchemePayload,
+  InferredAdminRollbackPayload
+} from '../../utils/validation';
+import { 
   addFullLegalRecord, 
   getDocumentByHash, 
   getReportsByUser, 
@@ -91,13 +108,13 @@ router.get('/health', (req, res) => {
 });
 
 // Match Endpoint
-router.post('/match', async (req, res) => {
+router.post('/match', validateBody(MatchSchema), async (req, res) => {
   logger.info('Processing v1 eligibility matching request');
   const startTime = Date.now();
 
   try {
     // 1. Zod validation parsing
-    const payload = CitizenProfileSchema.parse(req.body) as ProfilePayload;
+    const payload = req.body as ProfilePayload;
 
     // 2. Spatial validation checks for AP and TS districts
     if (payload.state === 'Andhra Pradesh' && !AP_DISTRICTS.includes(payload.district)) {
@@ -602,15 +619,16 @@ function extractClauseHeading(text: string, index: number): string {
 }
 
 // Legal Document Analysis Endpoint (Redesigned Production-Grade Pipeline)
-router.post('/legal/analyze', analyzeLimiter, async (req, res) => {
+router.post('/legal/analyze', analyzeLimiter, validateBody(LegalAnalyzeSchema), async (req, res) => {
   logger.info('[LEGAL] Request received — starting pipeline');
   const timer = new PipelineTimer();
   timer.start('file_ingestion');
 
-  const documentText = req.body.documentText || req.body.document_text;
-  const fileName = req.body.fileName || req.body.file_name || 'LeaseAgreement.pdf';
-  const userEmail = req.body.email || req.body.uploadedBy || 'anonymous@apcivicstech.org';
-  const language = req.body.language || (req.body.category === 'Upload Analysis' ? 'en' : 'te');
+  const payload = req.body as InferredLegalAnalyzePayload;
+  const documentText = payload.documentText || payload.document_text;
+  const fileName = payload.fileName || payload.file_name || 'LeaseAgreement.pdf';
+  const userEmail = payload.email || payload.uploadedBy || 'anonymous@apcivicstech.org';
+  const language = payload.language || (payload.category === 'Upload Analysis' ? 'en' : 'te');
   
   // Set headers for SSE streaming
   res.setHeader('Content-Type', 'text/event-stream');
@@ -1506,13 +1524,9 @@ router.get('/legal/report/:id', async (req, res) => {
 });
 
 // COMPARE MULTIPLE CONTRACTS VERSION DETAILS
-router.post('/legal/compare', async (req, res) => {
-  const { reportIdA, reportIdB } = req.body;
+router.post('/legal/compare', validateBody(LegalCompareSchema), async (req, res) => {
+  const { reportIdA, reportIdB } = req.body as InferredLegalComparePayload;
   
-  if (!reportIdA || !reportIdB) {
-    return res.status(400).json({ error: 'Please submit two report IDs for structural comparison.' });
-  }
-
   const rA = await getReport(reportIdA);
   const rB = await getReport(reportIdB);
 
@@ -1555,11 +1569,8 @@ function extractHtmlAndMermaid(text: string): { html?: string; mermaid?: string 
   return { html, mermaid };
 }
 
-router.post('/chat', chatLimiter, async (req, res) => {
-  const { session_id, user_message, profile_snapshot, search_mode, files } = req.body;
-  if (!user_message) {
-    return res.status(400).json({ error: 'Please supply a user message.' });
-  }
+router.post('/chat', chatLimiter, validateBody(ChatSchema), async (req, res) => {
+  const { session_id, user_message, profile_snapshot, search_mode, files } = req.body as InferredChatPayload;
 
   // Create or resolve session ID
   const currentSessionId = session_id || `session-${Date.now()}`;
@@ -2082,13 +2093,10 @@ Keep your tone humble, authoritative, encouraging, and clear.`;
 });
 
 // Smart Chat Generate Endpoint (Backend Proxy to hide API Key and handle fallbacks)
-router.post('/smart-chat/generate', async (req, res) => {
+router.post('/smart-chat/generate', validateBody(SmartChatGenerateSchema), async (req, res) => {
   logger.info('Processing /smart-chat/generate API request');
   try {
-    const { messages, thinkingLevel, schemeContext, profileSnapshot, webSearchEnabled } = req.body;
-    if (!messages || !Array.isArray(messages)) {
-      return res.status(400).json({ error: 'messages payload is required and must be an array' });
-    }
+    const { messages, thinkingLevel, schemeContext, profileSnapshot, webSearchEnabled } = req.body as InferredSmartChatGeneratePayload;
 
     let lastUserMessage = '';
     if (messages && Array.isArray(messages)) {
@@ -2255,25 +2263,9 @@ router.get('/admin/schemes', async (req, res) => {
 });
 
 // Create scheme
-router.post('/admin/schemes', async (req, res) => {
+router.post('/admin/schemes', validateBody(AdminSchemeSchema), async (req, res) => {
   try {
-    const body = req.body;
-    const { name, description, category, state, status, docs_required, eligibility_rules } = body;
-
-    // Strict schema/lifecycle validation before publish
-    if (status === 'PUBLISHED') {
-      if (!name || !name.trim()) return res.status(400).json({ error: "Required field missing: Scheme Name is required for publishing." });
-      if (!description || !description.trim()) return res.status(400).json({ error: "Required field missing: Description is required for publishing." });
-      if (!category) return res.status(400).json({ error: "Required field missing: Category is required for publishing." });
-      if (!state) return res.status(400).json({ error: "Required field missing: Region/State is required for publishing." });
-      if (!docs_required || docs_required.length === 0) {
-        return res.status(400).json({ error: "Draft validation failed: At least one required source document is needed to publish." });
-      }
-      const ruleKeys = Object.keys(eligibility_rules || {});
-      if (ruleKeys.length === 0 || ruleKeys.every(k => eligibility_rules[k] === undefined || eligibility_rules[k] === null || eligibility_rules[k] === '')) {
-        return res.status(400).json({ error: "Draft validation failed: At least one concrete eligibility rule (e.g. min_age, max_income) must be defined to publish." });
-      }
-    }
+    const body = req.body as InferredAdminSchemePayload;
 
     const schemes = await getAllSchemes();
     const newScheme = {
@@ -2294,26 +2286,10 @@ router.post('/admin/schemes', async (req, res) => {
 });
 
 // Update scheme with auto-version history mapping for rollback
-router.put('/admin/schemes/:id', async (req, res) => {
+router.put('/admin/schemes/:id', validateBody(AdminSchemeSchema), async (req, res) => {
   try {
     const { id } = req.params;
-    const body = req.body;
-    const { name, description, category, state, status, docs_required, eligibility_rules } = body;
-
-    // Strict schema/lifecycle validation before publish
-    if (status === 'PUBLISHED') {
-      if (!name || !name.trim()) return res.status(400).json({ error: "Required field missing: Scheme Name is required for publishing." });
-      if (!description || !description.trim()) return res.status(400).json({ error: "Required field missing: Description is required for publishing." });
-      if (!category) return res.status(400).json({ error: "Required field missing: Category is required for publishing." });
-      if (!state) return res.status(400).json({ error: "Required field missing: Region/State is required for publishing." });
-      if (!docs_required || docs_required.length === 0) {
-        return res.status(400).json({ error: "Draft validation failed: At least one required source document is needed to publish." });
-      }
-      const ruleKeys = Object.keys(eligibility_rules || {});
-      if (ruleKeys.length === 0 || ruleKeys.every(k => eligibility_rules[k] === undefined || eligibility_rules[k] === null || eligibility_rules[k] === '')) {
-        return res.status(400).json({ error: "Draft validation failed: At least one concrete eligibility rule (e.g. min_age, max_income) must be defined to publish." });
-      }
-    }
+    const body = req.body as InferredAdminSchemePayload;
 
     const schemes = await getAllSchemes();
     const idx = schemes.findIndex(s => s.id === id);
@@ -2382,10 +2358,10 @@ router.get('/admin/schemes/:id/versions', async (req, res) => {
 });
 
 // Rollback scheme to a specific historical version
-router.post('/admin/schemes/:id/rollback', async (req, res) => {
+router.post('/admin/schemes/:id/rollback', validateBody(AdminRollbackSchema), async (req, res) => {
   try {
     const { id } = req.params;
-    const { versionId } = req.body;
+    const { versionId } = req.body as InferredAdminRollbackPayload;
 
     const versions = await getAllSchemeVersions();
     const targetVer = versions.find(v => v.id === versionId && v.scheme_id === id);
