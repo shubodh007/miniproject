@@ -2200,7 +2200,7 @@ In corporate discussions, relate benefits and prerequisites to this user's profi
     }
 
     const mappedMessages = messages.map((m: any) => ({
-      role: m.role,
+      role: m.role === 'assistant' ? 'model' : m.role,
       parts: [{ text: m.content || JSON.stringify(m.blocks) }]
     }));
 

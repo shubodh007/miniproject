@@ -69,11 +69,11 @@ export const ChatSchema = z.object({
 // Schema for Smart Chat Generate payload
 export const SmartChatGenerateSchema = z.object({
   messages: z.array(z.object({
-    role: z.enum(['user', 'model', 'system']),
+    role: z.enum(['user', 'assistant', 'model', 'system']),
     content: z.string().optional().nullable(),
     blocks: z.any().optional()
   })),
-  thinkingLevel: z.enum(['low', 'medium', 'high']).optional().nullable().default('low'),
+  thinkingLevel: z.enum(['minimal', 'low', 'medium', 'high', 'web_search']).optional().nullable().default('low'),
   schemeContext: z.any().optional().nullable(),
   profileSnapshot: z.any().optional().nullable(),
   webSearchEnabled: z.boolean().optional().nullable().default(false)
